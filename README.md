@@ -178,3 +178,15 @@ Se completó la subsección Hipérbola:
 - lectura básica de excentricidad;
 - 8 actividades;
 - 8 preguntas de autoevaluación.
+
+## V7.4 · Cónicas · Ecuación general
+
+Se completó la subsección Ecuación general:
+- invariante/discriminante Δ=B²−4AC;
+- caso sin rotación B=0;
+- clasificación por signos de A y C;
+- completar cuadrados paso a paso;
+- caso con coeficiente principal distinto de 1;
+- clasificador automático;
+- 8 actividades;
+- 8 preguntas de autoevaluación.

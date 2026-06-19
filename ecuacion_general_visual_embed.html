@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Visualizaciones · Ecuación general</title>
+<style>
+:root{--blue:#0b5cad;--blue2:#083b7a;--line:#d7e1ef;--soft:#eef5ff;--text:#172033;--muted:#5b6b84;--orange:#b45309;--green:#0f766e;--red:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;background:#fbfdff;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
+.wrap{padding:10px}
+.intro{background:white;border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:12px}
+.intro h3{margin:0 0 6px;color:var(--blue2)}
+.intro p{margin:0;color:var(--muted);line-height:1.45}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 8px 18px rgba(8,59,122,.06)}
+.card.full{grid-column:1/-1}
+.card h4{margin:0 0 4px;color:var(--blue2);font-size:17px}
+.card p{margin:0 0 8px;color:var(--muted);font-size:13px}
+svg{width:100%;height:auto;display:block;border:1px solid #e5eef9;border-radius:14px;background:white}
+.formula{background:var(--soft);border-left:5px solid var(--blue);border-radius:12px;padding:9px;margin-top:8px;text-align:center;font-family:"Cambria Math",Georgia,serif;font-size:19px;color:#111827}
+.controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:8px}
+.control{font-size:12px;color:var(--blue2);font-weight:700}
+.control label{display:flex;justify-content:space-between;gap:6px}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.result{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.badge{background:#eef5ff;border:1px solid #d7e1ef;border-radius:14px;padding:8px;text-align:center;font-weight:800;color:#083b7a}
+.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.step{background:#fbfdff;border:1px solid var(--line);border-radius:14px;padding:10px}
+.step strong{color:var(--blue2)}
+.axis{stroke:#111;stroke-width:1.6}
+.gridline{stroke:#e5eef9;stroke-width:1}
+.curve{stroke:#1263e6;stroke-width:3;fill:rgba(18,99,230,.06)}
+.asym{stroke:#dc2626;stroke-width:2;stroke-dasharray:8 6}
+.pt{fill:#1263e6}
+text{font-family:"Cambria Math",Georgia,serif;font-size:14px;fill:#111827}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.result,.steps{grid-template-columns:1fr}.card.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h3>Visualizaciones interactivas · Ecuación general de segundo grado</h3>
+    <p>Clasificá cónicas sin rotación, observá el invariante Δ y repasá cómo completar cuadrados, incluyendo el caso con coeficiente principal distinto de 1.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card" data-kind="classifier">
+      <h4>1. Clasificador automático</h4>
+      <p>Ecuación: Ax² + Cy² + Dx + Ey + F = 0, sin término Bxy.</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="controls">
+        <div class="control"><label>A <span data-val="A"></span></label><input data-var="A" type="range" min="-4" max="4" step="1" value="1"></div>
+        <div class="control"><label>C <span data-val="C"></span></label><input data-var="C" type="range" min="-4" max="4" step="1" value="1"></div>
+        <div class="control"><label>D <span data-val="D"></span></label><input data-var="D" type="range" min="-8" max="8" step="1" value="-4"></div>
+        <div class="control"><label>E <span data-val="E"></span></label><input data-var="E" type="range" min="-8" max="8" step="1" value="6"></div>
+        <div class="control"><label>F <span data-val="F"></span></label><input data-var="F" type="range" min="-12" max="12" step="1" value="-3"></div>
+      </div>
+      <div class="result">
+        <div class="badge" data-out="tipo">Tipo</div>
+        <div class="badge" data-out="delta">Δ</div>
+        <div class="badge" data-out="info">Datos</div>
+      </div>
+      <div class="formula" data-eq="general">Ax²+Cy²+Dx+Ey+F=0</div>
+    </div>
+
+    <div class="card" data-kind="decision">
+      <h4>2. Diagrama de decisión</h4>
+      <p>Clasificación rápida para el caso sin rotación.</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="formula">B=0 ⇒ Δ = −4AC</div>
+    </div>
+
+    <div class="card full">
+      <h4>3. Completar cuadrados paso a paso</h4>
+      <p>Comparación entre coeficiente principal igual a 1 y coeficiente principal distinto de 1.</p>
+      <div class="steps">
+        <div class="step">
+          <strong>Caso A: coeficiente principal igual a 1</strong>
+          <div class="formula">x² − 4x + y² + 6y − 3 = 0</div>
+          <p>1) Agrupar términos: (x²−4x)+(y²+6y)=3</p>
+          <p>2) Completar: x²−4x=(x−2)²−4</p>
+          <p>3) Completar: y²+6y=(y+3)²−9</p>
+          <p>4) Reordenar: (x−2)²+(y+3)²=16</p>
+          <p><strong>Resultado:</strong> centro C(2,−3), radio r=4.</p>
+        </div>
+        <div class="step">
+          <strong>Caso B: coeficiente principal distinto de 1</strong>
+          <div class="formula">2x² + 2y² − 8x + 12y − 6 = 0</div>
+          <p>1) Agrupar y sacar factor: 2(x²−4x)+2(y²+6y)=6</p>
+          <p>2) Completar dentro: x²−4x=(x−2)²−4</p>
+          <p>3) Completar dentro: y²+6y=(y+3)²−9</p>
+          <p>4) Cuidar el factor exterior: 2[(x−2)²−4]+2[(y+3)²−9]=6</p>
+          <p>5) Reordenar: 2(x−2)²+2(y+3)²=32</p>
+          <p>6) Dividir: (x−2)²+(y+3)²=16</p>
+          <p><strong>Resultado:</strong> misma circunferencia: centro C(2,−3), radio r=4.</p>
+        </div>
+      </div>
+      <div class="formula">Regla clave: si A≠1 o C≠1, primero se factoriza el coeficiente antes de completar cuadrados.</div>
+    </div>
+
+    <div class="card full" data-kind="invariant">
+      <h4>4. Invariante Δ = B² − 4AC</h4>
+      <p>En el caso sin rotación B=0, entonces Δ=−4AC.</p>
+      <div class="result">
+        <div class="badge">Δ&lt;0 → Elipse / Circunferencia</div>
+        <div class="badge">Δ=0 → Parábola</div>
+        <div class="badge">Δ&gt;0 → Hipérbola</div>
+      </div>
+      <div class="formula">Ax² + Bxy + Cy² + Dx + Ey + F = 0</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+const W=420,H=320, view={xmin:-6,xmax:6,ymin:-6,ymax:6,pad:30};
+const cards=[...document.querySelectorAll(".card")];
+function val(card,n){return Number(card.querySelector(`[data-var="${n}"]`)?.value||0)}
+function fmt(n){const r=Math.round(n*100)/100; return Number.isInteger(r)?String(r):r.toFixed(2)}
+function P(x,y){const s=Math.min(W-2*view.pad,H-2*view.pad), ox=(W-s)/2, oy=(H-s)/2; return {x:ox+(x-view.xmin)/(view.xmax-view.xmin)*s, y:oy+(view.ymax-y)/(view.ymax-view.ymin)*s, s:s/(view.xmax-view.xmin)}}
+function el(name,attrs={}){const e=document.createElementNS("http://www.w3.org/2000/svg",name); Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v)); return e}
+function line(x1,y1,x2,y2,cls="axis"){return el("line",{x1,y1,x2,y2,class:cls})}
+function txt(x,y,t,cls=""){const e=el("text",{x,y,class:cls}); e.textContent=t; return e}
+function updateValues(card){card.querySelectorAll("input").forEach(inp=>{const s=card.querySelector(`[data-val="${inp.dataset.var}"]`); if(s)s.textContent=fmt(Number(inp.value))})}
+function base(svg){svg.innerHTML=""; svg.appendChild(el("rect",{width:W,height:H,fill:"white"})); for(let i=-6;i<=6;i++){let a=P(i,-6),b=P(i,6),c=P(-6,i),d=P(6,i); svg.appendChild(line(a.x,a.y,b.x,b.y,"gridline")); svg.appendChild(line(c.x,c.y,d.x,d.y,"gridline"))} let x0=P(-6,0),x1=P(6,0),y0=P(0,-6),y1=P(0,6); svg.appendChild(line(x0.x,x0.y,x1.x,x1.y,"axis")); svg.appendChild(line(y0.x,y0.y,y1.x,y1.y,"axis"))}
+function classify(A,C,D,E,F){
+ if(A===0 && C===0) return {tipo:"No es cónica cuadrática", delta:0, info:"Sin x²/y²"};
+ const B=0, delta=B*B-4*A*C;
+ if(A===0 || C===0) return {tipo:"Parábola / degenerada", delta, info:"Un solo término cuadrático"};
+ if(A*C<0) return {tipo:"Hipérbola", delta, info:"A y C opuestos"};
+ if(A===C) return {tipo:"Circunferencia / punto / vacío", delta, info:"A=C"};
+ return {tipo:"Elipse / punto / vacío", delta, info:"A y C mismo signo"};
+}
+function drawDecision(svg){
+ base(svg);
+ const boxes=[
+  [70,40,"¿A y C?", "#eef5ff"],[70,105,"Mismo signo", "#ecfeff"],[250,105,"Signo opuesto", "#fef2f2"],
+  [35,180,"A=C", "#eef5ff"],[135,180,"A≠C", "#eef5ff"],[250,180,"Hipérbola", "#fee2e2"],
+  [25,250,"Circunferencia", "#dbeafe"],[135,250,"Elipse", "#ccfbf1"],[250,250,"Si A=0 o C=0 → Parábola", "#ffedd5"]
+ ];
+ boxes.forEach(([x,y,t,fill])=>{svg.appendChild(el("rect",{x,y,width:135,height:42,rx:12,fill,stroke:"#d7e1ef"})); svg.appendChild(txt(x+10,y+25,t))});
+ [["137","82","137","105"],["137","147","75","180"],["137","147","175","180"],["137","82","305","105"],["305","147","305","180"],["75","222","75","250"],["175","222","175","250"]].forEach(a=>svg.appendChild(line(a[0],a[1],a[2],a[3],"axis")));
+}
+function pathEllipse(h,k,rx,ry){let pts=[]; for(let t=0;t<=Math.PI*2+.05;t+=.05){pts.push(P(h+rx*Math.cos(t),k+ry*Math.sin(t)))} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")+" Z"}
+function pathHyperbola(h,k,a,b){let branch=(side)=>{let pts=[]; for(let u=0;u<=2;u+=.04){pts.push(P(h+side*a*Math.cosh(u),k+b*Math.sinh(u)))} for(let u=2;u>=0;u-=.04){pts.push(P(h+side*a*Math.cosh(u),k-b*Math.sinh(u)))} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")}; return [branch(1),branch(-1)]}
+function drawClassifier(card){
+ updateValues(card); const svg=card.querySelector("svg"); base(svg);
+ let A=val(card,"A"), C=val(card,"C"), D=val(card,"D"), E=val(card,"E"), F=val(card,"F");
+ if(A===0 && C===0){A=1; C=1}
+ const c=classify(A,C,D,E,F);
+ card.querySelector('[data-out="tipo"]').textContent=c.tipo;
+ card.querySelector('[data-out="delta"]').textContent=`Δ=${fmt(c.delta)}`;
+ card.querySelector('[data-out="info"]').textContent=c.info;
+ card.querySelector('[data-eq="general"]').textContent=`${fmt(A)}x² ${C>=0?"+":""}${fmt(C)}y² ${D>=0?"+":""}${fmt(D)}x ${E>=0?"+":""}${fmt(E)}y ${F>=0?"+":""}${fmt(F)} = 0`;
+ if(A!==0 && C!==0 && A*C>0){
+   const h=-D/(2*A), k=-E/(2*C);
+   const K=D*D/(4*A)+E*E/(4*C)-F;
+   if(K>0){const rx=Math.sqrt(Math.abs(K/A)), ry=Math.sqrt(Math.abs(K/C)); svg.appendChild(el("path",{d:pathEllipse(h,k,rx,ry),class:"curve"}));}
+ }
+ if(A!==0 && C!==0 && A*C<0){
+   const h=-D/(2*A), k=-E/(2*C);
+   const K=D*D/(4*A)+E*E/(4*C)-F;
+   if(K!==0){let a=Math.sqrt(Math.abs(K/A)), b=Math.sqrt(Math.abs(K/C)); pathHyperbola(h,k,a,b).forEach(d=>svg.appendChild(el("path",{d,class:"curve"})));}
+ }
+ if((A===0) !== (C===0)){
+   let pts=[]; if(A!==0){for(let x=-5;x<=5;x+=.1){let y=-(A*x*x+D*x+F)/E; if(Number.isFinite(y))pts.push(P(x,y))}} else {for(let y=-5;y<=5;y+=.1){let x=-(C*y*y+E*y+F)/D; if(Number.isFinite(x))pts.push(P(x,y))}} if(pts.length) svg.appendChild(el("path",{d:"M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L"),class:"curve"}));
+ }
+}
+cards.forEach(card=>{
+ if(card.dataset.kind==="decision"){drawDecision(card.querySelector("svg"))}
+ if(card.dataset.kind==="classifier"){card.querySelectorAll("input").forEach(inp=>inp.addEventListener("input",()=>drawClassifier(card))); drawClassifier(card)}
+})
+})();
+</script>
+</body>
+</html>

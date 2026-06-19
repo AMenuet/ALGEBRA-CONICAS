@@ -817,3 +817,13 @@ footer {
     min-height: 2800px;
   }
 }
+
+/* V7.4: Cónicas · Ecuación general */
+.general-frame {
+  min-height: 1750px;
+}
+@media (max-width: 900px) {
+  .general-frame {
+    min-height: 2850px;
+  }
+}
