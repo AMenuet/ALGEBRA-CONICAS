@@ -149,3 +149,12 @@ Cada una incluye:
 
 ## V7.0 · Cónicas · Etapa 1
 Se agregó el módulo Cónicas con Circunferencia completa y PDF.
+
+## V7.1 · Cónicas · Parábola
+
+Se completó la subsección Parábola:
+- teoría foco-directriz;
+- orientación horizontal y vertical;
+- visualización interactiva con foco, directriz, latus rectum y propiedad focal;
+- 8 actividades;
+- 8 preguntas de autoevaluación.

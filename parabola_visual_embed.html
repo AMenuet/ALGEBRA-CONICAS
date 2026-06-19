@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Visualizaciones · Parábola</title>
+<style>
+:root{--blue:#0b5cad;--blue2:#083b7a;--line:#d7e1ef;--soft:#eef5ff;--text:#172033;--muted:#5b6b84;--orange:#b45309;--green:#0f766e;--red:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;background:#fbfdff;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
+.wrap{padding:10px}
+.intro{background:white;border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:12px}
+.intro h3{margin:0 0 6px;color:var(--blue2)}
+.intro p{margin:0;color:var(--muted);line-height:1.45}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 8px 18px rgba(8,59,122,.06)}
+.card h4{margin:0 0 4px;color:var(--blue2);font-size:17px}
+.card p{margin:0 0 8px;color:var(--muted);font-size:13px}
+svg{width:100%;height:auto;display:block;border:1px solid #e5eef9;border-radius:14px;background:white}
+.formula{background:var(--soft);border-left:5px solid var(--blue);border-radius:12px;padding:9px;margin-top:8px;text-align:center;font-family:"Cambria Math",Georgia,serif;font-size:20px;color:#111827}
+.controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.control{font-size:12px;color:var(--blue2);font-weight:700}
+.control label{display:flex;justify-content:space-between;gap:6px}
+input[type=range]{width:100%;accent-color:var(--blue)}
+select{width:100%;border:1px solid var(--line);border-radius:10px;padding:5px;background:white;color:var(--blue2);font-weight:700}
+.note{margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:10px;color:#7c2d12}
+.axis{stroke:#111;stroke-width:1.6}
+.gridline{stroke:#e5eef9;stroke-width:1}
+.curve{stroke:#1263e6;stroke-width:3;fill:none}
+.directrix{stroke:#dc2626;stroke-width:3;stroke-dasharray:8 6}
+.eje{stroke:#0f766e;stroke-width:2;stroke-dasharray:8 6}
+.latus{stroke:#b45309;stroke-width:3;stroke-dasharray:6 5}
+.pt{fill:#1263e6}
+.focus{fill:#dc2626}
+.vertex{fill:#0f766e}
+text{font-family:"Cambria Math",Georgia,serif;font-size:15px;fill:#111827}
+.label{font-weight:700;font-size:17px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h3>Visualizaciones interactivas · Parábola</h3>
+    <p>Explorá foco, directriz, vértice, eje, parámetro p y orientación horizontal o vertical.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card" data-kind="canonical">
+      <h4>1. Forma canónica</h4><p>Vértice V(h,k), parámetro p y orientación.</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="controls">
+        <div class="control"><label>h <span data-val="h"></span></label><input data-var="h" type="range" min="-3" max="3" step="0.5" value="0"></div>
+        <div class="control"><label>k <span data-val="k"></span></label><input data-var="k" type="range" min="-3" max="3" step="0.5" value="0"></div>
+        <div class="control"><label>p <span data-val="p"></span></label><input data-var="p" type="range" min="-3" max="3" step="0.5" value="1.5"></div>
+        <div class="control"><label>orientación</label><select data-var="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
+      </div>
+      <div class="formula" data-eq="can">parábola</div>
+    </div>
+
+    <div class="card" data-kind="focusDirectrix">
+      <h4>2. Foco y directriz</h4><p>Todo punto de la parábola equidista del foco y de la directriz.</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="controls">
+        <div class="control"><label>h <span data-val="h"></span></label><input data-var="h" type="range" min="-3" max="3" step="0.5" value="0"></div>
+        <div class="control"><label>k <span data-val="k"></span></label><input data-var="k" type="range" min="-3" max="3" step="0.5" value="0"></div>
+        <div class="control"><label>p <span data-val="p"></span></label><input data-var="p" type="range" min="-3" max="3" step="0.5" value="1"></div>
+        <div class="control"><label>orientación</label><select data-var="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
+      </div>
+      <div class="formula">d(P,F)=d(P,d)</div>
+    </div>
+
+    <div class="card" data-kind="latus">
+      <h4>3. Latus rectum</h4><p>Segmento focal perpendicular al eje de simetría, de longitud |4p|.</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="controls">
+        <div class="control"><label>p <span data-val="p"></span></label><input data-var="p" type="range" min="-3" max="3" step="0.5" value="1.5"></div>
+        <div class="control"><label>orientación</label><select data-var="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
+      </div>
+      <div class="formula">Longitud del latus rectum = |4p|</div>
+    </div>
+
+    <div class="card" data-kind="optical">
+      <h4>4. Propiedad focal</h4><p>Un rayo paralelo al eje se refleja pasando por el foco.</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="controls">
+        <div class="control"><label>p <span data-val="p"></span></label><input data-var="p" type="range" min="0.5" max="3" step="0.5" value="1.5"></div>
+        <div class="control"><label>orientación</label><select data-var="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
+      </div>
+      <div class="formula">Rayo paralelo → foco</div>
+    </div>
+  </div>
+
+  <div class="note">💡 Las grillas están en escala 1:1. Cambiá la orientación para comparar parábolas horizontales y verticales.</div>
+</div>
+<script>
+(() => {
+const W=420,H=320, view={xmin:-5,xmax:5,ymin:-5,ymax:5,pad:30};
+const cards=[...document.querySelectorAll(".card")];
+function val(card,n){return Number(card.querySelector(`[data-var="${n}"]`)?.value||0)}
+function str(card,n){return card.querySelector(`[data-var="${n}"]`)?.value||"H"}
+function fmt(n){const r=Math.round(n*100)/100; return Number.isInteger(r)?String(r):r.toFixed(1)}
+function P(x,y){const s=Math.min(W-2*view.pad,H-2*view.pad), ox=(W-s)/2, oy=(H-s)/2; return {x:ox+(x-view.xmin)/(view.xmax-view.xmin)*s, y:oy+(view.ymax-y)/(view.ymax-view.ymin)*s}}
+function el(name,attrs={}){const e=document.createElementNS("http://www.w3.org/2000/svg",name); Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v)); return e}
+function line(x1,y1,x2,y2,cls="curve"){return el("line",{x1,y1,x2,y2,class:cls})}
+function txt(x,y,t,cls=""){const e=el("text",{x,y,class:cls}); e.textContent=t; return e}
+function circ(x,y,r,cls="pt"){return el("circle",{cx:x,cy:y,r,class:cls})}
+function updateValues(card){card.querySelectorAll("input").forEach(inp=>{const s=card.querySelector(`[data-val="${inp.dataset.var}"]`); if(s)s.textContent=fmt(Number(inp.value))})}
+function base(svg){svg.innerHTML=""; svg.appendChild(el("rect",{width:W,height:H,fill:"white"})); for(let i=-5;i<=5;i++){let a=P(i,-5),b=P(i,5),c=P(-5,i),d=P(5,i); svg.appendChild(line(a.x,a.y,b.x,b.y,"gridline")); svg.appendChild(line(c.x,c.y,d.x,d.y,"gridline"))} let x0=P(-5,0),x1=P(5,0),y0=P(0,-5),y1=P(0,5); svg.appendChild(line(x0.x,x0.y,x1.x,x1.y,"axis")); svg.appendChild(line(y0.x,y0.y,y1.x,y1.y,"axis")); svg.appendChild(txt(x1.x-10,x1.y-4,"x")); svg.appendChild(txt(y1.x+4,y1.y+12,"y"))}
+function pathParabola(h,k,p,orient){let pts=[]; if(Math.abs(p)<.2)p=.5; for(let t=-4;t<=4;t+=.08){let x,y;if(orient==="H"){y=k+t; x=h+(t*t)/(4*p)}else{x=h+t; y=k+(t*t)/(4*p)} pts.push(P(x,y))} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")}
+function drawArrow(svg,p,q,cls="curve"){svg.appendChild(line(p.x,p.y,q.x,q.y,cls)); const ang=Math.atan2(q.y-p.y,q.x-p.x),len=10; svg.appendChild(line(q.x-len*Math.cos(ang-.5),q.y-len*Math.sin(ang-.5),q.x,q.y,cls)); svg.appendChild(line(q.x-len*Math.cos(ang+.5),q.y-len*Math.sin(ang+.5),q.x,q.y,cls))}
+function drawParabola(svg,h,k,p,orient){svg.appendChild(el("path",{d:pathParabola(h,k,p,orient),class:"curve"})); const V=P(h,k); svg.appendChild(circ(V.x,V.y,5,"vertex")); svg.appendChild(txt(V.x+7,V.y-7,"V","label")); let F, dirA, dirB, ejeA, ejeB; if(orient==="H"){F=P(h+p,k); dirA=P(h-p,-5); dirB=P(h-p,5); ejeA=P(-5,k); ejeB=P(5,k)}else{F=P(h,k+p); dirA=P(-5,k-p); dirB=P(5,k-p); ejeA=P(h,-5); ejeB=P(h,5)} svg.appendChild(circ(F.x,F.y,5,"focus")); svg.appendChild(txt(F.x+7,F.y-7,"F","label")); svg.appendChild(line(dirA.x,dirA.y,dirB.x,dirB.y,"directrix")); svg.appendChild(line(ejeA.x,ejeA.y,ejeB.x,ejeB.y,"eje")); return {V,F}}
+function draw(card){updateValues(card); const svg=card.querySelector("svg"); base(svg); let h=val(card,"h"),k=val(card,"k"),p=val(card,"p"),orient=str(card,"orient"); if(Math.abs(p)<.2)p=.5; const data=drawParabola(svg,h,k,p,orient); if(card.dataset.kind==="canonical"){const eq=card.querySelector('[data-eq="can"]'); eq.textContent=orient==="H" ? `(y−k)² = 4p(x−h)` : `(x−h)² = 4p(y−k)`} if(card.dataset.kind==="focusDirectrix"){let q;if(orient==="H"){const yy=k+2*p; const xx=h+(yy-k)*(yy-k)/(4*p); q=P(xx,yy); const foot=P(h-p,yy); svg.appendChild(line(q.x,q.y,data.F.x,data.F.y,"orange")); svg.appendChild(line(q.x,q.y,foot.x,foot.y,"orange")); svg.appendChild(circ(q.x,q.y,5,"pt")); svg.appendChild(txt(q.x+5,q.y-5,"P","label"))}else{const xx=h+2*p; const yy=k+(xx-h)*(xx-h)/(4*p); q=P(xx,yy); const foot=P(xx,k-p); svg.appendChild(line(q.x,q.y,data.F.x,data.F.y,"orange")); svg.appendChild(line(q.x,q.y,foot.x,foot.y,"orange")); svg.appendChild(circ(q.x,q.y,5,"pt")); svg.appendChild(txt(q.x+5,q.y-5,"P","label"))}} if(card.dataset.kind==="latus"){let p1,p2;if(orient==="H"){p1=P(p,2*p);p2=P(p,-2*p)}else{p1=P(2*p,p);p2=P(-2*p,p)} svg.appendChild(line(p1.x,p1.y,p2.x,p2.y,"latus")); svg.appendChild(circ(p1.x,p1.y,5,"orange")); svg.appendChild(circ(p2.x,p2.y,5,"orange"));} if(card.dataset.kind==="optical"){let start,end,focus;if(orient==="H"){start=P(-4,2*p);end=P(p,2*p);focus=P(p,0)}else{start=P(2*p,-4);end=P(2*p,p);focus=P(0,p)} drawArrow(svg,start,end,"orange"); drawArrow(svg,end,focus,"green")}}
+cards.forEach(card=>{card.querySelectorAll("input,select").forEach(inp=>inp.addEventListener("input",()=>draw(card))); draw(card)})
+})();
+</script>
+</body>
+</html>
