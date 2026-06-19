@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VectorLab · Unidad 1: Vectores</title>
+  <meta name="description" content="Manual interactivo de vectores para Álgebra y Geometría Analítica." />
+  <meta name="author" content="Ing. Mg. Agustín Menuet · FICA · Universidad Nacional de San Luis" />
+  <link rel="stylesheet" href="styles.css?v=7.0" />
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">UNSL · FICA · Álgebra y Geometría Analítica</p>
+      <h1>VectorLab</h1>
+      <p class="subtitle">Unidad 1: Vectores · Manual interactivo + actividades + autoevaluación</p>
+    </div>
+    <div class="status-card">
+      <span>Versión</span>
+      <strong>V7.0 · Cónicas</strong>
+      <small>Cónicas · Circunferencia</small>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div>
+        <h2>Recorrido de la unidad</h2>
+        <p>
+          Esta app acompaña el estudio de vectores integrando teoría, gráficas interactivas,
+          actividades guiadas y autoevaluación.
+        </p>
+      </div>
+      <div class="notation-box">
+        <strong>Convención:</strong>
+        los vectores se escriben como <span class="vec">𝐮</span>, <span class="vec">𝐯</span>, <span class="vec">𝐰</span>;
+        las componentes como <span class="comp">u₁</span>, <span class="comp">u₂</span>, <span class="comp">v₁</span>, <span class="comp">v₂</span>.
+      </div>
+    </section>
+
+
+    <section class="authorship-card">
+      <div>
+        <span class="authorship-kicker">Autoría y uso académico</span>
+        <h2>VectorLab · Unidad 1: Vectores</h2>
+        <p>
+          Material educativo interactivo desarrollado por <strong>Ing. Mg. Agustín Menuet</strong>
+          para el acompañamiento de clases de Álgebra y Geometría Analítica.
+        </p>
+      </div>
+      <div class="copyright-box">
+        <strong>© 2026 Agustín Menuet</strong>
+        <span>FICA · Universidad Nacional de San Luis</span>
+        <small>Se permite su uso con fines académicos citando la fuente.</small>
+      </div>
+    </section>
+
+    
+    <nav class="section-tabs module-tabs" aria-label="Módulos de la materia">
+      <button class="section-tab active" data-section="sec-vectores">1. Vectores</button>
+      <button class="section-tab" data-section="sec-geo">2. Geometría Analítica</button>
+      <button class="section-tab" data-section="sec-conicas">3. Cónicas</button>
+      <button class="section-tab" data-section="sec-polares">4. Coordenadas Polares</button>
+      <button class="section-tab" data-section="sec-parametricas">5. Paramétricas</button>
+      <button class="section-tab" data-section="sec-pdf">6. Material PDF</button>
+    </nav>
+
+
+    <!-- SECCIÓN 1 -->
+    
+    <!-- MÓDULO 1: VECTORES -->
+    <section id="sec-vectores" class="section active">
+      <div class="section-header">
+        <div>
+          <h2>1. Vectores</h2>
+          <p>Unidad de vectores con teoría, actividades, autoevaluación y gráficas interactivas.</p>
+        </div>
+        <span class="badge">4 subsecciones + PDF</span>
+      </div>
+
+      <nav class="module-subtabs" aria-label="Subsecciones de Vectores">
+        <button class="module-subtab active" data-module-panel="v-sub1">Definición y operaciones</button>
+        <button class="module-subtab" data-module-panel="v-sub2">Producto escalar</button>
+        <button class="module-subtab" data-module-panel="v-sub3">Producto vectorial</button>
+        <button class="module-subtab" data-module-panel="v-sub4">Producto mixto</button>
+        <button class="module-subtab" data-module-panel="v-pdf">Material PDF</button>
+      </nav>
+
+      <article id="v-sub1" class="module-panel active">
+      <div class="section-header">
+        <div>
+          <h2>1. Definición y operaciones con vectores</h2>
+          <p>Vector, componentes, módulo, suma, producto por escalar y descomposición canónica.</p>
+        </div>
+        <span class="badge">Primera sección desarrollada</span>
+      </div>
+
+      <nav class="inner-tabs">
+        <button class="inner-tab active" data-panel="s1-theory">Teoría</button>
+        <button class="inner-tab" data-panel="s1-activities">Actividades</button>
+        <button class="inner-tab" data-panel="s1-quiz">Autoevaluación</button>
+      </nav>
+
+      <article id="s1-theory" class="panel active">
+        <div class="theory-grid">
+          <div class="theory-card">
+            <h3>Vector</h3>
+            <p>
+              Un vector puede representarse como un segmento orientado. Queda determinado por
+              <strong>módulo</strong>, <strong>dirección</strong> y <strong>sentido</strong>.
+            </p>
+            <p>
+              En el plano, si el vector parte del origen y llega al punto <span class="math">(u₁,u₂)</span>,
+              se escribe:
+            </p>
+            <div class="formula">𝐮 = (u₁, u₂)</div>
+            <div class="formula">‖𝐮‖ = √(u₁² + u₂²)</div>
+          </div>
+
+          <div class="theory-card">
+            <h3>Suma de vectores</h3>
+            <p>
+              La suma de vectores puede interpretarse geométricamente mediante la regla del triángulo
+              o la regla del paralelogramo.
+            </p>
+            <div class="formula">𝐰 = 𝐮 + 𝐯</div>
+            <div class="formula">𝐮 + 𝐯 = (u₁ + v₁, u₂ + v₂)</div>
+          </div>
+
+          <div class="theory-card">
+            <h3>Producto por escalar</h3>
+            <p>
+              Si <span class="math">c</span> es un escalar, entonces <span class="math">c𝐮</span>
+              es un vector en la misma dirección de <span class="math">𝐮</span>.
+            </p>
+            <ul>
+              <li>Si <span class="math">c &gt; 0</span>, conserva el sentido.</li>
+              <li>Si <span class="math">c &lt; 0</span>, invierte el sentido.</li>
+              <li>Si <span class="math">c = 0</span>, se obtiene el vector nulo.</li>
+            </ul>
+            <div class="formula">c𝐮 = (cu₁, cu₂)</div>
+            <div class="formula">‖c𝐮‖ = |c| ‖𝐮‖</div>
+          </div>
+
+          <div class="theory-card">
+            <h3>Descomposición canónica</h3>
+            <p>
+              En el espacio, usando los versores <span class="vec">𝐢</span>, <span class="vec">𝐣</span> y <span class="vec">𝐤</span>,
+              todo vector puede escribirse como:
+            </p>
+            <div class="formula">𝐮 = (u₁,u₂,u₃) = u₁𝐢 + u₂𝐣 + u₃𝐤</div>
+          </div>
+        </div>
+
+        <div class="graph-stack">
+          <h3>Gráficas interactivas de la sección</h3>
+          <p class="muted">Arrastrá el extremo de 𝐮 o 𝐯 para explorar. No hace falta hacer clic exacto sobre la punta: podés tomarlo cerca del extremo.</p>
+
+          <div class="graph-card">
+            <div class="graph-header">
+              <div>
+                <h4>Gráfica 1 · Vector en el plano</h4>
+                <p>Permite leer componentes y módulo de <span class="vec">𝐮</span>.</p>
+              </div>
+              <div class="live-values">
+                <span>𝐮 = (<b id="g1u1">4</b>, <b id="g1u2">2</b>)</span>
+                <span>‖𝐮‖ = <b id="g1norm">4.47</b></span>
+              </div>
+            </div>
+            <canvas id="graphVector" width="720" height="720"></canvas>
+          </div>
+
+          <div class="graph-card">
+            <div class="graph-header">
+              <div>
+                <h4>Gráfica 2 · Suma de vectores</h4>
+                <p>Visualiza <span class="math">𝐰 = 𝐮 + 𝐯</span> mediante paralelogramo.</p>
+              </div>
+              <div class="live-values">
+                <span>𝐮 = (<b id="g2u1">3</b>, <b id="g2u2">1</b>)</span>
+                <span>𝐯 = (<b id="g2v1">2</b>, <b id="g2v2">3</b>)</span>
+                <span>𝐰 = (<b id="g2w1">5</b>, <b id="g2w2">4</b>)</span>
+              </div>
+            </div>
+            <canvas id="graphSum" width="720" height="720"></canvas>
+          </div>
+
+          <div class="graph-card">
+            <div class="graph-header">
+              <div>
+                <h4>Gráfica 3 · Producto por escalar</h4>
+                <p>Explora cómo cambia <span class="math">c𝐮</span> cuando cambia el escalar <span class="math">c</span>.</p>
+              </div>
+              <div class="live-values">
+                <span>c = <b id="scalarValue">1.50</b></span>
+                <span>c𝐮 = (<b id="g3cu1">6</b>, <b id="g3cu2">3</b>)</span>
+              </div>
+            </div>
+            <label class="slider-label">
+              Escalar c
+              <input id="scalarSlider" type="range" min="-3" max="3" step="0.25" value="1.5">
+            </label>
+            <canvas id="graphScalar" width="720" height="720"></canvas>
+          </div>
+        </div>
+      </article>
+
+      <article id="s1-activities" class="panel">
+        <div class="section-note">
+          <h3>Actividades guiadas</h3>
+          <p>
+            Resolvé las actividades. Primero intentá responder; luego usá la pista o la resolución si lo necesitás.
+          </p>
+        </div>
+
+        <div class="activity-list">
+          <div class="activity-card" data-answer="vectorial">
+            <h4>Actividad 1 · Magnitud vectorial</h4>
+            <p>Clasificá la magnitud <strong>fuerza</strong>: ¿es escalar o vectorial?</p>
+            <input type="text" placeholder="Respondé escalar o vectorial">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">La fuerza es vectorial porque requiere módulo, dirección y sentido.</div>
+          </div>
+
+          <div class="activity-card" data-answer="sentido|modulodireccionsentido|modulo,direccion,sentido|modulo direccion sentido">
+            <h4>Actividad 2 · Elementos de un vector</h4>
+            <p>Completá los tres elementos que determinan un vector: módulo, dirección y ______.</p>
+            <input type="text" placeholder="Ingresá tu respuesta">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">Un vector queda determinado por módulo, dirección y sentido.</div>
+          </div>
+
+          <div class="activity-card" data-answer="(4,2)">
+            <h4>Actividad 3 · Componentes en el plano</h4>
+            <p>Si el extremo de 𝐮 está en el punto (4,2) y parte del origen, escribí sus componentes.</p>
+            <input type="text" placeholder="Formato: (a,b)">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">Como el vector parte del origen y termina en (4,2), entonces 𝐮=(4,2).</div>
+          </div>
+
+          <div class="activity-card" data-answer="5">
+            <h4>Actividad 4 · Módulo en ℝ²</h4>
+            <p>Calculá el módulo de 𝐮 = (3,4).</p>
+            <input type="text" placeholder="Ingresá el módulo">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">‖𝐮‖ = √(3²+4²) = √25 = 5.</div>
+          </div>
+
+          <div class="activity-card" data-answer="3">
+            <h4>Actividad 5 · Módulo en ℝ³</h4>
+            <p>Calculá el módulo de 𝐮 = (1,2,2).</p>
+            <input type="text" placeholder="Ingresá el módulo">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">‖𝐮‖ = √(1²+2²+2²) = √9 = 3.</div>
+          </div>
+
+          <div class="activity-card" data-answer="(5,-3,4)">
+            <h4>Actividad 6 · Suma de vectores</h4>
+            <p>Sean 𝐮=(2,-1,0) y 𝐯=(3,-2,4). Calculá 𝐮+𝐯.</p>
+            <input type="text" placeholder="Formato: (a,b,c)">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮+𝐯=(2+3,-1+(-2),0+4)=(5,-3,4).</div>
+          </div>
+
+          <div class="activity-card" data-answer="(-1,1,-4)">
+            <h4>Actividad 7 · Resta de vectores</h4>
+            <p>Sean 𝐮=(2,-1,0) y 𝐯=(3,-2,4). Calculá 𝐮−𝐯.</p>
+            <input type="text" placeholder="Formato: (a,b,c)">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮−𝐯=(2-3,-1-(-2),0-4)=(-1,1,-4).</div>
+          </div>
+
+          <div class="activity-card" data-answer="(4,-2,0)">
+            <h4>Actividad 8 · Producto por escalar</h4>
+            <p>Sea 𝐮=(2,-1,0). Calculá 2𝐮.</p>
+            <input type="text" placeholder="Formato: (a,b,c)">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">2𝐮 = 2(2,-1,0) = (4,-2,0).</div>
+          </div>
+
+          <div class="activity-card" data-answer="2i+4j-3k|2𝐢+4𝐣-3𝐤">
+            <h4>Actividad 9 · Descomposición canónica</h4>
+            <p>Escribí 𝐮=(2,4,-3) como combinación de 𝐢, 𝐣 y 𝐤.</p>
+            <input type="text" placeholder="Formato: ai+bj+ck">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮 = 2𝐢 + 4𝐣 − 3𝐤.</div>
+          </div>
+
+          <div class="activity-card" data-answer="si|sí">
+            <h4>Actividad 10 · Paralelismo</h4>
+            <p>Sean 𝐮=(2,4) y 𝐯=(1,2). ¿Son paralelos? Respondé sí o no.</p>
+            <input type="text" placeholder="Respondé sí o no">
+            <div class="buttons">
+              <button class="check-btn">Verificar</button>
+              <button class="hint-btn">Pista</button>
+              <button class="solution-btn">Ver resolución</button>
+            </div>
+            <p class="feedback"></p>
+            <div class="solution">Sí. Se cumple 𝐮 = 2𝐯, por lo tanto son paralelos.</div>
+          </div>
+        </div>
+      </article>
+
+      <article id="s1-quiz" class="panel">
+        <div class="section-note">
+          <h3>Autoevaluación</h3>
+          <p>Respondé las 10 preguntas de la primera sección.</p>
+        </div>
+
+        <div class="quiz-grid">
+          <div class="quiz-card" data-correct="0">
+            <h4>1. ¿Qué elementos definen un vector?</h4>
+            <button>Módulo, dirección y sentido</button>
+            <button>Solo módulo</button>
+            <button>Solo dirección</button>
+            <p class="quiz-feedback"></p>
+          </div>
+
+          <div class="quiz-card" data-correct="1">
+            <h4>2. Una temperatura de 25 °C es una magnitud...</h4>
+            <button>Vectorial</button>
+            <button>Escalar</button>
+            <button>Ambas</button>
+            <p class="quiz-feedback"></p>
+          </div>
+
+          <div class="quiz-card" data-correct="0">
+            <h4>3. Si 𝐮=(2,3) y 𝐯=(1,4), entonces 𝐮+𝐯 es:</h4>
+            <button>(3,7)</button>
+            <button>(2,12)</button>
+            <button>(1,1)</button>
+            <p class="quiz-feedback"></p>
+          </div>
+
+          <div class="quiz-card" data-correct="1">
+            <h4>4. Si c &lt; 0, entonces c𝐮...</h4>
+            <button>Conserva dirección y sentido</button>
+            <button>Conserva dirección e invierte sentido</button>
+            <button>Siempre vale cero</button>
+            <p class="quiz-feedback"></p>
+          </div>
+
+          <div class="quiz-card" data-correct="0">
+            <h4>5. El módulo de 𝐮=(6,8) es:</h4>
+            <button>10</button>
+            <button>14</button>
+            <button>48</button>
+            <p class="quiz-feedback"></p>
+          </div>
+
+          <div class="quiz-card" data-correct="2">
+            <h4>6. El vector nulo tiene módulo:</h4>
+            <button>1</button>
+            <button>-1</button>
+            <button>0</button>
+            <p class="quiz-feedback"></p>
+          </div>
+
+          <div class="quiz-card" data-correct="0">
+            <h4>7. La descomposición canónica de 𝐮=(u₁,u₂,u₃) es:</h4>
+            <button>u₁𝐢 + u₂𝐣 + u₃𝐤</button>
+            <button>u₁𝐣 + u₂𝐢 + u₃𝐤</button>
+            <button>u₁ + u₂ + u₃</button>
+            <p class="quiz-feedback"></p>
+          </div>
+
+          <div class="quiz-card" data-correct="1">
+            <h4>8. Dos vectores paralelos tienen componentes...</h4>
+            <button>Siempre iguales</button>
+            <button>Proporcionales</button>
+            <button>Siempre nulas</button>
+            <p class="quiz-feedback"></p>
+          </div>
+
+          <div class="quiz-card" data-correct="0">
+            <h4>9. Si 𝐮=(3,0) y 𝐯=(0,3), entonces 𝐮+𝐯 es:</h4>
+            <button>(3,3)</button>
+            <button>(0,0)</button>
+            <button>(9,0)</button>
+            <p class="quiz-feedback"></p>
+          </div>
+
+          <div class="quiz-card" data-correct="2">
+            <h4>10. El vector unitario en la dirección de 𝐮 se obtiene haciendo:</h4>
+            <button>𝐮 · 𝐮</button>
+            <button>𝐮 + 𝐮</button>
+            <button>𝐮 / ‖𝐮‖</button>
+            <p class="quiz-feedback"></p>
+          </div>
+        </div>
+      </article>
+    </article>
+
+    <!-- SECCIÓN 2 --><article id="v-sub2" class="module-panel ">
+      <div class="section-header">
+        <div>
+          <h2>2. Producto escalar</h2>
+          <p>Definición geométrica, componentes, signo, ortogonalidad, ángulo, proyección y aplicaciones.</p>
+        </div>
+        <span class="badge">Sección desarrollada</span>
+      </div>
+
+      <nav class="inner-tabs">
+        <button class="inner-tab active" data-panel="s2-theory">Teoría</button>
+        <button class="inner-tab" data-panel="s2-activities">Actividades</button>
+        <button class="inner-tab" data-panel="s2-quiz">Autoevaluación</button>
+      </nav>
+
+      <article id="s2-theory" class="panel active">
+        <div class="theory-grid">
+          <div class="theory-card">
+            <h3>Definición geométrica</h3>
+            <p>
+              El producto escalar entre dos vectores es una operación que devuelve un número real.
+              Si θ es el ángulo entre 𝐮 y 𝐯, se define:
+            </p>
+            <div class="formula">𝐮 · 𝐯 = ‖𝐮‖ ‖𝐯‖ cos(θ)</div>
+            <p>
+              Esta expresión permite relacionar el valor del producto escalar con la orientación relativa
+              de los vectores.
+            </p>
+          </div>
+
+          <div class="theory-card">
+            <h3>Producto escalar por componentes</h3>
+            <p>
+              En coordenadas cartesianas, el producto escalar se calcula multiplicando componentes homónimas
+              y sumando los resultados.
+            </p>
+            <div class="formula">𝐮 · 𝐯 = u₁v₁ + u₂v₂</div>
+            <div class="formula">𝐮 · 𝐯 = u₁v₁ + u₂v₂ + u₃v₃</div>
+          </div>
+
+          <div class="theory-card">
+            <h3>Signo y ortogonalidad</h3>
+            <ul>
+              <li>Si θ es agudo, entonces 𝐮 · 𝐯 &gt; 0.</li>
+              <li>Si θ es recto, entonces 𝐮 · 𝐯 = 0.</li>
+              <li>Si θ es obtuso, entonces 𝐮 · 𝐯 &lt; 0.</li>
+            </ul>
+            <div class="formula">𝐮 ⟂ 𝐯 ⇔ 𝐮 · 𝐯 = 0</div>
+          </div>
+
+          <div class="theory-card">
+            <h3>Ángulo y proyección</h3>
+            <p>El ángulo entre dos vectores no nulos se obtiene de:</p>
+            <div class="formula">cos(θ) = (𝐮 · 𝐯) / (‖𝐮‖ ‖𝐯‖)</div>
+            <p>La proyección de 𝐯 sobre 𝐮 es:</p>
+            <div class="formula">proy<sub>𝐮</sub>(𝐯) = ((𝐮 · 𝐯) / ‖𝐮‖²) 𝐮</div>
+          </div>
+        </div>
+
+        <div class="graph-stack">
+          <h3>Gráficas interactivas de producto escalar</h3>
+          <p class="muted">Arrastrá el extremo de 𝐮 o 𝐯 para observar cómo cambian el ángulo, el signo y la proyección.</p>
+
+          <div class="graph-card">
+            <div class="graph-header">
+              <div>
+                <h4>Gráfica 4 · Ángulo y signo de 𝐮 · 𝐯</h4>
+                <p>Relaciona θ, cos(θ) y el signo del producto escalar.</p>
+              </div>
+              <div class="live-values">
+                <span>𝐮 = (<b id="g4u1">4</b>, <b id="g4u2">1</b>)</span>
+                <span>𝐯 = (<b id="g4v1">2</b>, <b id="g4v2">3</b>)</span>
+                <span>𝐮 · 𝐯 = <b id="g4dot">11</b></span>
+                <span>θ = <b id="g4angle">35.5°</b></span>
+                <span id="g4sign">Producto positivo</span>
+              </div>
+            </div>
+            <canvas id="graphDot" width="720" height="720"></canvas>
+          </div>
+
+          <div class="graph-card">
+            <div class="graph-header">
+              <div>
+                <h4>Gráfica 5 · Proyección ortogonal</h4>
+                <p>Muestra proy<sub>𝐮</sub>(𝐯), la recta soporte de 𝐮 y la perpendicular desde 𝐯.</p>
+              </div>
+              <div class="live-values">
+                <span>proy<sub>𝐮</sub>(𝐯) = (<b id="g5p1">—</b>, <b id="g5p2">—</b>)</span>
+                <span>componente = <b id="g5comp">—</b></span>
+              </div>
+            </div>
+            <canvas id="graphProjection" width="720" height="720"></canvas>
+          </div>
+        </div>
+      </article>
+
+      <article id="s2-activities" class="panel">
+        <div class="section-note">
+          <h3>Actividades guiadas</h3>
+          <p>Resolvé las actividades. Los campos indican el formato esperado, no la respuesta.</p>
+        </div>
+
+        <div class="activity-list">
+          <div class="activity-card" data-answer="positivo">
+            <h4>Actividad 1 · Signo del producto escalar</h4>
+            <p>Si el ángulo entre 𝐮 y 𝐯 es agudo, ¿el producto 𝐮·𝐯 es positivo, negativo o cero?</p>
+            <input type="text" placeholder="positivo / negativo / cero">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Si θ es agudo, cos(θ)&gt;0, por lo tanto 𝐮·𝐯 es positivo.</div>
+          </div>
+
+          <div class="activity-card" data-answer="12">
+            <h4>Actividad 2 · Producto escalar en ℝ²</h4>
+            <p>Sean 𝐮=(3,-1) y 𝐯=(5,3). Calculá 𝐮·𝐯.</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮·𝐯 = 3·5 + (-1)·3 = 15 - 3 = 12.</div>
+          </div>
+
+          <div class="activity-card" data-answer="5">
+            <h4>Actividad 3 · Producto escalar en ℝ³</h4>
+            <p>Sean 𝐮=(1,2,3) y 𝐯=(4,-1,1). Calculá 𝐮·𝐯.</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮·𝐯 = 1·4 + 2·(-1) + 3·1 = 4 - 2 + 3 = 5.</div>
+          </div>
+
+          <div class="activity-card" data-answer="0">
+            <h4>Actividad 4 · Ortogonalidad</h4>
+            <p>Sean 𝐮=(3,2) y 𝐯=(-4,6). Calculá 𝐮·𝐯 para verificar si son ortogonales.</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮·𝐯 = 3·(-4)+2·6 = -12+12 = 0. Son ortogonales.</div>
+          </div>
+
+          <div class="activity-card" data-answer="(-2,3)">
+            <h4>Actividad 5 · Hallar un vector ortogonal</h4>
+            <p>Un vector ortogonal a 𝐮=(3,2) puede ser:</p>
+            <input type="text" placeholder="Formato: (a,b)">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Un ejemplo es 𝐯=(-2,3), porque 3·(-2)+2·3=0.</div>
+          </div>
+
+          <div class="activity-card" data-answer="90|90°">
+            <h4>Actividad 6 · Ángulo entre vectores</h4>
+            <p>Si 𝐮·𝐯=0 y ambos vectores son no nulos, ¿cuánto mide el ángulo entre ellos?</p>
+            <input type="text" placeholder="Ingresá el ángulo">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Si 𝐮·𝐯=0, entonces cos(θ)=0. Por lo tanto θ=90°.</div>
+          </div>
+
+          <div class="activity-card" data-answer="(4,0)">
+            <h4>Actividad 7 · Proyección ortogonal</h4>
+            <p>Sean 𝐮=(2,0) y 𝐯=(4,3). Calculá proy<sub>𝐮</sub>(𝐯).</p>
+            <input type="text" placeholder="Formato: (a,b)">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮·𝐯=8 y ‖𝐮‖²=4. Entonces proy<sub>𝐮</sub>(𝐯)=(8/4)𝐮=2(2,0)=(4,0).</div>
+          </div>
+
+          <div class="activity-card" data-answer="4">
+            <h4>Actividad 8 · Componente escalar</h4>
+            <p>Sean 𝐮=(2,0) y 𝐯=(4,3). Calculá comp<sub>𝐮</sub>(𝐯).</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">comp<sub>𝐮</sub>(𝐯)=(𝐮·𝐯)/‖𝐮‖ = 8/2 = 4.</div>
+          </div>
+
+          <div class="activity-card" data-answer="12">
+            <h4>Actividad 9 · Trabajo mecánico</h4>
+            <p>Una fuerza 𝐅=(3,0) produce un desplazamiento 𝐝=(4,2). Calculá W=𝐅·𝐝.</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">W=𝐅·𝐝 = 3·4 + 0·2 = 12.</div>
+          </div>
+
+          <div class="activity-card" data-answer="19">
+            <h4>Actividad 10 · Potencia</h4>
+            <p>Dadas 𝐅=(5,1,0) y 𝐯=(3,4,0), calculá P=𝐅·𝐯.</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">P=𝐅·𝐯 = 5·3 + 1·4 + 0·0 = 19.</div>
+          </div>
+        </div>
+      </article>
+
+      <article id="s2-quiz" class="panel">
+        <div class="section-note">
+          <h3>Autoevaluación</h3>
+          <p>Respondé las 10 preguntas de producto escalar.</p>
+        </div>
+
+        <div class="quiz-grid">
+          <div class="quiz-card" data-correct="0">
+            <h4>1. El producto escalar de dos vectores da como resultado:</h4>
+            <button>Un escalar</button><button>Un vector</button><button>Una matriz</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="1">
+            <h4>2. Si 𝐮·𝐯=0, entonces 𝐮 y 𝐯 son:</h4>
+            <button>Paralelos</button><button>Ortogonales</button><button>Iguales</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>3. Si θ es agudo, entonces 𝐮·𝐯 es:</h4>
+            <button>Positivo</button><button>Negativo</button><button>Cero</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="2">
+            <h4>4. Si θ es obtuso, entonces 𝐮·𝐯 es:</h4>
+            <button>Positivo</button><button>Cero</button><button>Negativo</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>5. En ℝ³, 𝐮·𝐯 se calcula como:</h4>
+            <button>u₁v₁+u₂v₂+u₃v₃</button><button>u₁+v₁</button><button>u₁v₂-u₂v₁</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="1">
+            <h4>6. La proyección proy<sub>𝐮</sub>(𝐯) queda sobre la dirección de:</h4>
+            <button>𝐯</button><button>𝐮</button><button>𝐮+𝐯</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>7. El trabajo mecánico puede expresarse como:</h4>
+            <button>W=𝐅·𝐝</button><button>W=𝐅×𝐝</button><button>W=𝐅+𝐝</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="2">
+            <h4>8. Si 𝐮 y 𝐯 son no nulos y forman 90°, entonces:</h4>
+            <button>𝐮·𝐯&gt;0</button><button>𝐮·𝐯&lt;0</button><button>𝐮·𝐯=0</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>9. La fórmula geométrica del producto escalar es:</h4>
+            <button>𝐮·𝐯=‖𝐮‖‖𝐯‖cos(θ)</button><button>𝐮·𝐯=‖𝐮‖‖𝐯‖sen(θ)</button><button>𝐮·𝐯=𝐮×𝐯</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="1">
+            <h4>10. Para calcular el ángulo entre vectores se usa:</h4>
+            <button>sen(θ)</button><button>cos(θ)</button><button>tan(θ)</button>
+            <p class="quiz-feedback"></p>
+          </div>
+        </div>
+      </article>
+    </article>
+
+    <!-- SECCIÓN 3 --><article id="v-sub3" class="module-panel ">
+      <div class="section-header">
+        <div>
+          <h2>3. Producto vectorial</h2>
+          <p>Vector perpendicular, regla de la mano derecha, cálculo por determinante, área y aplicaciones.</p>
+        </div>
+        <span class="badge">Sección desarrollada</span>
+      </div>
+
+      <nav class="inner-tabs">
+        <button class="inner-tab active" data-panel="s3-theory">Teoría</button>
+        <button class="inner-tab" data-panel="s3-activities">Actividades</button>
+        <button class="inner-tab" data-panel="s3-quiz">Autoevaluación</button>
+      </nav>
+
+      <article id="s3-theory" class="panel active">
+        <div class="theory-grid">
+          <div class="theory-card">
+            <h3>Definición geométrica</h3>
+            <p>
+              El producto vectorial entre dos vectores de ℝ³ da como resultado otro vector.
+              Si 𝐰 = 𝐮 × 𝐯, entonces 𝐰 es perpendicular al plano determinado por 𝐮 y 𝐯.
+            </p>
+            <div class="formula">𝐰 = 𝐮 × 𝐯</div>
+            <div class="formula">‖𝐮 × 𝐯‖ = ‖𝐮‖ ‖𝐯‖ sen(θ)</div>
+          </div>
+
+          <div class="theory-card">
+            <h3>Dirección y sentido</h3>
+            <p>
+              La dirección de 𝐮 × 𝐯 es perpendicular a 𝐮 y a 𝐯. El sentido se determina con la
+              regla de la mano derecha o regla del sacacorchos.
+            </p>
+            <p>
+              Si se invierte el orden, cambia el sentido:
+            </p>
+            <div class="formula">𝐮 × 𝐯 = −(𝐯 × 𝐮)</div>
+          </div>
+
+          <div class="theory-card">
+            <h3>Cálculo por componentes</h3>
+            <p>Si 𝐮=(u₁,u₂,u₃) y 𝐯=(v₁,v₂,v₃), entonces:</p>
+            <div class="formula">𝐮 × 𝐯 = (u₂v₃−u₃v₂, u₃v₁−u₁v₃, u₁v₂−u₂v₁)</div>
+            <p>También puede calcularse mediante el determinante simbólico con 𝐢, 𝐣 y 𝐤.</p>
+          </div>
+
+          <div class="theory-card">
+            <h3>Área y aplicaciones</h3>
+            <p>
+              El módulo del producto vectorial representa el área del paralelogramo generado por 𝐮 y 𝐯.
+            </p>
+            <div class="formula">A = ‖𝐮 × 𝐯‖</div>
+            <p>
+              También se utiliza para calcular momentos de fuerzas y distancias geométricas.
+            </p>
+            <div class="formula">𝐌 = 𝐫 × 𝐅</div>
+          </div>
+        </div>
+
+        <div class="graph-stack">
+          <h3>Gráficas interactivas de producto vectorial</h3>
+          <p class="muted">Explorá la perpendicularidad, el cambio de sentido y el área generada por dos vectores.</p>
+
+          <div class="graph-card">
+            <div class="graph-header">
+              <div>
+                <h4>Gráfica 6 · Producto vectorial en 3D</h4>
+                <p>Visualiza 𝐰 = 𝐮 × 𝐯 como vector perpendicular al plano.</p>
+              </div>
+              <div class="live-values">
+                <span>Orden: <b id="crossOrderLabel">𝐮 × 𝐯</b></span>
+                <span>Sentido de 𝐰: <b id="crossSenseLabel">positivo</b></span>
+              </div>
+            </div>
+
+            <div class="cross-controls">
+              <button id="btnUxV" class="mini-btn active">Mostrar 𝐮 × 𝐯</button>
+              <button id="btnVxU" class="mini-btn">Mostrar 𝐯 × 𝐮</button>
+              <button id="btnTogglePlane" class="mini-btn">Mostrar/ocultar plano</button>
+            </div>
+
+            <svg id="crossSvg" viewBox="0 0 760 430" class="svg-visual" role="img" aria-label="Producto vectorial">
+              <defs>
+                <marker id="arrBlackS3" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#111"></path>
+                </marker>
+                <marker id="arrBlueS3" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#0b5cad"></path>
+                </marker>
+                <marker id="arrRedS3" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#b91c1c"></path>
+                </marker>
+              </defs>
+              <polygon id="crossPlane" points="110,315 570,285 655,130 195,160" fill="#e5e7eb" stroke="#64748b" stroke-width="2"/>
+              <circle cx="220" cy="288" r="7" fill="#111"/>
+              <line x1="220" y1="288" x2="560" y2="268" stroke="#111" stroke-width="4" marker-end="url(#arrBlackS3)"/>
+              <line x1="220" y1="288" x2="350" y2="162" stroke="#334155" stroke-width="4" marker-end="url(#arrBlackS3)"/>
+              <line id="crossNormal" x1="220" y1="288" x2="220" y2="78" stroke="#0b5cad" stroke-width="5" marker-end="url(#arrBlueS3)"/>
+              <path d="M 292 284 A 74 74 0 0 0 272 235" fill="none" stroke="#111" stroke-width="2.5"/>
+              <text x="520" y="302" class="svg-label">𝐮</text>
+              <text x="360" y="162" class="svg-label">𝐯</text>
+              <text id="crossWLabel" x="245" y="98" class="svg-label blue">𝐰 = 𝐮 × 𝐯</text>
+              <text x="284" y="250" class="svg-small">θ</text>
+            </svg>
+          </div>
+
+          <div class="graph-card">
+            <div class="graph-header">
+              <div>
+                <h4>Gráfica 7 · Área del paralelogramo</h4>
+                <p>Muestra que A = ‖𝐮 × 𝐯‖. Mové 𝐮 y 𝐯 para cambiar el área.</p>
+              </div>
+              <div class="live-values">
+                <span>𝐮 = (<b id="g7u1">4</b>, <b id="g7u2">1</b>, 0)</span>
+                <span>𝐯 = (<b id="g7v1">2</b>, <b id="g7v2">3</b>, 0)</span>
+                <span>𝐮 × 𝐯 = (0,0,<b id="g7cross">10</b>)</span>
+                <span>Área = <b id="g7area">10</b></span>
+              </div>
+            </div>
+            <canvas id="graphArea" width="720" height="720"></canvas>
+          </div>
+        </div>
+      </article>
+
+      <article id="s3-activities" class="panel">
+        <div class="section-note">
+          <h3>Actividades guiadas</h3>
+          <p>Resolvé las actividades. Los campos indican el formato esperado, no la respuesta.</p>
+        </div>
+
+        <div class="activity-list">
+          <div class="activity-card" data-answer="vector">
+            <h4>Actividad 1 · Tipo de resultado</h4>
+            <p>El producto 𝐮×𝐯 da como resultado un escalar o un vector?</p>
+            <input type="text" placeholder="escalar / vector">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">El producto vectorial da como resultado un vector.</div>
+          </div>
+
+          <div class="activity-card" data-answer="perpendicular">
+            <h4>Actividad 2 · Dirección</h4>
+            <p>La dirección de 𝐮×𝐯 es paralela o perpendicular al plano determinado por 𝐮 y 𝐯?</p>
+            <input type="text" placeholder="paralela / perpendicular">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮×𝐯 es perpendicular al plano determinado por 𝐮 y 𝐯.</div>
+          </div>
+
+          <div class="activity-card" data-answer="manoderecha|regladelamanoderecha|sacacorchos">
+            <h4>Actividad 3 · Sentido</h4>
+            <p>Qué regla se utiliza para determinar el sentido de 𝐮×𝐯?</p>
+            <input type="text" placeholder="Ingresá el nombre de la regla">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Se usa la regla de la mano derecha o regla del sacacorchos.</div>
+          </div>
+
+          <div class="activity-card" data-answer="(-43,13,1)">
+            <h4>Actividad 4 · Producto vectorial</h4>
+            <p>Sean 𝐮=(1,3,4) y 𝐯=(2,7,-5). Calculá 𝐮×𝐯.</p>
+            <input type="text" placeholder="Formato: (a,b,c)">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮×𝐯=(3·(-5)-4·7, 4·2-1·(-5), 1·7-3·2)=(-43,13,1).</div>
+          </div>
+
+          <div class="activity-card" data-answer="0">
+            <h4>Actividad 5 · Ortogonalidad con 𝐮</h4>
+            <p>Con 𝐮=(1,3,4) y 𝐮×𝐯=(-43,13,1), calculá 𝐮·(𝐮×𝐯).</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐮·(𝐮×𝐯)=1·(-43)+3·13+4·1=-43+39+4=0.</div>
+          </div>
+
+          <div class="activity-card" data-answer="0">
+            <h4>Actividad 6 · Ortogonalidad con 𝐯</h4>
+            <p>Con 𝐯=(2,7,-5) y 𝐮×𝐯=(-43,13,1), calculá 𝐯·(𝐮×𝐯).</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐯·(𝐮×𝐯)=2·(-43)+7·13+(-5)·1=-86+91-5=0.</div>
+          </div>
+
+          <div class="activity-card" data-answer="10">
+            <h4>Actividad 7 · Área</h4>
+            <p>Si ‖𝐮×𝐯‖=10, cuál es el área del paralelogramo generado por 𝐮 y 𝐯?</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">El área es A=‖𝐮×𝐯‖=10.</div>
+          </div>
+
+          <div class="activity-card" data-answer="si|sí">
+            <h4>Actividad 8 · Paralelismo</h4>
+            <p>Si 𝐮×𝐯=𝐨, con 𝐮 y 𝐯 no nulos, son paralelos? Respondé sí o no.</p>
+            <input type="text" placeholder="Respondé sí o no">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Sí. El producto vectorial nulo indica que los vectores son paralelos o alguno es nulo.</div>
+          </div>
+
+          <div class="activity-card" data-answer="(0,0,6)">
+            <h4>Actividad 9 · Momento de una fuerza</h4>
+            <p>Sean 𝐫=(2,0,0) y 𝐅=(0,3,0). Calculá 𝐌=𝐫×𝐅.</p>
+            <input type="text" placeholder="Formato: (a,b,c)">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐌=𝐫×𝐅=(0,0,2·3)=(0,0,6).</div>
+          </div>
+
+          <div class="activity-card" data-answer="sqrt2|raiz2|1.41|1.414">
+            <h4>Actividad 10 · Distancia punto-recta</h4>
+            <p>Si ‖𝐮×𝐯‖=4 y ‖𝐮‖=√8, calculá d=‖𝐮×𝐯‖/‖𝐮‖.</p>
+            <input type="text" placeholder="Ingresá el valor exacto o aproximado">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">d=4/√8=√2≈1.414.</div>
+          </div>
+        </div>
+      </article>
+
+      <article id="s3-quiz" class="panel">
+        <div class="section-note">
+          <h3>Autoevaluación</h3>
+          <p>Respondé las 10 preguntas de producto vectorial.</p>
+        </div>
+
+        <div class="quiz-grid">
+          <div class="quiz-card" data-correct="1">
+            <h4>1. El producto vectorial 𝐮×𝐯 da como resultado:</h4>
+            <button>Un escalar</button><button>Un vector</button><button>Un ángulo</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>2. 𝐮×𝐯 es perpendicular a:</h4>
+            <button>𝐮 y 𝐯</button><button>Solo 𝐮</button><button>Solo 𝐯</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="2">
+            <h4>3. El sentido de 𝐮×𝐯 se determina con:</h4>
+            <button>Regla de Cramer</button><button>Teorema de Pitágoras</button><button>Regla de la mano derecha</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>4. Se cumple que 𝐮×𝐯 es igual a:</h4>
+            <button>−(𝐯×𝐮)</button><button>𝐯×𝐮</button><button>𝐮·𝐯</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="1">
+            <h4>5. El módulo ‖𝐮×𝐯‖ representa:</h4>
+            <button>Volumen</button><button>Área del paralelogramo</button><button>Ángulo</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="2">
+            <h4>6. Si 𝐮 y 𝐯 son paralelos, entonces 𝐮×𝐯:</h4>
+            <button>Es unitario</button><button>Es perpendicular a 𝐤</button><button>Es el vector nulo</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>7. La fórmula del área del paralelogramo es:</h4>
+            <button>A=‖𝐮×𝐯‖</button><button>A=𝐮·𝐯</button><button>A=‖𝐮‖+‖𝐯‖</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="1">
+            <h4>8. En física, 𝐫×𝐅 puede representar:</h4>
+            <button>Temperatura</button><button>Momento de una fuerza</button><button>Masa</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="2">
+            <h4>9. El producto vectorial se trabaja geométricamente en:</h4>
+            <button>ℝ¹</button><button>ℝ² solamente</button><button>ℝ³</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>10. Para distancia punto-recta se puede usar:</h4>
+            <button>d=‖𝐮×𝐯‖/‖𝐮‖</button><button>d=𝐮·𝐯</button><button>d=‖𝐮+𝐯‖</button>
+            <p class="quiz-feedback"></p>
+          </div>
+        </div>
+      </article>
+    </article>
+
+    <!-- SECCIÓN 4 --><article id="v-sub4" class="module-panel ">
+      <div class="section-header">
+        <div>
+          <h2>4. Producto mixto</h2>
+          <p>Producto mixto, volumen del paralelepípedo, coplanaridad, determinante y regla cíclica.</p>
+        </div>
+        <span class="badge">Sección desarrollada</span>
+      </div>
+
+      <nav class="inner-tabs">
+        <button class="inner-tab active" data-panel="s4-theory">Teoría</button>
+        <button class="inner-tab" data-panel="s4-activities">Actividades</button>
+        <button class="inner-tab" data-panel="s4-quiz">Autoevaluación</button>
+      </nav>
+
+      <article id="s4-theory" class="panel active">
+        <div class="theory-grid">
+          <div class="theory-card">
+            <h3>Definición</h3>
+            <p>
+              El producto mixto combina el producto vectorial y el producto escalar.
+              Dados tres vectores de ℝ³, se define:
+            </p>
+            <div class="formula">[𝐮,𝐯,𝐰] = 𝐮 · (𝐯 × 𝐰)</div>
+            <p>El resultado del producto mixto es un número real.</p>
+          </div>
+
+          <div class="theory-card">
+            <h3>Interpretación geométrica</h3>
+            <p>
+              El valor absoluto del producto mixto representa el volumen del paralelepípedo
+              generado por 𝐮, 𝐯 y 𝐰.
+            </p>
+            <div class="formula">V = |𝐮 · (𝐯 × 𝐰)|</div>
+            <p>
+              El producto 𝐯×𝐰 se asocia con el área de la base y el producto escalar con 𝐮 incorpora la altura orientada.
+            </p>
+          </div>
+
+          <div class="theory-card">
+            <h3>Coplanaridad</h3>
+            <p>
+              Si los tres vectores son coplanares, el volumen del paralelepípedo es cero.
+              Por eso:
+            </p>
+            <div class="formula">𝐮 · (𝐯 × 𝐰) = 0 ⇔ 𝐮, 𝐯 y 𝐰 son coplanares</div>
+          </div>
+
+          <div class="theory-card">
+            <h3>Determinante y regla cíclica</h3>
+            <p>El producto mixto puede calcularse con un determinante de orden 3:</p>
+            <div class="formula">𝐮 · (𝐯 × 𝐰) = det[𝐮;𝐯;𝐰]</div>
+            <p>Las permutaciones cíclicas conservan el valor:</p>
+            <div class="formula">𝐮·(𝐯×𝐰) = 𝐯·(𝐰×𝐮) = 𝐰·(𝐮×𝐯)</div>
+          </div>
+        </div>
+
+        <div class="graph-stack">
+          <h3>Gráficas interactivas de producto mixto</h3>
+          <p class="muted">Explorá la relación entre base, altura, volumen y coplanaridad.</p>
+
+          <div class="graph-card">
+            <div class="graph-header">
+              <div>
+                <h4>Gráfica 8 · Volumen del paralelepípedo</h4>
+                <p>Visualiza la base en el plano <span class="math">xy</span>, el vector <span class="vec">𝐰</span> móvil y su proyección sobre el eje <span class="math">z</span>, que determina la altura <span class="math">h</span>.</p>
+              </div>
+              <div class="live-values">
+                <span>Base en <b>xy</b></span>
+                <span><b>𝐰</b> móvil</span>
+                <span><b>h = proy<sub>z</sub>(𝐰)</b></span>
+              </div>
+            </div>
+            <iframe class="embed-frame mixed-embed" src="mixed_graph_embed.html" title="Producto mixto interactivo"></iframe>
+          </div>
+          <div class="section-note">
+            <h3>Coplanaridad dentro de la gráfica</h3>
+            <p>
+              Para analizar coplanaridad, mové el extremo de <strong>𝐰</strong> hasta que su proyección sobre el eje
+              <strong>z</strong> sea <strong>h = 0</strong>. En ese caso, el volumen se anula:
+            </p>
+            <div class="formula">h = 0 ⇒ V = Área(base) · h = 0</div>
+          </div>
+
+      </article>
+
+      <article id="s4-activities" class="panel">
+        <div class="section-note">
+          <h3>Actividades guiadas</h3>
+          <p>Resolvé las actividades. Los campos indican el formato esperado, no la respuesta.</p>
+        </div>
+
+        <div class="activity-list">
+          <div class="activity-card" data-answer="escalar">
+            <h4>Actividad 1 · Tipo de resultado</h4>
+            <p>El producto mixto 𝐮·(𝐯×𝐰) da como resultado un vector o un escalar?</p>
+            <input type="text" placeholder="vector / escalar">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">El producto mixto da como resultado un escalar.</div>
+          </div>
+
+          <div class="activity-card" data-answer="v×w|vxw|producto vectorial">
+            <h4>Actividad 2 · Primer paso</h4>
+            <p>En la expresión 𝐮·(𝐯×𝐰), qué operación se calcula primero?</p>
+            <input type="text" placeholder="Ingresá la operación">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Primero se calcula el producto vectorial 𝐯×𝐰.</div>
+          </div>
+
+          <div class="activity-card" data-answer="24">
+            <h4>Actividad 3 · Producto mixto simple</h4>
+            <p>Sean 𝐮=(3,0,0), 𝐯=(0,4,0) y 𝐰=(0,0,2). Calculá 𝐮·(𝐯×𝐰).</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">𝐯×𝐰=(8,0,0). Entonces 𝐮·(𝐯×𝐰)=(3,0,0)·(8,0,0)=24.</div>
+          </div>
+
+          <div class="activity-card" data-answer="24">
+            <h4>Actividad 4 · Volumen</h4>
+            <p>Si 𝐮·(𝐯×𝐰)=−24, cuál es el volumen del paralelepípedo?</p>
+            <input type="text" placeholder="Ingresá un número positivo">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">El volumen es el valor absoluto: V=|−24|=24.</div>
+          </div>
+
+          <div class="activity-card" data-answer="si|sí">
+            <h4>Actividad 5 · Coplanaridad</h4>
+            <p>Si 𝐮·(𝐯×𝐰)=0, los tres vectores son coplanares? Respondé sí o no.</p>
+            <input type="text" placeholder="Respondé sí o no">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Sí. Producto mixto cero implica volumen cero, por lo tanto los vectores son coplanares.</div>
+          </div>
+
+          <div class="activity-card" data-answer="0">
+            <h4>Actividad 6 · Cálculo de coplanaridad</h4>
+            <p>Sean 𝐮=(1,2,3), 𝐯=(2,4,6) y 𝐰=(1,0,1). Calculá el producto mixto.</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Como 𝐯=2𝐮, los vectores son dependientes y el producto mixto vale 0.</div>
+          </div>
+
+          <div class="activity-card" data-answer="igual|mismo|conserva">
+            <h4>Actividad 7 · Regla cíclica</h4>
+            <p>Compará 𝐮·(𝐯×𝐰) con 𝐯·(𝐰×𝐮). ¿Tienen igual valor o cambian de signo?</p>
+            <input type="text" placeholder="igual / cambia de signo">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Las permutaciones cíclicas conservan el valor del producto mixto.</div>
+          </div>
+
+          <div class="activity-card" data-answer="cambia|cambiadesigno|-">
+            <h4>Actividad 8 · Intercambio de dos vectores</h4>
+            <p>Si se intercambian dos vectores en el producto mixto, ¿se conserva el signo o cambia?</p>
+            <input type="text" placeholder="conserva / cambia">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">Al intercambiar dos vectores, el producto mixto cambia de signo.</div>
+          </div>
+
+          <div class="activity-card" data-answer="1">
+            <h4>Actividad 9 · Determinante</h4>
+            <p>Sean 𝐮=(1,0,0), 𝐯=(0,1,0) y 𝐰=(0,0,1). Calculá det[𝐮;𝐯;𝐰].</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">La matriz formada es la identidad, por lo tanto el determinante vale 1.</div>
+          </div>
+
+          <div class="activity-card" data-answer="18">
+            <h4>Actividad 10 · Volumen aplicado</h4>
+            <p>Un paralelepípedo tiene área de base 6 y altura 3. ¿Cuál es su volumen?</p>
+            <input type="text" placeholder="Ingresá un número">
+            <div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+            <p class="feedback"></p>
+            <div class="solution">V = área de base · altura = 6·3 = 18.</div>
+          </div>
+        </div>
+      </article>
+
+      <article id="s4-quiz" class="panel">
+        <div class="section-note">
+          <h3>Autoevaluación</h3>
+          <p>Respondé las 10 preguntas de producto mixto.</p>
+        </div>
+
+        <div class="quiz-grid">
+          <div class="quiz-card" data-correct="0">
+            <h4>1. El producto mixto 𝐮·(𝐯×𝐰) da como resultado:</h4>
+            <button>Un escalar</button><button>Un vector</button><button>Una recta</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="2">
+            <h4>2. El valor |𝐮·(𝐯×𝐰)| representa:</h4>
+            <button>Un ángulo</button><button>Un área</button><button>Un volumen</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="1">
+            <h4>3. Si 𝐮·(𝐯×𝐰)=0, entonces los vectores son:</h4>
+            <button>Unitarios</button><button>Coplanares</button><button>Perpendiculares dos a dos</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>4. En 𝐮·(𝐯×𝐰), primero se calcula:</h4>
+            <button>𝐯×𝐰</button><button>𝐮·𝐯</button><button>𝐮×𝐰</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="1">
+            <h4>5. Las permutaciones cíclicas del producto mixto:</h4>
+            <button>Cambian el signo</button><button>Conservan el valor</button><button>Siempre dan cero</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="2">
+            <h4>6. Al intercambiar dos vectores en el producto mixto:</h4>
+            <button>Se conserva el signo</button><button>Se obtiene siempre cero</button><button>Cambia el signo</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>7. El producto mixto puede calcularse como:</h4>
+            <button>Un determinante de orden 3</button><button>Una suma de módulos</button><button>Un producto de matrices 2×2</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="1">
+            <h4>8. Si el volumen del paralelepípedo es cero:</h4>
+            <button>Los vectores son linealmente independientes</button><button>Los vectores son coplanares</button><button>El producto vectorial no existe</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="0">
+            <h4>9. La expresión 𝐯×𝐰 representa geométricamente:</h4>
+            <button>Un vector asociado al área de base</button><button>Un escalar asociado al volumen</button><button>Una proyección</button>
+            <p class="quiz-feedback"></p>
+          </div>
+          <div class="quiz-card" data-correct="2">
+            <h4>10. Para obtener volumen a partir del producto mixto se usa:</h4>
+            <button>El signo solamente</button><button>El cuadrado del resultado</button><button>El valor absoluto</button>
+            <p class="quiz-feedback"></p>
+          </div>
+        </div>
+      </article>
+    </article>
+
+    <!-- SECCIÓN 5 -->
+
+      <article id="v-pdf" class="module-panel">
+        <div class="section-note">
+          <h3>Material PDF · Vectores</h3>
+          <p>Espacio reservado para incorporar el apunte final de vectores, guía práctica y autoevaluación en formato PDF.</p>
+        </div>
+        <div class="placeholder-box"><strong>Próximo paso:</strong> agregar PDF de Vectores cuando esté listo.</div>
+      </article>
+    </section>
+
+    <!-- MÓDULO 2: GEOMETRÍA ANALÍTICA -->
+    <section id="sec-geo" class="section">
+      <div class="section-header">
+        <div>
+          <h2>2. Geometría Analítica</h2>
+          <p>Unidad 2 organizada con la misma estructura didáctica de Vectores.</p>
+        </div>
+        <span class="badge">Teoría · Actividades · Autoevaluación · PDF</span>
+      </div>
+
+      <nav class="module-subtabs" aria-label="Subsecciones de Geometría Analítica">
+        <button class="module-subtab active" data-module-panel="ga-sub1">Distancia y segmentos</button>
+        <button class="module-subtab" data-module-panel="ga-sub2">Rectas en el plano</button>
+        <button class="module-subtab" data-module-panel="ga-sub3">Distancias y ángulos</button>
+        <button class="module-subtab" data-module-panel="ga-sub4">Rectas y planos en el espacio</button>
+        <button class="module-subtab" data-module-panel="ga-pdf">Material PDF</button>
+      </nav>
+
+      
+      <article id="ga-sub1" class="module-panel active">
+        <div class="section-header compact">
+          <div><h3>Distancia dirigida, distancia entre puntos y división de segmentos</h3><p>Primer bloque completo de Geometría Analítica, basado en el material de clase.</p></div>
+          <span class="badge">Teoría ampliada · 8 actividades · 8 preguntas</span>
+        </div>
+        <nav class="inner-tabs ga-inner-tabs">
+          <button class="inner-tab active" data-panel="ga1-theory">Teoría</button>
+          <button class="inner-tab" data-panel="ga1-visual">Visualización</button>
+          <button class="inner-tab" data-panel="ga1-activities">Actividades</button>
+          <button class="inner-tab" data-panel="ga1-quiz">Autoevaluación</button>
+        </nav>
+        <section id="ga1-theory" class="panel active"><div class="theory-grid"><div class="theory-card"><h3>1. Sistema coordenado lineal</h3><p>Un sistema coordenado lineal permite ubicar puntos sobre una recta mediante números reales. Cada punto queda asociado a una coordenada y cada coordenada determina un punto. Si los puntos son P₁ y P₂, con coordenadas x₁ y x₂, se puede estudiar tanto la distancia usual entre ellos como la longitud dirigida del segmento.</p></div><div class="theory-card"><h3>2. Distancia usual entre dos puntos de una recta</h3><p>La distancia usual no considera sentido. Por eso siempre es un número no negativo. Esta distancia mide la separación entre los puntos, independientemente de cuál se tome primero.</p><div class="formula">d = |P₁P₂| = |x₂ − x₁| = |x₁ − x₂|</div></div><div class="theory-card"><h3>3. Longitud dirigida</h3><p>La longitud dirigida sí considera el sentido del recorrido. Si P₁ es el punto inicial y P₂ el punto final, entonces P₁P₂ = x₂ − x₁. Si se invierte el sentido, cambia el signo.</p><div class="formula">P₁P₂ = x₂ − x₁    ;    P₂P₁ = x₁ − x₂</div></div><div class="theory-card"><h3>4. Relación distancia-longitud dirigida</h3><p>La distancia usual es el valor absoluto de la longitud dirigida. Además, se cumple que al invertir el sentido cambia el signo.</p><div class="formula">d = |P₁P₂|    ;    P₁P₂ = −P₂P₁</div></div><div class="theory-card"><h3>5. Distancia entre dos puntos en el plano</h3><p>Sean P₁(x₁,y₁) y P₂(x₂,y₂) dos puntos del plano. La diferencia horizontal es Δx = x₂ − x₁ y la diferencia vertical es Δy = y₂ − y₁.</p><div class="formula">d(P₁,P₂) = √((x₂ − x₁)² + (y₂ − y₁)²)</div></div><div class="theory-card"><h3>6. Interpretación geométrica</h3><p>La distancia entre dos puntos del plano puede interpretarse como la hipotenusa de un triángulo rectángulo cuyos catetos son |Δx| y |Δy|. Esta interpretación conecta el registro algebraico con el gráfico.</p></div><div class="theory-card"><h3>7. División de un segmento en una razón dada</h3><p>Si P pertenece a la recta determinada por P₁ y P₂, se define la razón r = P₁P / PP₂. Si P está entre P₁ y P₂, entonces r ≥ 0. Si P está fuera del segmento, la razón puede tomar valores negativos.</p><div class="formula">r = P₁P / PP₂</div></div><div class="theory-card"><h3>8. Coordenadas del punto que divide al segmento</h3><p>Si P₁(x₁,y₁), P₂(x₂,y₂) y r = P₁P / PP₂, entonces las coordenadas de P se calculan con las fórmulas de división de segmento. Son válidas para r ≠ −1.</p><div class="formula">x = (x₁ + r x₂)/(1 + r)    ;    y = (y₁ + r y₂)/(1 + r)</div></div><div class="theory-card"><h3>9. Punto medio</h3><p>El punto medio es el caso particular en que P divide al segmento en razón r = 1. Es decir, P₁P = PP₂.</p><div class="formula">M = ((x₁+x₂)/2 , (y₁+y₂)/2)</div></div><div class="theory-card"><h3>10. Distancia en el espacio</h3><p>Para puntos P₁(x₁,y₁,z₁) y P₂(x₂,y₂,z₂), la distancia se generaliza sumando también la variación en z.</p><div class="formula">d(P₁,P₂) = √((x₂−x₁)² + (y₂−y₁)² + (z₂−z₁)²)</div></div><div class="theory-card"><h3>11. Errores frecuentes</h3><p>Confundir distancia con longitud dirigida; olvidar el valor absoluto en la distancia sobre una recta; usar punto medio cuando corresponde división en otra razón; olvidar que r = 1 corresponde al punto medio.</p></div><div class="theory-card"><h3>12. Aplicaciones</h3><p>Estos conceptos permiten calcular longitudes de lados de figuras, perímetros, áreas de triángulos, coordenadas de puntos medios, trisecciones y posiciones relativas en problemas de ingeniería y representación gráfica.</p></div></div></section>
+        <section id="ga1-visual" class="panel">
+          <div class="section-note"><h3>Visualización conceptual</h3><p>La distancia entre dos puntos del plano se obtiene a partir de Δx y Δy.</p></div>
+          <div class="graph-card"><div class="graph-header"><div><h4>Distancia entre P₁(x₁,y₁) y P₂(x₂,y₂)</h4><p>La distancia es la hipotenusa del triángulo rectángulo formado por Δx y Δy.</p></div><div class="live-values"><span>Δx = x₂ − x₁</span><span>Δy = y₂ − y₁</span><span>d = √(Δx² + Δy²)</span></div></div>
+            <svg class="ga-svg" viewBox="0 0 720 380" role="img" aria-label="Distancia entre dos puntos">
+              <defs><marker id="gaArrowV62" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#0b5cad"></path></marker></defs>
+              <rect width="720" height="380" fill="#fbfdff"/>
+              <g stroke="#e5eef9" stroke-width="1"><path d="M60 320H660M60 280H660M60 240H660M60 200H660M60 160H660M60 120H660M60 80H660M60 40H660"/><path d="M100 40V340M140 40V340M180 40V340M220 40V340M260 40V340M300 40V340M340 40V340M380 40V340M420 40V340M460 40V340M500 40V340M540 40V340M580 40V340M620 40V340"/></g>
+              <line x1="60" y1="320" x2="670" y2="320" stroke="#111" stroke-width="2" marker-end="url(#gaArrowV62)"/><line x1="100" y1="340" x2="100" y2="35" stroke="#111" stroke-width="2" marker-end="url(#gaArrowV62)"/>
+              <circle cx="180" cy="280" r="7" fill="#0b5cad"/><circle cx="520" cy="120" r="7" fill="#0b5cad"/>
+              <line x1="180" y1="280" x2="520" y2="280" stroke="#b45309" stroke-width="4" stroke-dasharray="8 6"/><line x1="520" y1="280" x2="520" y2="120" stroke="#b45309" stroke-width="4" stroke-dasharray="8 6"/><line x1="180" y1="280" x2="520" y2="120" stroke="#0b5cad" stroke-width="5"/>
+              <text x="150" y="306" class="svg-small">P₁(x₁,y₁)</text><text x="530" y="112" class="svg-small">P₂(x₂,y₂)</text><text x="335" y="270" class="svg-small">Δx</text><text x="532" y="205" class="svg-small">Δy</text><text x="340" y="175" class="svg-label" fill="#0b5cad">d</text>
+            </svg>
+          </div>
+        </section>
+        <section id="ga1-activities" class="panel"><div class="section-note"><h3>Actividades guiadas</h3><p>Actividades adaptadas de la guía práctica.</p></div><div class="activity-list">
+<div class="activity-card" data-answer="-7" data-hint="Usá P₁P₂ = x₂ − x₁.">
+<h4>Actividad 1 · Longitud dirigida</h4><p>Dados P₁=5 y P₂=−2, calcular la longitud dirigida P₁P₂.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">P₁P₂ = x₂ − x₁ = −2 − 5 = −7.</div></div>
+<div class="activity-card" data-answer="7" data-hint="Invertir el sentido cambia el signo.">
+<h4>Actividad 2 · Sentido contrario</h4><p>Con P₁=5 y P₂=−2, calcular P₂P₁.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">P₂P₁ = x₁ − x₂ = 5 − (−2) = 7.</div></div>
+<div class="activity-card" data-answer="7|-11" data-hint="Planteá |x−(−2)|=9.">
+<h4>Actividad 3 · Distancia en la recta</h4><p>La distancia entre dos puntos de una recta es 9. Si uno de ellos es −2, indicar un posible valor del otro punto.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">|x+2|=9. Entonces x=7 o x=−11.</div></div>
+<div class="activity-card" data-answer="14" data-hint="Si M es punto medio, entonces M=(x₁+x₂)/2.">
+<h4>Actividad 4 · Punto medio en la recta</h4><p>Un extremo de un segmento dirigido es −8 y su punto medio es 3. Hallar la coordenada del otro extremo.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">3 = (−8 + x)/2. Entonces 6 = −8 + x, por lo tanto x = 14.</div></div>
+<div class="activity-card" data-answer="5" data-hint="Calculá la diferencia horizontal y vertical entre los puntos.">
+<h4>Actividad 5 · Distancia horizontal</h4><p>Calcular la distancia entre A(−1,2) y B(4,2).</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">d = √((4−(−1))² + (2−2)²) = 5.</div></div>
+<div class="activity-card" data-answer="5" data-hint="Es un triángulo rectángulo de catetos 3 y 4.">
+<h4>Actividad 6 · Distancia diagonal</h4><p>Calcular la distancia entre A(−1,2) y B(2,6).</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">d = √((2+1)² + (6−2)²) = √(3²+4²) = 5.</div></div>
+<div class="activity-card" data-answer="(0,4)|0,4" data-hint="Promediá las coordenadas de ambos extremos.">
+<h4>Actividad 7 · Punto medio en el plano</h4><p>Hallar el punto medio del segmento con extremos P₁(−4,2) y P₂(4,6).</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">M = ((−4+4)/2 , (2+6)/2) = (0,4).</div></div>
+<div class="activity-card" data-answer="(8,8)|8,8" data-hint="Usá x=(x₁+r x₂)/(1+r), y=(y₁+r y₂)/(1+r).">
+<h4>Actividad 8 · División en razón negativa</h4><p>Si P₁(−4,2), P₂(4,6) y r = −3, hallar el punto P que divide al segmento dirigido en esa razón.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">x = (−4 + (−3)4)/(1−3)=8; y = (2 + (−3)6)/(1−3)=8. Por lo tanto P=(8,8).</div></div></div></section>
+        <section id="ga1-quiz" class="panel"><div class="quiz-grid"><div class="quiz-card" data-correct="1"><h4>1. La distancia usual entre dos puntos de una recta se calcula con:</h4><button>x₂ − x₁</button><button>|x₂ − x₁|</button><button>x₁ + x₂</button><button>x₁x₂</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>2. La longitud dirigida P₁P₂ puede ser negativa.</h4><button>Verdadero</button><button>Falso</button><button>Solo si x₁=0</button><button>Nunca</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>3. Si se invierte el sentido de un segmento dirigido:</h4><button>La distancia desaparece</button><button>La longitud se duplica</button><button>Cambia el signo</button><button>No cambia el signo</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>4. La fórmula de distancia entre dos puntos del plano se obtiene a partir de:</h4><button>Producto escalar</button><button>Teorema de Pitágoras</button><button>Regla de Cramer</button><button>Producto mixto</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="3"><h4>5. El punto medio de P₁(x₁,y₁) y P₂(x₂,y₂) es:</h4><button>(x₁−x₂,y₁−y₂)</button><button>(x₁+x₂,y₁+y₂)</button><button>(x₂−x₁,y₂−y₁)</button><button>((x₁+x₂)/2,(y₁+y₂)/2)</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>6. Si P está entre P₁ y P₂, la razón r = P₁P / PP₂ es:</h4><button>No negativa</button><button>Siempre negativa</button><button>Siempre −1</button><button>Imposible de calcular</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>7. El caso r = 1 corresponde a:</h4><button>Un punto exterior</button><button>Un extremo del segmento</button><button>El punto medio</button><button>Una recta paralela</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>8. La distancia entre puntos en el espacio incorpora:</h4><button>Solo x e y</button><button>Las variaciones en x, y, z</button><button>Solo la pendiente</button><button>Solo el producto vectorial</button><p class="quiz-feedback"></p></div></div></section>
+      </article>
+
+      
+      <article id="ga-sub2" class="module-panel">
+        <div class="section-header compact">
+          <div>
+            <h3>Rectas en el plano</h3>
+            <p>Formas equivalentes de la ecuación de una recta y su interpretación geométrica.</p>
+          </div>
+          <span class="badge">Teoría ampliada · 8 actividades · 8 preguntas</span>
+        </div>
+
+        <nav class="inner-tabs ga-inner-tabs">
+          <button class="inner-tab active" data-panel="ga2-theory">Teoría</button>
+          <button class="inner-tab" data-panel="ga2-visual">Visualización</button>
+          <button class="inner-tab" data-panel="ga2-activities">Actividades</button>
+          <button class="inner-tab" data-panel="ga2-quiz">Autoevaluación</button>
+        </nav>
+
+        <section id="ga2-theory" class="panel active">
+          <div class="theory-grid"><div class="theory-card"><h3>1. Concepto de recta en el plano</h3><p>Una recta puede interpretarse como el conjunto de puntos del plano que satisfacen una misma condición lineal. Desde el punto de vista analítico, una recta se representa mediante ecuaciones equivalentes que resaltan distintos aspectos geométricos.</p></div><div class="theory-card"><h3>2. Pendiente de una recta</h3><p>La pendiente mide la inclinación de una recta respecto del eje x. Si una recta pasa por P₁(x₁,y₁) y P₂(x₂,y₂), con x₂ distinto de x₁, entonces:</p><div class="formula">m = (y₂ − y₁)/(x₂ − x₁)</div></div><div class="theory-card"><h3>3. Interpretación de la pendiente</h3><p>La pendiente representa la razón entre la variación vertical y la variación horizontal. Si m es positiva, la recta crece; si m es negativa, la recta decrece; si m=0, la recta es horizontal.</p><div class="formula">m = Δy/Δx</div></div><div class="theory-card"><h3>4. Forma punto-pendiente</h3><p>Si se conoce un punto P₀(x₀,y₀) de la recta y su pendiente m, la ecuación puede escribirse como:</p><div class="formula">y − y₀ = m(x − x₀)</div></div><div class="theory-card"><h3>5. Forma pendiente-ordenada</h3><p>Si se conoce la pendiente m y la ordenada al origen b, se utiliza la forma explícita:</p><div class="formula">y = mx + b</div></div><div class="theory-card"><h3>6. Recta que pasa por dos puntos</h3><p>Cuando se conocen dos puntos P₁ y P₂, primero se calcula la pendiente y luego se escribe la ecuación usando forma punto-pendiente.</p><div class="formula">m = (y₂ − y₁)/(x₂ − x₁)</div></div><div class="theory-card"><h3>7. Forma general</h3><p>Toda recta del plano puede expresarse en la forma general. Esta forma es útil para trabajar distancias, paralelismo y perpendicularidad.</p><div class="formula">Ax + By + C = 0</div></div><div class="theory-card"><h3>8. Vector normal</h3><p>En la forma general Ax+By+C=0, el vector n=(A,B) es perpendicular a la recta. Este vector indica una dirección normal a todos los vectores directores de la recta.</p><div class="formula">n = (A,B)</div></div><div class="theory-card"><h3>9. Vector director</h3><p>Un vector director es un vector paralelo a la recta. Si la recta tiene normal n=(A,B), un posible vector director es:</p><div class="formula">v = (−B,A)</div></div><div class="theory-card"><h3>10. Forma segmentaria</h3><p>Si una recta corta al eje x en a y al eje y en b, con a y b no nulos, puede escribirse como:</p><div class="formula">x/a + y/b = 1</div></div><div class="theory-card"><h3>11. Forma normal</h3><p>Si d es la distancia del origen a la recta y α es el ángulo que forma la normal con el eje x, la forma normal es:</p><div class="formula">x cos(α) + y sin(α) − d = 0</div></div><div class="theory-card"><h3>12. Errores frecuentes</h3><p>Al trabajar rectas es común confundir pendiente con ordenada al origen, olvidar que las rectas verticales no tienen pendiente definida o no reconocer que distintas formas pueden representar la misma recta.</p></div></div>
+        </section>
+
+        
+        <section id="ga2-visual" class="panel">
+          <iframe class="rectas-visual-frame" src="rectas_visual_embed.html" title="Visualizaciones interactivas de rectas en el plano"></iframe>
+        </section>
+
+<section id="ga2-activities" class="panel">
+          <div class="section-note">
+            <h3>Actividades guiadas</h3>
+            <p>Resolver en carpeta y usar la verificación para controlar el resultado final.</p>
+          </div>
+          <div class="activity-list">
+<div class="activity-card" data-answer="y=2x-3|2x-3" data-hint="Usá y=mx+b.">
+<h4>Actividad 1 · Pendiente y ordenada</h4><p>Hallar la ecuación de la recta de pendiente m=2 y ordenada al origen b=−3.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">y=2x−3.</div></div>
+<div class="activity-card" data-answer="3" data-hint="Usá m=(y₂−y₁)/(x₂−x₁).">
+<h4>Actividad 2 · Pendiente entre dos puntos</h4><p>Calcular la pendiente de la recta que pasa por P₁(1,2) y P₂(3,8).</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">m=(8−2)/(3−1)=6/2=3.</div></div>
+<div class="activity-card" data-answer="y-2=3(x-1)|y=3x-1|3x-y-1=0" data-hint="Usá la forma y−y₀=m(x−x₀).">
+<h4>Actividad 3 · Forma punto-pendiente</h4><p>Escribir la recta que pasa por P(1,2) y tiene pendiente m=3.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">y−2=3(x−1). Una forma equivalente es y=3x−1.</div></div>
+<div class="activity-card" data-answer="y=2x+1|2x-y+1=0" data-hint="Primero calculá la pendiente.">
+<h4>Actividad 4 · Recta por dos puntos</h4><p>Hallar la recta que pasa por A(0,1) y B(2,5).</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">m=(5−1)/(2−0)=2. Entonces y=2x+1.</div></div>
+<div class="activity-card" data-answer="(2,-1)|2,-1" data-hint="En Ax+By+C=0, el normal es (A,B).">
+<h4>Actividad 5 · Vector normal</h4><p>Indicar un vector normal a la recta 2x−y+4=0.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">n=(2,−1).</div></div>
+<div class="activity-card" data-answer="(1,2)|1,2" data-hint="Un director posible es (−B,A).">
+<h4>Actividad 6 · Vector director</h4><p>Indicar un vector director de la recta 2x−y+4=0.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">Como A=2 y B=−1, un director posible es (−B,A)=(1,2).</div></div>
+<div class="activity-card" data-answer="x/4+y/2=1|x/4 + y/2 = 1" data-hint="Usá la forma segmentaria x/a + y/b = 1.">
+<h4>Actividad 7 · Forma segmentaria</h4><p>Escribir la recta que corta al eje x en a=4 y al eje y en b=2.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">x/4 + y/2 = 1.</div></div>
+<div class="activity-card" data-answer="x=3" data-hint="Una recta vertical tiene todos sus puntos con la misma coordenada x.">
+<h4>Actividad 8 · Recta vertical</h4><p>Escribir la ecuación de la recta vertical que pasa por P(3,−2).</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">La recta vertical es x=3.</div></div></div>
+        </section>
+
+        <section id="ga2-quiz" class="panel">
+          <div class="quiz-grid"><div class="quiz-card" data-correct="1"><h4>1. La pendiente representa:</h4><button>La ordenada al origen</button><button>La razón Δy/Δx</button><button>La distancia al origen</button><button>El área bajo la recta</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>2. La forma pendiente-ordenada es:</h4><button>y=mx+b</button><button>Ax+By+C=0</button><button>x/a+y/b=1</button><button>X=X₀+tA</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>3. En Ax+By+C=0, un vector normal es:</h4><button>(B,A)</button><button>(−B,A)</button><button>(A,B)</button><button>(C,A)</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>4. Un vector director de Ax+By+C=0 puede ser:</h4><button>(A,B)</button><button>(−B,A)</button><button>(A,C)</button><button>(B,C)</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="3"><h4>5. La forma punto-pendiente utiliza:</h4><button>Dos ordenadas</button><button>Solo la pendiente</button><button>Solo el punto medio</button><button>Un punto y una pendiente</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>6. Una recta horizontal tiene pendiente:</h4><button>0</button><button>1</button><button>No definida</button><button>−1</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>7. Una recta vertical:</h4><button>Tiene pendiente 0</button><button>Tiene forma y=b</button><button>No tiene pendiente definida</button><button>Siempre pasa por el origen</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>8. La forma segmentaria usa:</h4><button>Un vector normal</button><button>Los cortes con los ejes</button><button>La distancia entre dos puntos</button><button>El producto mixto</button><p class="quiz-feedback"></p></div></div>
+        </section>
+      </article>
+
+      
+      <article id="ga-sub3" class="module-panel">
+        <div class="section-header compact">
+          <div><h3>Distancias, ángulos, paralelismo y perpendicularidad</h3><p>Herramientas para estudiar posición relativa de rectas y puntos.</p></div>
+          <span class="badge">Teoría ampliada · 8 actividades · 8 preguntas</span>
+        </div>
+        <nav class="inner-tabs ga-inner-tabs">
+          <button class="inner-tab active" data-panel="ga3-theory">Teoría</button>
+          <button class="inner-tab" data-panel="ga3-visual">Visualización</button>
+          <button class="inner-tab" data-panel="ga3-activities">Actividades</button>
+          <button class="inner-tab" data-panel="ga3-quiz">Autoevaluación</button>
+        </nav>
+        <section id="ga3-theory" class="panel active"><div class="theory-grid"><div class="theory-card"><h3>1. Distancia de un punto a una recta</h3><p>La distancia de un punto P₀(x₀,y₀) a una recta r es la menor distancia entre el punto y cualquier punto de la recta. Geométricamente, corresponde al segmento perpendicular trazado desde el punto a la recta.</p></div><div class="theory-card"><h3>2. Fórmula punto-recta</h3><p>Si r: Ax+By+C=0 y P₀(x₀,y₀), entonces la distancia es:</p><div class="formula">d(P₀,r)=|Ax₀+By₀+C|/√(A²+B²)</div></div><div class="theory-card"><h3>3. Distancia dirigida</h3><p>Si no se toma valor absoluto, el signo permite distinguir de qué lado de la recta se encuentra el punto.</p><div class="formula">d_s=(Ax₀+By₀+C)/√(A²+B²)</div></div><div class="theory-card"><h3>4. Rectas paralelas</h3><p>Dos rectas no verticales son paralelas si tienen la misma pendiente. En forma general, sus vectores normales son proporcionales.</p><div class="formula">m₁=m₂</div></div><div class="theory-card"><h3>5. Distancia entre rectas paralelas</h3><p>La distancia entre dos rectas paralelas puede obtenerse tomando un punto de una de ellas y calculando su distancia a la otra.</p><div class="formula">d(r₁,r₂)=d(P,r₂)</div></div><div class="theory-card"><h3>6. Rectas perpendiculares</h3><p>Dos rectas no verticales son perpendiculares si el producto de sus pendientes es −1.</p><div class="formula">m₁m₂=-1</div></div><div class="theory-card"><h3>7. Ángulo entre rectas</h3><p>El ángulo entre dos rectas puede calcularse a partir de sus pendientes. Si m₁ y m₂ son las pendientes:</p><div class="formula">tan θ = |(m₂−m₁)/(1+m₁m₂)|</div></div><div class="theory-card"><h3>8. Casos particulares</h3><p>Si las rectas son paralelas, el ángulo entre ellas es 0°. Si son perpendiculares, el ángulo entre ellas es 90°.</p></div><div class="theory-card"><h3>9. Interpretación geométrica</h3><p>La distancia punto-recta siempre se mide sobre una dirección perpendicular a la recta. No se mide horizontal ni verticalmente, salvo que la recta tenga una posición especial.</p></div><div class="theory-card"><h3>10. Errores frecuentes</h3><p>Es común olvidar el valor absoluto, confundir distancia con distancia dirigida o aplicar la condición m₁m₂=-1 a rectas verticales sin analizar el caso particular.</p></div></div></section>
+        
+        <section id="ga3-visual" class="panel">
+          <div class="section-note">
+            <h3>Visualización conceptual</h3>
+            <p>La distancia de un punto a una recta se representa mediante el segmento perpendicular mínimo.</p>
+          </div>
+          <div class="graph-card">
+            <div class="graph-header">
+              <div><h4>Distancia punto-recta y ángulo entre rectas</h4><p>Se muestran una recta, un punto exterior, la perpendicular mínima y dos rectas que forman un ángulo θ.</p></div>
+              <div class="live-values"><span>d(P,r)</span><span>m₁m₂=-1</span><span>θ entre rectas</span></div>
+            </div>
+            <svg class="ga-svg" viewBox="0 0 720 380" role="img" aria-label="Distancia punto recta y ángulo entre rectas">
+              <defs><marker id="gaArrowV65a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#0b5cad"></path></marker></defs>
+              <rect width="720" height="380" fill="#fbfdff"/>
+              <g stroke="#e5eef9" stroke-width="1">
+                <path d="M60 320H660M60 280H660M60 240H660M60 200H660M60 160H660M60 120H660M60 80H660M60 40H660"/>
+                <path d="M100 40V340M140 40V340M180 40V340M220 40V340M260 40V340M300 40V340M340 40V340M380 40V340M420 40V340M460 40V340M500 40V340M540 40V340M580 40V340M620 40V340"/>
+              </g>
+              <line x1="60" y1="320" x2="670" y2="320" stroke="#111" stroke-width="2" marker-end="url(#gaArrowV65a)"/>
+              <line x1="100" y1="340" x2="100" y2="35" stroke="#111" stroke-width="2" marker-end="url(#gaArrowV65a)"/>
+              <line x1="120" y1="290" x2="620" y2="100" stroke="#0b5cad" stroke-width="5"/>
+              <circle cx="420" cy="70" r="7" fill="#dc2626"/>
+              <line x1="420" y1="70" x2="370" y2="195" stroke="#dc2626" stroke-width="4" stroke-dasharray="8 6"/>
+              <text x="430" y="65" class="svg-small">P</text><text x="380" y="125" class="svg-label" fill="#dc2626">d</text>
+              <line x1="160" y1="280" x2="520" y2="130" stroke="#0f766e" stroke-width="3"/>
+              <line x1="160" y1="280" x2="520" y2="330" stroke="#b45309" stroke-width="3"/>
+              <path d="M210 272 A55 55 0 0 1 214 288" fill="none" stroke="#111827" stroke-width="3"/>
+              <text x="220" y="272" class="svg-label">θ</text>
+            </svg>
+          </div>
+        </section>
+
+        <section id="ga3-activities" class="panel"><div class="section-note"><h3>Actividades guiadas</h3><p>Problemas de distancia punto-recta, paralelismo, perpendicularidad y ángulo entre rectas.</p></div><div class="activity-list">
+<div class="activity-card" data-answer="3/5|0.6" data-hint="Usá d=|Ax₀+By₀+C|/√(A²+B²).">
+<h4>Actividad 1 · Distancia punto-recta</h4><p>Calcular la distancia de P(1,2) a la recta 3x+4y−8=0.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">d=|3(1)+4(2)−8|/√(3²+4²)=3/5.</div></div>
+<div class="activity-card" data-answer="0" data-hint="Si el punto pertenece a la recta, la distancia es cero.">
+<h4>Actividad 2 · Punto sobre recta</h4><p>Calcular la distancia de P(1,1) a la recta x+y−2=0.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">d=|1+1−2|/√2=0.</div></div>
+<div class="activity-card" data-answer="paralelas|paralela" data-hint="Compará pendientes.">
+<h4>Actividad 3 · Paralelismo</h4><p>Determinar si y=2x+1 e y=2x−5 son paralelas o perpendiculares.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">Tienen la misma pendiente m=2, por lo tanto son paralelas.</div></div>
+<div class="activity-card" data-answer="perpendiculares|perpendicular" data-hint="Multiplicá las pendientes.">
+<h4>Actividad 4 · Perpendicularidad</h4><p>Determinar si y=2x+1 e y=−0.5x+4 son paralelas o perpendiculares.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">m₁m₂=2(−0.5)=−1, por lo tanto son perpendiculares.</div></div>
+<div class="activity-card" data-answer="2" data-hint="Son rectas horizontales paralelas.">
+<h4>Actividad 5 · Distancia entre paralelas</h4><p>Calcular la distancia entre y=3 e y=1.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">La distancia vertical entre ambas rectas es |3−1|=2.</div></div>
+<div class="activity-card" data-answer="45" data-hint="Usá tan θ=|(m₂−m₁)/(1+m₁m₂)|.">
+<h4>Actividad 6 · Ángulo entre rectas</h4><p>Calcular el ángulo entre las rectas de pendientes m₁=0 y m₂=1.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">tan θ=1, entonces θ=45°.</div></div>
+<div class="activity-card" data-answer="90" data-hint="Si m₁m₂=-1, son perpendiculares.">
+<h4>Actividad 7 · Ángulo recto</h4><p>Calcular el ángulo entre rectas de pendientes 2 y −1/2.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">Como m₁m₂=−1, el ángulo es 90°.</div></div>
+<div class="activity-card" data-answer="1" data-hint="Tomá un punto de una recta y calculá distancia a la otra.">
+<h4>Actividad 8 · Rectas verticales paralelas</h4><p>Calcular la distancia entre x=2 y x=3.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">La distancia entre ambas rectas verticales es |3−2|=1.</div></div></div></section>
+        <section id="ga3-quiz" class="panel"><div class="quiz-grid"><div class="quiz-card" data-correct="1"><h4>1. La distancia de un punto a una recta se mide sobre:</h4><button>Una horizontal</button><button>Una perpendicular a la recta</button><button>Una paralela a la recta</button><button>El eje x</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>2. La fórmula usual de distancia punto-recta lleva:</h4><button>Valor absoluto</button><button>Producto vectorial</button><button>Un parámetro t</button><button>Una raíz cúbica</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>3. Si dos rectas no verticales son paralelas:</h4><button>m₁m₂=-1</button><button>m₁+m₂=0</button><button>m₁=m₂</button><button>m₁=0</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="3"><h4>4. Si dos rectas no verticales son perpendiculares:</h4><button>m₁=m₂</button><button>m₁+m₂=1</button><button>m₁−m₂=0</button><button>m₁m₂=-1</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>5. Si un punto pertenece a una recta, su distancia a ella es:</h4><button>1</button><button>0</button><button>−1</button><button>No existe</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>6. El signo de la distancia dirigida indica:</h4><button>La pendiente</button><button>El área</button><button>El lado de la recta</button><button>La longitud del eje</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>7. Rectas paralelas forman un ángulo de:</h4><button>0°</button><button>45°</button><button>90°</button><button>180° siempre</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>8. Rectas perpendiculares forman un ángulo de:</h4><button>0°</button><button>45°</button><button>90°</button><button>No definido</button><p class="quiz-feedback"></p></div></div></section>
+      </article>
+
+      
+      <article id="ga-sub4" class="module-panel">
+        <div class="section-header compact">
+          <div><h3>Rectas y planos en el espacio</h3><p>Formas vectoriales, paramétricas, planos y distancia entre rectas oblicuas.</p></div>
+          <span class="badge">Teoría ampliada · 8 actividades · 8 preguntas</span>
+        </div>
+        <nav class="inner-tabs ga-inner-tabs">
+          <button class="inner-tab active" data-panel="ga4-theory">Teoría</button>
+          <button class="inner-tab" data-panel="ga4-visual">Visualización</button>
+          <button class="inner-tab" data-panel="ga4-activities">Actividades</button>
+          <button class="inner-tab" data-panel="ga4-quiz">Autoevaluación</button>
+        </nav>
+        <section id="ga4-theory" class="panel active"><div class="theory-grid"><div class="theory-card"><h3>1. Recta en el espacio</h3><p>Una recta en R³ queda determinada por un punto P₀(x₀,y₀,z₀) y un vector director A=(a,b,c).</p><div class="formula">X = X₀ + tA</div></div><div class="theory-card"><h3>2. Ecuaciones paramétricas de la recta</h3><p>A partir de X=X₀+tA se obtienen las ecuaciones paramétricas.</p><div class="formula">x=x₀+at ; y=y₀+bt ; z=z₀+ct</div></div><div class="theory-card"><h3>3. Ecuaciones simétricas</h3><p>Si a, b y c son no nulos, puede escribirse la recta en forma simétrica.</p><div class="formula">(x−x₀)/a = (y−y₀)/b = (z−z₀)/c</div></div><div class="theory-card"><h3>4. Plano en el espacio</h3><p>Un plano queda determinado por un punto P₀ y un vector normal n=(A,B,C).</p><div class="formula">A(x−x₀)+B(y−y₀)+C(z−z₀)=0</div></div><div class="theory-card"><h3>5. Forma general del plano</h3><p>La forma general de un plano en R³ es:</p><div class="formula">Ax+By+Cz+D=0</div></div><div class="theory-card"><h3>6. Plano por tres puntos</h3><p>Tres puntos no alineados determinan un plano. Puede obtenerse usando dos vectores del plano y calculando un vector normal mediante producto vectorial.</p><div class="formula">n = AB × AC</div></div><div class="theory-card"><h3>7. Recta y plano</h3><p>Una recta puede ser paralela a un plano, estar contenida en él o cortarlo en un punto. Esto depende de la relación entre el vector director de la recta y el vector normal del plano.</p></div><div class="theory-card"><h3>8. Rectas oblicuas</h3><p>Dos rectas del espacio pueden no ser paralelas ni cortarse. En ese caso se denominan rectas oblicuas o alabeadas.</p></div><div class="theory-card"><h3>9. Distancia entre rectas oblicuas</h3><p>La distancia mínima entre rectas oblicuas se calcula usando el producto mixto entre el vector que une puntos de ambas rectas y los vectores directores.</p><div class="formula">d=|(X₂−X₁)·(A₁×A₂)| / ||A₁×A₂||</div></div><div class="theory-card"><h3>10. Interpretación geométrica</h3><p>La fórmula anterior representa la altura de un paralelepípedo cuya base está generada por los vectores directores de las rectas.</p></div></div></section>
+        
+        <section id="ga4-visual" class="panel">
+          <div class="section-note">
+            <h3>Visualización conceptual</h3>
+            <p>La recta en R³ se representa con un punto y un vector director; el plano con un punto y un vector normal.</p>
+          </div>
+          <div class="graph-card">
+            <div class="graph-header">
+              <div><h4>Recta, plano y normal</h4><p>La figura resume la relación entre punto, vector director y vector normal.</p></div>
+              <div class="live-values"><span>X=X₀+tA</span><span>n=(A,B,C)</span><span>Ax+By+Cz+D=0</span></div>
+            </div>
+            <svg class="ga-svg" viewBox="0 0 720 420" role="img" aria-label="Recta y plano en el espacio">
+              <rect width="720" height="420" fill="#fbfdff"/>
+              <polygon points="120,310 540,270 640,130 220,170" fill="rgba(11,92,173,.14)" stroke="#0b5cad" stroke-width="3"/>
+              <line x1="190" y1="290" x2="590" y2="150" stroke="#111827" stroke-width="5"/>
+              <circle cx="310" cy="248" r="7" fill="#111827"/>
+              <line x1="310" y1="248" x2="415" y2="210" stroke="#0f766e" stroke-width="5"/>
+              <line x1="415" y1="210" x2="398" y2="207" stroke="#0f766e" stroke-width="4"/>
+              <line x1="415" y1="210" x2="404" y2="224" stroke="#0f766e" stroke-width="4"/>
+              <line x1="380" y1="205" x2="380" y2="80" stroke="#dc2626" stroke-width="5"/>
+              <line x1="380" y1="80" x2="372" y2="96" stroke="#dc2626" stroke-width="4"/>
+              <line x1="380" y1="80" x2="388" y2="96" stroke="#dc2626" stroke-width="4"/>
+              <text x="295" y="270" class="svg-small">P₀</text>
+              <text x="420" y="208" class="svg-label" fill="#0f766e">A</text>
+              <text x="390" y="90" class="svg-label" fill="#dc2626">n</text>
+              <text x="450" y="305" class="svg-label" fill="#0b5cad">plano</text>
+              <text x="170" y="120" class="svg-label">recta: X=X₀+tA</text>
+            </svg>
+          </div>
+        </section>
+
+        <section id="ga4-activities" class="panel"><div class="section-note"><h3>Actividades guiadas</h3><p>Rectas en R³, planos, pertenencia, paralelismo y producto mixto aplicado.</p></div><div class="activity-list">
+<div class="activity-card" data-answer="(1,3,-5)|1,3,-5" data-hint="Restá Q−P.">
+<h4>Actividad 1 · Vector director</h4><p>La recta pasa por P(1,−1,3) y Q(2,2,−2). Hallar un vector director.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">A=Q−P=(1,3,−5).</div></div>
+<div class="activity-card" data-answer="x=1+2t,y=3-t,z=4+t|x=1+2t;y=3-t;z=4+t" data-hint="Usá X=X₀+tA.">
+<h4>Actividad 2 · Paramétricas</h4><p>Escribir las paramétricas de la recta que pasa por P₀(1,3,4) y tiene director A=(2,−1,1).</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">x=1+2t, y=3−t, z=4+t.</div></div>
+<div class="activity-card" data-answer="(2,-1,3)|2,-1,3" data-hint="En Ax+By+Cz+D=0, la normal es (A,B,C).">
+<h4>Actividad 3 · Vector normal del plano</h4><p>Indicar un vector normal al plano 2x−y+3z−5=0.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">n=(2,−1,3).</div></div>
+<div class="activity-card" data-answer="x+y+z=4|x + y + z = 4" data-hint="Sustituí el punto en la forma punto-normal.">
+<h4>Actividad 4 · Plano punto-normal</h4><p>Hallar el plano con normal n=(1,1,1) que pasa por P₀(2,1,1).</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">(x−2)+(y−1)+(z−1)=0, entonces x+y+z=4.</div></div>
+<div class="activity-card" data-answer="paralela|paralelas" data-hint="Si las normales son proporcionales, los planos son paralelos.">
+<h4>Actividad 5 · Planos paralelos</h4><p>Determinar la relación entre 2x+2y+2z−1=0 y x+y+z+3=0.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">Las normales (2,2,2) y (1,1,1) son proporcionales, por lo tanto los planos son paralelos.</div></div>
+<div class="activity-card" data-answer="0" data-hint="Si el punto satisface la ecuación del plano, la distancia es cero.">
+<h4>Actividad 6 · Punto en plano</h4><p>Verificar la distancia de P(1,1,2) al plano x+y+z−4=0.</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">1+1+2−4=0, por lo tanto el punto pertenece al plano y la distancia es 0.</div></div>
+<div class="activity-card" data-answer="si|sí|pertenece" data-hint="Sustituí las coordenadas en la ecuación.">
+<h4>Actividad 7 · Pertenencia a un plano</h4><p>¿El punto P(1,2,1) pertenece al plano x+y+z−4=0?</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">1+2+1−4=0. Sí, pertenece.</div></div>
+<div class="activity-card" data-answer="producto mixto|mixto" data-hint="Recordá la fórmula de distancia entre rectas oblicuas.">
+<h4>Actividad 8 · Rectas oblicuas</h4><p>¿Qué operación vectorial aparece en la distancia entre rectas oblicuas?</p><input type="text" placeholder="Ingresá tu respuesta">
+<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
+<p class="feedback"></p><div class="solution">Aparece el producto mixto: (X₂−X₁)·(A₁×A₂).</div></div></div></section>
+        <section id="ga4-quiz" class="panel"><div class="quiz-grid"><div class="quiz-card" data-correct="1"><h4>1. Una recta en R³ queda determinada por:</h4><button>Solo un punto</button><button>Un punto y un vector director</button><button>Solo una normal</button><button>Tres pendientes</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>2. En X=X₀+tA, el parámetro es:</h4><button>X₀</button><button>A</button><button>t</button><button>z</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>3. En Ax+By+Cz+D=0, un vector normal al plano es:</h4><button>(A,B,C)</button><button>(A,C,D)</button><button>(B,C,D)</button><button>(A,B,D)</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>4. Tres puntos determinan un plano si:</h4><button>Están alineados</button><button>No están alineados</button><button>Son iguales</button><button>Tienen z=0</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>5. La normal de un plano por tres puntos puede obtenerse con:</h4><button>Producto escalar</button><button>Suma vectorial</button><button>Producto vectorial</button><button>Regla de tres</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="3"><h4>6. Rectas oblicuas son rectas que:</h4><button>Son paralelas</button><button>Se cortan</button><button>Están en el mismo plano</button><button>No son paralelas ni se cortan</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>7. La distancia entre rectas oblicuas usa:</h4><button>Solo pendiente</button><button>Producto mixto</button><button>Determinante 2x2</button><button>Punto medio</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>8. Si un punto satisface la ecuación de un plano:</h4><button>Pertenece al plano</button><button>No pertenece</button><button>La distancia es 1</button><button>El plano no existe</button><p class="quiz-feedback"></p></div></div></section>
+      </article>
+
+      <article id="ga-pdf" class="module-panel">
+        <div class="section-note">
+          <h3>PDF completo de Geometría Analítica</h3>
+          <p>Documento integrado con teoría, práctica y autoevaluación.</p>
+          <div class="pdf-actions">
+            <a href="geometria_analitica_unidad_2_final.pdf" target="_blank" rel="noopener">Abrir PDF</a>
+            <a href="geometria_analitica_unidad_2_final.pdf" download>Descargar PDF</a>
+          </div>
+        </div>
+        <iframe class="pdf-frame" src="geometria_analitica_unidad_2_final.pdf" title="Geometría Analítica Unidad 2"></iframe>
+      </article>
+    </section>
+
+    <section id="sec-conicas" class="section"><div class="section-header"><div><h2>3. Cónicas</h2><p>Lugar geométrico, formas canónicas, ecuación general y excentricidad.</p></div><span class="badge">Etapa 1 · Circunferencia</span></div><nav class="module-subtabs" aria-label="Subsecciones de Cónicas"><button class="module-subtab active" data-module-panel="conicas-sub1">Circunferencia</button><button class="module-subtab" data-module-panel="conicas-sub2">Parábola</button><button class="module-subtab" data-module-panel="conicas-sub3">Elipse</button><button class="module-subtab" data-module-panel="conicas-sub4">Hipérbola</button><button class="module-subtab" data-module-panel="conicas-sub5">Ecuación general</button><button class="module-subtab" data-module-panel="conicas-sub6">Excentricidad</button><button class="module-subtab" data-module-panel="conicas-pdf">Material PDF</button></nav><article id="conicas-sub1" class="module-panel active"><div class="section-header compact"><div><h3>Circunferencia</h3><p>Lugar geométrico, forma canónica, forma general, clasificación y tangente.</p></div><span class="badge">Teoría · visualización · 8 actividades · 8 preguntas</span></div><nav class="inner-tabs ga-inner-tabs"><button class="inner-tab active" data-panel="circ-theory">Teoría</button><button class="inner-tab" data-panel="circ-visual">Visualización</button><button class="inner-tab" data-panel="circ-activities">Actividades</button><button class="inner-tab" data-panel="circ-quiz">Autoevaluación</button></nav><section id="circ-theory" class="panel active"><div class="theory-grid"><div class="theory-card"><h3>1. Definición como lugar geométrico</h3><p>La circunferencia es el conjunto de puntos del plano que se encuentran a una distancia constante r de un punto fijo llamado centro.</p></div><div class="theory-card"><h3>2. Centro y radio</h3><p>El centro C(h,k) fija la posición de la circunferencia y el radio r determina su tamaño. Todo punto P(x,y) de la circunferencia cumple d(P,C)=r.</p></div><div class="theory-card"><h3>3. Forma canónica</h3><p>Al elevar al cuadrado la distancia entre P(x,y) y C(h,k) se obtiene la ecuación canónica.</p><div class="formula">(x−h)²+(y−k)²=r²</div></div><div class="theory-card"><h3>4. Centro en el origen</h3><p>Si el centro está en el origen, h=0 y k=0, la ecuación se simplifica.</p><div class="formula">x²+y²=r²</div></div><div class="theory-card"><h3>5. Circunferencia trasladada</h3><p>Cuando el centro no está en el origen, los términos x−h e y−k indican el desplazamiento horizontal y vertical del centro.</p></div><div class="theory-card"><h3>6. Forma general</h3><p>Al desarrollar la forma canónica se obtiene una ecuación de segundo grado sin término xy y con iguales coeficientes para x² e y².</p><div class="formula">x²+y²+Dx+Ey+F=0</div></div><div class="theory-card"><h3>7. De general a canónica</h3><p>Para pasar de la forma general a la canónica se completan cuadrados en x e y. De allí se lee el centro y el radio.</p><div class="formula">C=(−D/2,−E/2)</div></div><div class="theory-card"><h3>8. Clasificación según r²</h3><p>Si r²>0 hay circunferencia real; si r²=0 se reduce a un punto; si r²<0 no hay lugar geométrico real.</p></div><div class="theory-card"><h3>9. Circunferencia por tres puntos</h3><p>Tres puntos no alineados determinan una única circunferencia. Se reemplazan las coordenadas en la forma general y se resuelve un sistema en D, E y F.</p></div><div class="theory-card"><h3>10. Recta tangente</h3><p>La recta tangente en un punto T de la circunferencia es perpendicular al radio CT.</p><div class="formula">Radio ⟂ tangente</div></div></div></section><section id="circ-visual" class="panel"><iframe class="conicas-visual-frame" src="circunferencia_visual_embed.html" title="Visualizaciones interactivas de circunferencia"></iframe></section><section id="circ-activities" class="panel"><div class="section-note"><h3>Actividades guiadas</h3><p>Resolver en carpeta y verificar el resultado final.</p></div><div class="activity-list"><div class="activity-card" data-answer="(2,-1)|2,-1" data-hint="Identificá h y k en la forma canónica."><h4>Actividad 1 · Centro</h4><p>Indicar el centro de (x−2)²+(y+1)²=9.</p><input type="text" placeholder="Ingresá tu respuesta"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">El centro es C=(2,−1).</div></div><div class="activity-card" data-answer="3" data-hint="El radio es la raíz del segundo miembro."><h4>Actividad 2 · Radio</h4><p>Indicar el radio de (x−2)²+(y+1)²=9.</p><input type="text" placeholder="Ingresá tu respuesta"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">r=√9=3.</div></div><div class="activity-card" data-answer="x^2+y^2=16|x²+y²=16" data-hint="Centro en el origen."><h4>Actividad 3 · Centro en el origen</h4><p>Escribir la circunferencia de centro O(0,0) y radio 4.</p><input type="text" placeholder="Ingresá tu respuesta"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">x²+y²=16.</div></div><div class="activity-card" data-answer="(x-1)^2+(y-2)^2=25|(x−1)²+(y−2)²=25" data-hint="Usá (x−h)²+(y−k)²=r²."><h4>Actividad 4 · Forma canónica</h4><p>Escribir la circunferencia de centro C(1,2) y radio 5.</p><input type="text" placeholder="Ingresá tu respuesta"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">(x−1)²+(y−2)²=25.</div></div><div class="activity-card" data-answer="x^2+y^2-2x-4y-20=0|x²+y²−2x−4y−20=0" data-hint="Desarrollá la canónica."><h4>Actividad 5 · Canónica a general</h4><p>Pasar (x−1)²+(y−2)²=25 a forma general.</p><input type="text" placeholder="Ingresá tu respuesta"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">x²+y²−2x−4y−20=0.</div></div><div class="activity-card" data-answer="(2,-3)|2,-3" data-hint="Completá cuadrados."><h4>Actividad 6 · General a centro</h4><p>Hallar el centro de x²+y²−4x+6y−3=0.</p><input type="text" placeholder="Ingresá tu respuesta"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">C=(2,−3).</div></div><div class="activity-card" data-answer="4" data-hint="Completá cuadrados y leé r²."><h4>Actividad 7 · General a radio</h4><p>Hallar el radio de x²+y²−4x+6y−3=0.</p><input type="text" placeholder="Ingresá tu respuesta"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">(x−2)²+(y+3)²=16, entonces r=4.</div></div><div class="activity-card" data-answer="perpendicular|perpendiculares" data-hint="El radio en el punto de tangencia es normal a la tangente."><h4>Actividad 8 · Tangente</h4><p>¿Qué relación hay entre el radio al punto de tangencia y la recta tangente?</p><input type="text" placeholder="Ingresá tu respuesta"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">Son perpendiculares.</div></div></div></section><section id="circ-quiz" class="panel"><div class="quiz-grid"><div class="quiz-card" data-correct="1"><h4>1. Una circunferencia es el lugar geométrico de puntos que:</h4><button>Están alineados</button><button>Equidistan de un centro</button><button>Equidistan de dos focos</button><button>Tienen igual pendiente</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>2. La forma canónica de una circunferencia es:</h4><button>(x−h)²+(y−k)²=r²</button><button>y=mx+b</button><button>x/a+y/b=1</button><button>Ax+By+C=0</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>3. En (x−h)²+(y−k)²=r², el centro es:</h4><button>(r,h)</button><button>(−h,−k)</button><button>(h,k)</button><button>(0,r)</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>4. Si r²<0:</h4><button>Hay una circunferencia real</button><button>No hay lugar geométrico real</button><button>Hay dos rectas</button><button>Hay una parábola</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="3"><h4>5. Si r²=0, la circunferencia se reduce a:</h4><button>Una recta</button><button>Una elipse</button><button>Una hipérbola</button><button>Un punto</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>6. En x²+y²+Dx+Ey+F=0, el centro es:</h4><button>(−D/2,−E/2)</button><button>(D,E)</button><button>(D/2,E/2)</button><button>(−F,D)</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>7. Tres puntos determinan una circunferencia si:</h4><button>Siempre</button><button>Son colineales</button><button>No son colineales</button><button>Tienen el mismo x</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>8. La tangente a una circunferencia en un punto es:</h4><button>Paralela al radio</button><button>Perpendicular al radio</button><button>Igual al diámetro</button><button>Siempre horizontal</button><p class="quiz-feedback"></p></div></div></section></article><article id="conicas-sub2" class="module-panel"><div class="section-note"><h3>Parábola</h3><p>Se incorporará con orientación horizontal y vertical, foco, directriz, parámetro p y propiedad focal.</p><div class="placeholder-box"><strong>Próxima etapa:</strong> completar teoría, visualización, actividades y autoevaluación.</div></div></article><article id="conicas-sub3" class="module-panel"><div class="section-note"><h3>Elipse</h3><p>Se incorporará con eje mayor horizontal y vertical, focos, vértices, ejes y propiedad focal.</p><div class="placeholder-box"><strong>Próxima etapa:</strong> completar teoría, visualización, actividades y autoevaluación.</div></div></article><article id="conicas-sub4" class="module-panel"><div class="section-note"><h3>Hipérbola</h3><p>Se incorporará con eje real horizontal y vertical, focos, vértices, asíntotas y rectángulo fundamental.</p><div class="placeholder-box"><strong>Próxima etapa:</strong> completar teoría, visualización, actividades y autoevaluación.</div></div></article><article id="conicas-sub5" class="module-panel"><div class="section-note"><h3>Ecuación general de segundo grado</h3><p>Se incorporará el clasificador de cónicas sin rotación y el pasaje a forma canónica.</p><div class="placeholder-box"><strong>Próxima etapa:</strong> completar teoría, visualización, actividades y autoevaluación.</div></div></article><article id="conicas-sub6" class="module-panel"><div class="section-note"><h3>Excentricidad</h3><p>Se incorporará la teoría unificada foco-directriz con e<1, e=1 y e>1.</p><div class="placeholder-box"><strong>Próxima etapa:</strong> completar teoría, visualización, actividades y autoevaluación.</div></div></article><article id="conicas-pdf" class="module-panel"><div class="section-note"><h3>PDF completo de Cónicas</h3><p>Documento de clase: lugar geométrico, formas canónicas, ecuación general y excentricidad.</p><div class="pdf-actions"><a href="unidad_2_conicas.pdf" target="_blank" rel="noopener">Abrir PDF</a><a href="unidad_2_conicas.pdf" download>Descargar PDF</a></div></div><iframe class="pdf-frame" src="unidad_2_conicas.pdf" title="Unidad 2 Cónicas"></iframe></article></section>
+<section id="sec-polares" class="section">
+      <div class="section-header"><div><h2>4. Coordenadas Polares</h2><p>Estructura preparada para completar la unidad.</p></div><span class="badge">Estructura preparada</span></div>
+      <nav class="module-subtabs"><button class="module-subtab active" data-module-panel="polares-sub1">Sistema polar</button><button class="module-subtab " data-module-panel="polares-sub2">Conversión polar-cartesiana</button><button class="module-subtab " data-module-panel="polares-sub3">Gráficas polares</button><button class="module-subtab " data-module-panel="polares-sub4">Cónicas en polares</button><button class="module-subtab" data-module-panel="polares-pdf">Material PDF</button></nav>
+      <article id="polares-sub1" class="module-panel active"><div class="section-note"><h3>Sistema polar</h3><p>Espacio preparado para desarrollar teoría, actividades, autoevaluación y material PDF.</p></div><div class="three-block-layout"><div class="mini-module-card"><h4>Teoría</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Actividades</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Autoevaluación</h4><p>Pendiente de carga.</p></div></div></article><article id="polares-sub2" class="module-panel "><div class="section-note"><h3>Conversión polar-cartesiana</h3><p>Espacio preparado para desarrollar teoría, actividades, autoevaluación y material PDF.</p></div><div class="three-block-layout"><div class="mini-module-card"><h4>Teoría</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Actividades</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Autoevaluación</h4><p>Pendiente de carga.</p></div></div></article><article id="polares-sub3" class="module-panel "><div class="section-note"><h3>Gráficas polares</h3><p>Espacio preparado para desarrollar teoría, actividades, autoevaluación y material PDF.</p></div><div class="three-block-layout"><div class="mini-module-card"><h4>Teoría</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Actividades</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Autoevaluación</h4><p>Pendiente de carga.</p></div></div></article><article id="polares-sub4" class="module-panel "><div class="section-note"><h3>Cónicas en polares</h3><p>Espacio preparado para desarrollar teoría, actividades, autoevaluación y material PDF.</p></div><div class="three-block-layout"><div class="mini-module-card"><h4>Teoría</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Actividades</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Autoevaluación</h4><p>Pendiente de carga.</p></div></div></article>
+      <article id="polares-pdf" class="module-panel"><div class="section-note"><h3>Material PDF · Coordenadas Polares</h3><p>Espacio reservado para incorporar el PDF final de esta unidad.</p></div><div class="placeholder-box"><strong>Pendiente:</strong> agregar teoría, práctica y autoevaluación en PDF.</div></article>
+    </section>
+
+    <section id="sec-parametricas" class="section">
+      <div class="section-header"><div><h2>5. Paramétricas</h2><p>Estructura preparada para completar la unidad.</p></div><span class="badge">Estructura preparada</span></div>
+      <nav class="module-subtabs"><button class="module-subtab active" data-module-panel="parametricas-sub1">Rectas paramétricas</button><button class="module-subtab " data-module-panel="parametricas-sub2">Planos paramétricos</button><button class="module-subtab " data-module-panel="parametricas-sub3">Cónicas paramétricas</button><button class="module-subtab " data-module-panel="parametricas-sub4">Eliminación del parámetro</button><button class="module-subtab" data-module-panel="parametricas-pdf">Material PDF</button></nav>
+      <article id="parametricas-sub1" class="module-panel active"><div class="section-note"><h3>Rectas paramétricas</h3><p>Espacio preparado para desarrollar teoría, actividades, autoevaluación y material PDF.</p></div><div class="three-block-layout"><div class="mini-module-card"><h4>Teoría</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Actividades</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Autoevaluación</h4><p>Pendiente de carga.</p></div></div></article><article id="parametricas-sub2" class="module-panel "><div class="section-note"><h3>Planos paramétricos</h3><p>Espacio preparado para desarrollar teoría, actividades, autoevaluación y material PDF.</p></div><div class="three-block-layout"><div class="mini-module-card"><h4>Teoría</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Actividades</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Autoevaluación</h4><p>Pendiente de carga.</p></div></div></article><article id="parametricas-sub3" class="module-panel "><div class="section-note"><h3>Cónicas paramétricas</h3><p>Espacio preparado para desarrollar teoría, actividades, autoevaluación y material PDF.</p></div><div class="three-block-layout"><div class="mini-module-card"><h4>Teoría</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Actividades</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Autoevaluación</h4><p>Pendiente de carga.</p></div></div></article><article id="parametricas-sub4" class="module-panel "><div class="section-note"><h3>Eliminación del parámetro</h3><p>Espacio preparado para desarrollar teoría, actividades, autoevaluación y material PDF.</p></div><div class="three-block-layout"><div class="mini-module-card"><h4>Teoría</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Actividades</h4><p>Pendiente de carga.</p></div><div class="mini-module-card"><h4>Autoevaluación</h4><p>Pendiente de carga.</p></div></div></article>
+      <article id="parametricas-pdf" class="module-panel"><div class="section-note"><h3>Material PDF · Paramétricas</h3><p>Espacio reservado para incorporar el PDF final de esta unidad.</p></div><div class="placeholder-box"><strong>Pendiente:</strong> agregar teoría, práctica y autoevaluación en PDF.</div></article>
+    </section>
+
+    <section id="sec-pdf" class="section">
+      <div class="section-header"><div><h2>6. Material PDF</h2><p>Repositorio interno de documentos de la materia.</p></div><span class="badge">Biblioteca</span></div>
+      <div class="ga-cards">
+        <div class="ga-card"><h4>Vectores</h4><p>Espacio reservado para el PDF final de Vectores.</p></div>
+        <div class="ga-card"><h4>Geometría Analítica</h4><p>Documento final integrado.</p><div class="pdf-actions"><a href="geometria_analitica_unidad_2_final.pdf" target="_blank" rel="noopener">Abrir</a><a href="geometria_analitica_unidad_2_final.pdf" download>Descargar</a></div></div>
+        <div class="ga-card"><h4>Cónicas</h4><p>Pendiente.</p></div>
+        <div class="ga-card"><h4>Coordenadas Polares</h4><p>Pendiente.</p></div>
+        <div class="ga-card"><h4>Paramétricas</h4><p>Pendiente.</p></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer><span>VectorLab · V6.1 Geometría Analítica</span><span>Autor: Ing. Mg. Agustín Menuet · FICA · UNSL · 2026</span><span>© 2026 Agustín Menuet. Material educativo. Uso académico citando la fuente.</span></footer>
+
+  <script src="app.js?v=7.0"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Producto mixto interactivo</title>
+<style>
+  :root{--blue:#0b5cad;--blue2:#083b7a;--soft:#eef5ff;--line:#d7e1ef;--text:#172033;--muted:#5b6b84;--green:#0f766e;--dark:#111827;--gray:#334155;--orange:#b45309;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Segoe UI",Arial,sans-serif;background:transparent;color:var(--text)}
+  .wrap{padding:8px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px}
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px}
+  .panel{background:#fbfdff;border:1px solid #e5eef9;border-radius:16px;padding:10px}
+  .panel h3{margin:0 0 8px;color:var(--blue2);font-size:20px}
+  .muted{margin:0 0 10px;color:var(--muted);line-height:1.4;font-size:14px}
+  svg{width:100%;display:block;background:#fff;border:1px solid #e5eef9;border-radius:14px;touch-action:none;user-select:none}
+  .valuebox{background:var(--soft);border-left:5px solid var(--blue);border-radius:12px;padding:10px;margin-bottom:10px;font-family:"Cambria Math",Georgia,serif;font-size:22px;color:var(--blue2)}
+  .mini{background:#f8fbff;border:1px solid var(--line);border-radius:12px;padding:9px 11px;margin-bottom:8px;font-size:15px}
+  .mini strong{color:var(--blue2)}
+  .legend{display:grid;gap:7px;margin-top:10px}
+  .tag{display:flex;align-items:center;gap:10px;font-size:14px}
+  .swatch{width:16px;height:16px;border-radius:5px;border:1px solid #cbd5e1}
+  .rowbuttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  button{border:0;border-radius:10px;padding:9px 11px;font-weight:700;cursor:pointer;background:#e8eef8;color:var(--blue2)}
+  .formula{background:#eff6ff;border-left:5px solid var(--blue);border-radius:12px;padding:10px 12px;font-family:"Cambria Math",Georgia,serif;font-size:19px;margin-top:10px}
+  .foot{color:var(--muted);font-size:13px;margin-top:9px}
+  .svg-label{font-family:"Cambria Math",Georgia,serif;font-size:22px;font-weight:700}
+  .svg-small{font-family:"Cambria Math",Georgia,serif;font-size:18px}
+  @media (max-width: 920px){ .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="grid">
+      <div class="panel">
+        <h3>Paralelepípedo y proyección de 𝐰</h3>
+        <p class="muted">Arrastrá los extremos de <b>𝐮</b> y <b>𝐯</b> sobre la base. Arrastrá el extremo de <b>𝐰</b> en el plano <b>xz</b>. El segmento punteado muestra la proyección de <b>𝐰</b> sobre el eje <b>z</b>; esa proyección es la altura <b>h = w₃</b>.</p>
+        <svg id="svg" viewBox="0 0 900 780" aria-label="Paralelepípedo con proyección de w sobre z">
+          <defs>
+            <marker id="arrU" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#111827"></path></marker>
+            <marker id="arrV" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#334155"></path></marker>
+            <marker id="arrW" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L6,3 z" fill="#0f766e"></path></marker>
+          </defs>
+          <rect x="0" y="0" width="900" height="780" fill="white"></rect>
+          <g id="guideLayer"></g><g id="faceLayer"></g><g id="edgeLayer"></g><g id="axisLayer"></g><g id="heightLayer"></g><g id="vectorLayer"></g><g id="handleLayer"></g>
+        </svg>
+      </div>
+      <div class="panel">
+        <h3>Lectura geométrica</h3>
+        <div class="valuebox" id="volBox">|V| = 28.14</div>
+        <div class="mini"><strong>𝐮</strong> = <span id="uVal">(3.8, 0.9, 0)</span></div>
+        <div class="mini"><strong>𝐯</strong> = <span id="vVal">(1.5, 3.0, 0)</span></div>
+        <div class="mini"><strong>𝐰</strong> = <span id="wVal">(1.1, 0, 2.8)</span></div>
+        <div class="mini"><strong>proy<sub>z</sub>(𝐰)</strong> = <span id="projVal">(0, 0, 2.8)</span></div>
+        <div class="mini"><strong>Altura</strong> = <span id="hVal">2.8</span></div>
+        <div class="mini"><strong>Área(base)</strong> = <span id="baseAreaVal">10.05</span></div>
+        <div class="mini"><strong>Volumen</strong> = <span id="volVal">28.14</span></div>
+        <div class="mini"><strong>Estado</strong> = <span id="stateVal">No coplanares</span></div>
+        <div class="legend">
+          <div class="tag"><span class="swatch" style="background:#111827"></span> Vector <b>𝐮</b></div>
+          <div class="tag"><span class="swatch" style="background:#334155"></span> Vector <b>𝐯</b></div>
+          <div class="tag"><span class="swatch" style="background:#0f766e"></span> Vector <b>𝐰</b></div>
+          <div class="tag"><span class="swatch" style="background:#b45309"></span> Proyección de <b>𝐰</b> sobre <b>z</b> = altura <b>h</b></div>
+          <div class="tag"><span class="swatch" style="background:rgba(11,92,173,.16)"></span> Base generada por <b>𝐮</b> y <b>𝐯</b></div>
+        </div>
+        <div class="rowbuttons"><button id="resetBtn">Restablecer</button><button id="exampleBtn">Cargar ejemplo</button></div>
+        <div class="formula">𝐮=(u₁,u₂,0), 𝐯=(v₁,v₂,0), 𝐰=(w₁,0,w₃)<br>h = proy<sub>z</sub>(𝐰) = w₃, &nbsp; |V| = Área(base)·h</div>
+        <p class="foot">En esta versión, <b>𝐮</b> y <b>𝐯</b> quedan restringidos al plano <b>xy</b>; por eso la altura se identifica directamente con la proyección de <b>𝐰</b> sobre <b>z</b>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(() => {
+  const svg = document.getElementById("svg");
+  const guideLayer = document.getElementById("guideLayer");
+  const faceLayer = document.getElementById("faceLayer");
+  const edgeLayer = document.getElementById("edgeLayer");
+  const axisLayer = document.getElementById("axisLayer");
+  const heightLayer = document.getElementById("heightLayer");
+  const vectorLayer = document.getElementById("vectorLayer");
+  const handleLayer = document.getElementById("handleLayer");
+  const uVal = document.getElementById("uVal"); const vVal = document.getElementById("vVal"); const wVal = document.getElementById("wVal");
+  const projVal = document.getElementById("projVal"); const hVal = document.getElementById("hVal"); const baseAreaVal = document.getElementById("baseAreaVal"); const volVal = document.getElementById("volVal"); const volBox = document.getElementById("volBox"); const stateVal = document.getElementById("stateVal");
+  const EX = {x: 74, y: 0}; const EY = {x: 36, y: -30}; const EZ = {x: 0, y: -94}; const O2 = {x: 180, y: 650};
+  const state = {u:{x:3.8,y:0.9,z:0}, v:{x:1.5,y:3.0,z:0}, w:{x:1.1,y:0,z:2.8}, drag:null};
+  const fmt = n => { const r=Math.round(n*100)/100; return Number.isInteger(r)?String(r):r.toFixed(2); };
+  const add3=(a,b)=>({x:a.x+b.x,y:a.y+b.y,z:a.z+b.z}); const det2=(a,b)=>a.x*b.y-a.y*b.x;
+  const proj=P=>({x:O2.x+P.x*EX.x+P.y*EY.x+P.z*EZ.x, y:O2.y+P.x*EX.y+P.y*EY.y+P.z*EZ.y});
+  const screenDist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+  function pointerPos(ev){ const rect=svg.getBoundingClientRect(); const vb=svg.viewBox.baseVal; const sx=vb.width/rect.width, sy=vb.height/rect.height; return {x:(ev.clientX-rect.left)*sx, y:(ev.clientY-rect.top)*sy}; }
+  function fromScreenXY(dx,dy){ const a=EX.x,b=EY.x,c=EX.y,d=EY.y,det=a*d-b*c; return {x:(dx*d-b*dy)/det, y:(a*dy-dx*c)/det}; }
+  function fromScreenXZ(dx,dy){ const a=EX.x,b=EZ.x,c=EX.y,d=EZ.y,det=a*d-b*c; return {x:(dx*d-b*dy)/det, z:(a*dy-dx*c)/det}; }
+  const clampUV=p=>({x:Math.max(-1,Math.min(5.6,p.x)), y:Math.max(-1,Math.min(5.2,p.y)), z:0});
+  const clampW=p=>({x:Math.max(-1.2,Math.min(4.0,p.x)), y:0, z:Math.max(0,Math.min(5.2,p.z))});
+  const clear=el=>{ while(el.firstChild) el.removeChild(el.firstChild); };
+  function line(x1,y1,x2,y2,stroke,width,dash=null,marker=null,opacity=null){ const el=document.createElementNS("http://www.w3.org/2000/svg","line"); el.setAttribute("x1",x1); el.setAttribute("y1",y1); el.setAttribute("x2",x2); el.setAttribute("y2",y2); el.setAttribute("stroke",stroke); el.setAttribute("stroke-width",width); if(dash) el.setAttribute("stroke-dasharray",dash); if(marker) el.setAttribute("marker-end",marker); if(opacity!==null) el.setAttribute("opacity",opacity); return el; }
+  function text(x,y,str,cls,fill=null,anchor=null){ const el=document.createElementNS("http://www.w3.org/2000/svg","text"); el.setAttribute("x",x); el.setAttribute("y",y); el.setAttribute("class",cls); if(fill) el.setAttribute("fill",fill); if(anchor) el.setAttribute("text-anchor",anchor); el.textContent=str; return el; }
+  function circle(x,y,r,fill,stroke=null,width=null){ const el=document.createElementNS("http://www.w3.org/2000/svg","circle"); el.setAttribute("cx",x); el.setAttribute("cy",y); el.setAttribute("r",r); el.setAttribute("fill",fill); if(stroke){ el.setAttribute("stroke",stroke); el.setAttribute("stroke-width",width||1);} return el; }
+  function polygon(points,fill,stroke,width,opacity=1){ const el=document.createElementNS("http://www.w3.org/2000/svg","polygon"); el.setAttribute("points", points.map(p=>`${p.x},${p.y}`).join(" ")); el.setAttribute("fill",fill); el.setAttribute("stroke",stroke); el.setAttribute("stroke-width",width); el.setAttribute("opacity",opacity); return el; }
+  function drawAxes(){ clear(axisLayer); const O=O2,X=proj({x:5.6,y:0,z:0}),Y=proj({x:0,y:5.1,z:0}),Z=proj({x:0,y:0,z:5.2}); axisLayer.appendChild(line(O.x,O.y,X.x,X.y,"#111827",2.2)); axisLayer.appendChild(line(O.x,O.y,Y.x,Y.y,"#111827",2.2)); axisLayer.appendChild(line(O.x,O.y,Z.x,Z.y,"#111827",2.2)); axisLayer.appendChild(line(X.x-12,X.y-5,X.x,X.y,"#111827",2)); axisLayer.appendChild(line(X.x-12,X.y+5,X.x,X.y,"#111827",2)); axisLayer.appendChild(line(Y.x-9,Y.y+12,Y.x,Y.y,"#111827",2)); axisLayer.appendChild(line(Y.x+2,Y.y+12,Y.x,Y.y,"#111827",2)); axisLayer.appendChild(line(Z.x-5,Z.y+12,Z.x,Z.y,"#111827",2)); axisLayer.appendChild(line(Z.x+5,Z.y+12,Z.x,Z.y,"#111827",2)); axisLayer.appendChild(text(X.x+10,X.y+4,"x","svg-small","#111827")); axisLayer.appendChild(text(Y.x+10,Y.y-4,"y","svg-small","#111827")); axisLayer.appendChild(text(Z.x+10,Z.y+4,"z","svg-small","#111827")); axisLayer.appendChild(text(O.x-18,O.y+20,"0","svg-small","#111827")); }
+  function drawGuides(){ clear(guideLayer); const O=proj({x:0,y:0,z:0}),X=proj({x:5.3,y:0,z:0}),XY=proj({x:5.3,y:4.5,z:0}),Y=proj({x:0,y:4.5,z:0}); guideLayer.appendChild(polygon([O,X,XY,Y],"#f8fbff","#e5eef9",1.2,0.72)); }
+  function drawScene(){ clear(faceLayer); clear(edgeLayer); clear(vectorLayer); clear(handleLayer); clear(heightLayer); const O3={x:0,y:0,z:0},U3=state.u,V3=state.v,W3=state.w,P3={x:0,y:0,z:state.w.z}; const UV3=add3(U3,V3),UW3=add3(U3,W3),VW3=add3(V3,W3),UVW3=add3(UV3,W3); const O=proj(O3),U=proj(U3),V=proj(V3),W=proj(W3),P=proj(P3),UV=proj(UV3),UW=proj(UW3),VW=proj(VW3),UVW=proj(UVW3);
+    faceLayer.appendChild(polygon([O,U,UV,V],"rgba(11,92,173,.16)","#0b5cad",2.5,1)); faceLayer.appendChild(polygon([W,UW,UVW,VW],"rgba(15,118,110,.08)","#94a3b8",1.6,1)); faceLayer.appendChild(polygon([O,U,UW,W],"rgba(148,163,184,.10)","#94a3b8",1.4,1)); faceLayer.appendChild(polygon([O,V,VW,W],"rgba(148,163,184,.08)","#94a3b8",1.4,1)); faceLayer.appendChild(polygon([U,UV,UVW,UW],"rgba(148,163,184,.10)","#94a3b8",1.4,1)); faceLayer.appendChild(polygon([V,UV,UVW,VW],"rgba(148,163,184,.08)","#94a3b8",1.4,1));
+    const dashed="7 6"; edgeLayer.appendChild(line(W.x,W.y,UW.x,UW.y,"#94a3b8",1.9,dashed)); edgeLayer.appendChild(line(W.x,W.y,VW.x,VW.y,"#94a3b8",1.9,dashed)); edgeLayer.appendChild(line(UW.x,UW.y,UVW.x,UVW.y,"#94a3b8",1.9,dashed)); edgeLayer.appendChild(line(VW.x,VW.y,UVW.x,UVW.y,"#94a3b8",1.9,dashed)); edgeLayer.appendChild(line(UV.x,UV.y,UVW.x,UVW.y,"#94a3b8",1.9,dashed));
+    edgeLayer.appendChild(line(O.x,O.y,P.x,P.y,"#b45309",3.6)); edgeLayer.appendChild(line(U.x,U.y,UW.x,UW.y,"#94a3b8",1.8)); edgeLayer.appendChild(line(V.x,V.y,VW.x,VW.y,"#94a3b8",1.8)); edgeLayer.appendChild(line(UV.x,UV.y,UVW.x,UVW.y,"#94a3b8",1.8));
+    vectorLayer.appendChild(line(O.x,O.y,U.x,U.y,"#111827",4.2,null,"url(#arrU)")); vectorLayer.appendChild(line(O.x,O.y,V.x,V.y,"#334155",4.2,null,"url(#arrV)")); vectorLayer.appendChild(line(O.x,O.y,W.x,W.y,"#0f766e",4.2,null,"url(#arrW)"));
+    heightLayer.appendChild(line(W.x,W.y,P.x,P.y,"#b45309",3.1,"8 7")); heightLayer.appendChild(circle(P.x,P.y,5.5,"#b45309")); heightLayer.appendChild(text((O.x+P.x)/2+12,(O.y+P.y)/2-6,"h","svg-label","#b45309")); heightLayer.appendChild(text(P.x+12,P.y-8,"proy_z(𝐰)","svg-small","#b45309")); heightLayer.appendChild(line(P.x,P.y,P.x+16,P.y,"#b45309",2.1)); heightLayer.appendChild(line(P.x+16,P.y,P.x+16,P.y-16,"#b45309",2.1)); heightLayer.appendChild(line(P.x+16,P.y-16,P.x,P.y-16,"#b45309",2.1));
+    handleLayer.appendChild(circle(U.x,U.y,10,"#111827","#ffffff",2)); handleLayer.appendChild(circle(V.x,V.y,10,"#334155","#ffffff",2)); handleLayer.appendChild(circle(W.x,W.y,10,"#0f766e","#ffffff",2)); handleLayer.appendChild(circle(O.x,O.y,4.5,"#111827"));
+    vectorLayer.appendChild(text((O.x+U.x)/2+10,(O.y+U.y)/2-6,"𝐮","svg-label","#111827")); vectorLayer.appendChild(text((O.x+V.x)/2+10,(O.y+V.y)/2-6,"𝐯","svg-label","#334155")); vectorLayer.appendChild(text((O.x+W.x)/2+10,(O.y+W.y)/2-8,"𝐰","svg-label","#0f766e"));
+    const baseA=Math.abs(det2({x:state.u.x,y:state.u.y},{x:state.v.x,y:state.v.y})); const vol=baseA*state.w.z; uVal.textContent=`(${fmt(state.u.x)}, ${fmt(state.u.y)}, 0)`; vVal.textContent=`(${fmt(state.v.x)}, ${fmt(state.v.y)}, 0)`; wVal.textContent=`(${fmt(state.w.x)}, 0, ${fmt(state.w.z)})`; projVal.textContent=`(0, 0, ${fmt(state.w.z)})`; hVal.textContent=fmt(state.w.z); baseAreaVal.textContent=fmt(baseA); volVal.textContent=fmt(vol); volBox.textContent=`|V| = ${fmt(vol)}`; if (stateVal) { if (Math.abs(state.w.z) < 0.01 || vol < 0.01) { stateVal.textContent = "Coplanares: h = 0 y V = 0"; stateVal.style.color = "#0f766e"; } else { stateVal.textContent = "No coplanares"; stateVal.style.color = "#b91c1c"; } } }
+  function redraw(){ drawGuides(); drawAxes(); drawScene(); }
+  function startDrag(ev){ ev.preventDefault(); const p=pointerPos(ev); const U=proj(state.u),V=proj(state.v),W=proj(state.w); const dU=screenDist(p,U), dV=screenDist(p,V), dW=screenDist(p,W); const m=Math.min(dU,dV,dW); if(m<24){ if(m===dU) state.drag="u"; else if(m===dV) state.drag="v"; else state.drag="w"; try{svg.setPointerCapture(ev.pointerId);}catch(e){} } }
+  function moveDrag(ev){ if(!state.drag) return; ev.preventDefault(); const p=pointerPos(ev); if(state.drag==="u" || state.drag==="v"){ const dx=p.x-O2.x, dy=p.y-O2.y; const q=fromScreenXY(dx,dy); state[state.drag]=clampUV({x:q.x,y:q.y,z:0}); } else if(state.drag==="w"){ const dx=p.x-O2.x, dy=p.y-O2.y; const q=fromScreenXZ(dx,dy); state.w=clampW({x:q.x,y:0,z:q.z}); } redraw(); }
+  function stopDrag(ev){ state.drag=null; try{svg.releasePointerCapture(ev.pointerId);}catch(e){} }
+  svg.addEventListener("pointerdown",startDrag); svg.addEventListener("pointermove",moveDrag); svg.addEventListener("pointerup",stopDrag); svg.addEventListener("pointercancel",stopDrag);
+  document.getElementById("resetBtn").addEventListener("click",()=>{ state.u={x:3.8,y:0.9,z:0}; state.v={x:1.5,y:3.0,z:0}; state.w={x:1.1,y:0,z:2.8}; redraw(); });
+  document.getElementById("exampleBtn").addEventListener("click",()=>{ state.u={x:4.2,y:0.7,z:0}; state.v={x:1.0,y:3.6,z:0}; state.w={x:2.1,y:0,z:3.5}; redraw(); });
+  redraw();
+})();
+</script>
+</body>
+</html>

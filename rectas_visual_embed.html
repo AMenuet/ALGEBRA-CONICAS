@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Visualizaciones · Rectas en el plano</title>
+<style>
+  :root{--blue:#0b5cad;--blue2:#083b7a;--line:#d7e1ef;--soft:#eef5ff;--text:#172033;--muted:#5b6b84;--orange:#b45309;--green:#0f766e;--red:#dc2626}
+  *{box-sizing:border-box}
+  body{margin:0;background:#fbfdff;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
+  .wrap{padding:10px}
+  .intro{background:white;border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:12px}
+  .intro h3{margin:0 0 6px;color:var(--blue2)}
+  .intro p{margin:0;color:var(--muted);line-height:1.45}
+  .grid{display:grid;grid-template-columns:repeat(5,minmax(190px,1fr));gap:12px}
+  .card{background:white;border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 8px 18px rgba(8,59,122,.06)}
+  .card h4{margin:0 0 4px;color:var(--blue2);font-size:17px}
+  .card p{margin:0 0 8px;color:var(--muted);font-size:13px}
+  svg{width:100%;height:auto;display:block;border:1px solid #e5eef9;border-radius:14px;background:white}
+  .formula{background:var(--soft);border-left:5px solid var(--blue);border-radius:12px;padding:9px;margin-top:8px;text-align:center;font-family:"Cambria Math",Georgia,serif;font-size:20px;color:#111827}
+  .controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+  .control{font-size:12px;color:var(--blue2);font-weight:700}
+  .control label{display:flex;justify-content:space-between;gap:6px}
+  input[type=range]{width:100%;accent-color:var(--blue)}
+  .note{margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:10px;color:#7c2d12}
+  .axis{stroke:#111;stroke-width:1.6}
+  .gridline{stroke:#e5eef9;stroke-width:1}
+  .line{stroke:#1263e6;stroke-width:3}
+  .dash{stroke-dasharray:6 5}
+  .pt{fill:#1263e6}
+  .orange{stroke:var(--orange);fill:var(--orange)}
+  .green{stroke:var(--green);fill:var(--green)}
+  .red{stroke:var(--red);fill:var(--red)}
+  text{font-family:"Cambria Math",Georgia,serif;font-size:15px;fill:#111827}
+  .label{font-weight:700;font-size:17px}
+  @media(max-width:1350px){.grid{grid-template-columns:repeat(3,minmax(190px,1fr))}} @media(max-width:850px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h3>Visualizaciones interactivas · Rectas en el plano</h3>
+    <p>Mové los controles para observar cómo cambian la recta y sus parámetros en cada forma de ecuación.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card" data-kind="pointSlope">
+      <h4>1. Forma punto-pendiente</h4><p>Punto P₀(x₀,y₀) y pendiente m.</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>x₀ <span data-val="x0"></span></label><input data-var="x0" type="range" min="-4" max="4" step="0.5" value="1"></div>
+        <div class="control"><label>y₀ <span data-val="y0"></span></label><input data-var="y0" type="range" min="-4" max="4" step="0.5" value="1"></div>
+        <div class="control"><label>m <span data-val="m"></span></label><input data-var="m" type="range" min="-3" max="3" step="0.25" value="1.5"></div>
+      </div>
+      <div class="formula">y − y₀ = m(x − x₀)</div>
+    </div>
+
+    <div class="card" data-kind="slopeIntercept">
+      <h4>2. Forma pendiente-ordenada</h4><p>Pendiente m y ordenada al origen b.</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>m <span data-val="m"></span></label><input data-var="m" type="range" min="-3" max="3" step="0.25" value="1.2"></div>
+        <div class="control"><label>b <span data-val="b"></span></label><input data-var="b" type="range" min="-4" max="4" step="0.5" value="-1"></div>
+      </div>
+      <div class="formula">y = mx + b</div>
+    </div>
+
+    <div class="card" data-kind="twoPoints">
+      <h4>3. Forma dos puntos</h4><p>Dos puntos P₁ y P₂ determinan la recta.</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>x₁ <span data-val="x1"></span></label><input data-var="x1" type="range" min="-4" max="3" step="0.5" value="-3"></div>
+        <div class="control"><label>y₁ <span data-val="y1"></span></label><input data-var="y1" type="range" min="-4" max="4" step="0.5" value="-1"></div>
+        <div class="control"><label>x₂ <span data-val="x2"></span></label><input data-var="x2" type="range" min="-3" max="4" step="0.5" value="2"></div>
+        <div class="control"><label>y₂ <span data-val="y2"></span></label><input data-var="y2" type="range" min="-4" max="4" step="0.5" value="3"></div>
+      </div>
+      <div class="formula">m = (y₂ − y₁)/(x₂ − x₁)</div>
+    </div>
+
+    <div class="card" data-kind="intercepts">
+      <h4>4. Forma segmentaria</h4><p>Intersecciones con los ejes: (a,0) y (0,b).</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>a <span data-val="a"></span></label><input data-var="a" type="range" min="-5" max="5" step="0.5" value="3"></div>
+        <div class="control"><label>b <span data-val="b"></span></label><input data-var="b" type="range" min="-5" max="5" step="0.5" value="2"></div>
+      </div>
+      <div class="formula">x/a + y/b = 1</div>
+    </div>
+
+    <div class="card" data-kind="normal">
+      <h4>5. Forma normal</h4><p>Distancia d y ángulo α de la normal.</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>d <span data-val="d"></span></label><input data-var="d" type="range" min="-4" max="4" step="0.5" value="2"></div>
+        <div class="control"><label>α <span data-val="alpha"></span></label><input data-var="alpha" type="range" min="0" max="180" step="5" value="30"></div>
+      </div>
+      <div class="formula">x cos α + y sin α − d = 0</div>
+    </div>
+
+    <div class="card" data-kind="general">
+      <h4>6. Forma general</h4><p>Coeficientes A, B y C.</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>A <span data-val="A"></span></label><input data-var="A" type="range" min="-4" max="4" step="0.5" value="2"></div>
+        <div class="control"><label>B <span data-val="B"></span></label><input data-var="B" type="range" min="-4" max="4" step="0.5" value="-1"></div>
+        <div class="control"><label>C <span data-val="C"></span></label><input data-var="C" type="range" min="-5" max="5" step="0.5" value="-2"></div>
+      </div>
+      <div class="formula">Ax + By + C = 0</div>
+    </div>
+
+    <div class="card" data-kind="director">
+      <h4>7. Vector director</h4><p>Vector paralelo a la recta.</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>vₓ <span data-val="vx"></span></label><input data-var="vx" type="range" min="-4" max="4" step="0.5" value="2"></div>
+        <div class="control"><label>vᵧ <span data-val="vy"></span></label><input data-var="vy" type="range" min="-4" max="4" step="0.5" value="1"></div>
+      </div>
+      <div class="formula">𝐯 = (vₓ, vᵧ)</div>
+    </div>
+
+    <div class="card" data-kind="normalVector">
+      <h4>8. Vector normal</h4><p>Vector perpendicular a la recta.</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>A <span data-val="A"></span></label><input data-var="A" type="range" min="-4" max="4" step="0.5" value="2"></div>
+        <div class="control"><label>B <span data-val="B"></span></label><input data-var="B" type="range" min="-4" max="4" step="0.5" value="1"></div>
+      </div>
+      <div class="formula">𝐧 = (A, B)</div>
+    </div>
+
+    <div class="card" data-kind="vertical">
+      <h4>9. Recta vertical</h4><p>Caso particular: x = c.</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>c <span data-val="c"></span></label><input data-var="c" type="range" min="-5" max="5" step="0.5" value="2"></div>
+      </div>
+      <div class="formula">x = c</div>
+    </div>
+
+    <div class="card" data-kind="horizontal">
+      <h4>10. Recta horizontal</h4><p>Caso particular: y = c.</p>
+      <svg viewBox="0 0 360 260"></svg>
+      <div class="controls">
+        <div class="control"><label>c <span data-val="c"></span></label><input data-var="c" type="range" min="-5" max="5" step="0.5" value="-1"></div>
+      </div>
+      <div class="formula">y = c</div>
+    </div>
+  </div>
+
+  <div class="note">💡 Interactuá con los controles para observar cómo cambia la recta y cómo cada forma resalta un dato distinto.</div>
+</div>
+
+<script>
+(() => {
+  const W = 360, H = 260;
+  const view = { xmin:-5, xmax:5, ymin:-5, ymax:5, pad:28 };
+  const cards = [...document.querySelectorAll(".card")];
+
+  function val(card, name){ return Number(card.querySelector(`[data-var="${name}"]`)?.value || 0); }
+  function fmt(n){ const r = Math.round(n*100)/100; return Number.isInteger(r) ? String(r) : r.toFixed(1); }
+  function P(x,y){
+    const s = Math.min(W - 2*view.pad, H - 2*view.pad);
+    const ox = (W - s) / 2;
+    const oy = (H - s) / 2;
+    return {
+      x: ox + (x-view.xmin)/(view.xmax-view.xmin)*s,
+      y: oy + (view.ymax-y)/(view.ymax-view.ymin)*s
+    };
+  }
+  function lineEl(x1,y1,x2,y2, cls="line", dash=false){
+    const el = document.createElementNS("http://www.w3.org/2000/svg","line");
+    el.setAttribute("x1",x1); el.setAttribute("y1",y1); el.setAttribute("x2",x2); el.setAttribute("y2",y2);
+    el.setAttribute("class", cls + (dash ? " dash" : ""));
+    return el;
+  }
+  function textEl(x,y,t,cls=""){
+    const el = document.createElementNS("http://www.w3.org/2000/svg","text");
+    el.setAttribute("x",x); el.setAttribute("y",y); if(cls) el.setAttribute("class",cls); el.textContent=t; return el;
+  }
+  function circleEl(x,y,r=5,cls="pt"){
+    const el = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    el.setAttribute("cx",x); el.setAttribute("cy",y); el.setAttribute("r",r); el.setAttribute("class",cls); return el;
+  }
+  function pathLineFromMB(m,b){
+    const x1=view.xmin, y1=m*x1+b, x2=view.xmax, y2=m*x2+b;
+    return [P(x1,y1), P(x2,y2)];
+  }
+  function pathGeneral(A,B,C){
+    if(Math.abs(A)<0.001 && Math.abs(B)<0.001) return [P(-5,0),P(5,0)];
+    if(Math.abs(B)>0.001) return pathLineFromMB(-A/B, -C/B);
+    const x = -C/A; return [P(x,view.ymin), P(x,view.ymax)];
+  }
+  function drawBase(svg){
+    svg.innerHTML = "";
+    const bg = document.createElementNS("http://www.w3.org/2000/svg","rect");
+    bg.setAttribute("width",W); bg.setAttribute("height",H); bg.setAttribute("fill","white"); svg.appendChild(bg);
+    for(let i=-5;i<=5;i++){
+      const a=P(i,view.ymin), b=P(i,view.ymax); svg.appendChild(lineEl(a.x,a.y,b.x,b.y,"gridline"));
+      const c=P(view.xmin,i), d=P(view.xmax,i); svg.appendChild(lineEl(c.x,c.y,d.x,d.y,"gridline"));
+    }
+    const x0=P(view.xmin,0), x1=P(view.xmax,0), y0=P(0,view.ymin), y1=P(0,view.ymax);
+    svg.appendChild(lineEl(x0.x,x0.y,x1.x,x1.y,"axis"));
+    svg.appendChild(lineEl(y0.x,y0.y,y1.x,y1.y,"axis"));
+    svg.appendChild(textEl(x1.x-10,x1.y-4,"x"));
+    svg.appendChild(textEl(y1.x+4,y1.y+12,"y"));
+  }
+  function drawArrow(svg, p1, p2, cls="green"){
+    svg.appendChild(lineEl(p1.x,p1.y,p2.x,p2.y,cls));
+    const ang=Math.atan2(p2.y-p1.y,p2.x-p1.x), len=10;
+    const a1={x:p2.x-len*Math.cos(ang-.5),y:p2.y-len*Math.sin(ang-.5)};
+    const a2={x:p2.x-len*Math.cos(ang+.5),y:p2.y-len*Math.sin(ang+.5)};
+    svg.appendChild(lineEl(a1.x,a1.y,p2.x,p2.y,cls));
+    svg.appendChild(lineEl(a2.x,a2.y,p2.x,p2.y,cls));
+  }
+  function updateValues(card){
+    card.querySelectorAll("input").forEach(inp=>{
+      const span = card.querySelector(`[data-val="${inp.dataset.var}"]`);
+      if(span) span.textContent = fmt(Number(inp.value));
+    });
+  }
+  function draw(card){
+    updateValues(card);
+    const svg = card.querySelector("svg");
+    drawBase(svg);
+    const kind = card.dataset.kind;
+    let a,b,p,q,m;
+
+    if(kind==="pointSlope"){
+      const x0=val(card,"x0"), y0=val(card,"y0"); m=val(card,"m");
+      [a,b]=pathLineFromMB(m,y0-m*x0); svg.appendChild(lineEl(a.x,a.y,b.x,b.y));
+      p=P(x0,y0); svg.appendChild(circleEl(p.x,p.y)); svg.appendChild(textEl(p.x+8,p.y-8,"P₀(x₀,y₀)","label"));
+      const px=P(x0,0); svg.appendChild(lineEl(p.x,p.y,px.x,px.y,"orange",true));
+    }
+    if(kind==="slopeIntercept"){
+      m=val(card,"m"); const bb=val(card,"b"); [a,b]=pathLineFromMB(m,bb); svg.appendChild(lineEl(a.x,a.y,b.x,b.y));
+      p=P(0,bb); svg.appendChild(circleEl(p.x,p.y)); svg.appendChild(textEl(p.x+8,p.y-8,"b","label"));
+    }
+    if(kind==="twoPoints"){
+      const x1=val(card,"x1"), y1=val(card,"y1"), x2=val(card,"x2"), y2=val(card,"y2");
+      if(Math.abs(x2-x1)<.01){ a=P(x1,-5); b=P(x1,5); } else { m=(y2-y1)/(x2-x1); [a,b]=pathLineFromMB(m,y1-m*x1); }
+      svg.appendChild(lineEl(a.x,a.y,b.x,b.y)); p=P(x1,y1); q=P(x2,y2);
+      svg.appendChild(circleEl(p.x,p.y)); svg.appendChild(circleEl(q.x,q.y)); svg.appendChild(textEl(p.x-10,p.y+20,"P₁","label")); svg.appendChild(textEl(q.x+5,q.y-8,"P₂","label"));
+    }
+    if(kind==="intercepts"){
+      const aa=val(card,"a") || .5, bb=val(card,"b") || .5;
+      [a,b]=pathLineFromMB(-bb/aa,bb); svg.appendChild(lineEl(a.x,a.y,b.x,b.y));
+      p=P(aa,0); q=P(0,bb); svg.appendChild(circleEl(p.x,p.y)); svg.appendChild(circleEl(q.x,q.y)); svg.appendChild(textEl(p.x-12,p.y-10,"(a,0)","label")); svg.appendChild(textEl(q.x+8,q.y-8,"(0,b)","label"));
+    }
+    if(kind==="normal"){
+      const d=val(card,"d"), alpha=val(card,"alpha")*Math.PI/180, A=Math.cos(alpha), B=Math.sin(alpha), C=-d;
+      [a,b]=pathGeneral(A,B,C); svg.appendChild(lineEl(a.x,a.y,b.x,b.y));
+      const O=P(0,0), N=P(A*d,B*d); drawArrow(svg,O,N,"red"); svg.appendChild(textEl(N.x+5,N.y-5,"d","label"));
+    }
+    if(kind==="general"){
+      const A=val(card,"A"), B=val(card,"B"), C=val(card,"C"); [a,b]=pathGeneral(A,B,C); svg.appendChild(lineEl(a.x,a.y,b.x,b.y));
+    }
+    if(kind==="director"){
+      const vx=val(card,"vx") || 1, vy=val(card,"vy"); [a,b]=pathLineFromMB(vy/vx,1); svg.appendChild(lineEl(a.x,a.y,b.x,b.y)); p=P(1,0); q=P(1+vx,vy); drawArrow(svg,p,q,"green"); svg.appendChild(textEl(q.x+5,q.y-5,"𝐯","label"));
+    }
+    if(kind==="normalVector"){
+      const A=val(card,"A"), B=val(card,"B"); [a,b]=pathGeneral(A,B,0); svg.appendChild(lineEl(a.x,a.y,b.x,b.y)); p=P(0,0); q=P(A,B); drawArrow(svg,p,q,"red"); svg.appendChild(textEl(q.x+5,q.y-5,"𝐧","label"));
+    }
+    if(kind==="vertical"){
+      const c=val(card,"c"); a=P(c,view.ymin); b=P(c,view.ymax); svg.appendChild(lineEl(a.x,a.y,b.x,b.y)); svg.appendChild(textEl(P(c,0).x+5,P(c,0).y+50,"x = c","label"));
+    }
+    if(kind==="horizontal"){
+      const c=val(card,"c"); a=P(view.xmin,c); b=P(view.xmax,c); svg.appendChild(lineEl(a.x,a.y,b.x,b.y)); svg.appendChild(textEl(P(2,c).x,P(2,c).y-8,"y = c","label"));
+    }
+  }
+
+  cards.forEach(card => {
+    card.querySelectorAll("input").forEach(inp => inp.addEventListener("input", () => draw(card)));
+    draw(card);
+  });
+})();
+</script>
+</body>
+</html>
