@@ -190,3 +190,6 @@ Se completó la subsección Ecuación general:
 - clasificador automático;
 - 8 actividades;
 - 8 preguntas de autoevaluación.
+
+## V7.5 · Cónicas · Excentricidad y casos imaginarios
+Se agregó una tarjeta sobre cónicas imaginarias/casos degenerados y se completó la subsección Excentricidad con visualización, actividades y autoevaluación.

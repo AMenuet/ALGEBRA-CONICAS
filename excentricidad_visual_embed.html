@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Excentricidad</title>
+<style>
+:root{--blue:#0b5cad;--blue2:#083b7a;--line:#d7e1ef;--soft:#eef5ff;--muted:#5b6b84}
+*{box-sizing:border-box}body{margin:0;background:#fbfdff;font-family:"Segoe UI",Arial,sans-serif;color:#172033}
+.wrap{padding:10px}.intro,.card{background:white;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 8px 18px rgba(8,59,122,.05)}
+.intro{margin-bottom:12px}.intro h3,.card h4{margin:0 0 6px;color:var(--blue2)}.intro p,.card p{margin:0 0 8px;color:var(--muted);line-height:1.45}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:12px}.formula{background:var(--soft);border-left:5px solid var(--blue);border-radius:12px;padding:9px;margin-top:8px;text-align:center;font-family:"Cambria Math",Georgia,serif;font-size:20px}
+.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}.control{font-size:12px;color:var(--blue2);font-weight:700}.control label{display:flex;justify-content:space-between}input{width:100%;accent-color:var(--blue)}
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}.badge{background:#eef5ff;border:1px solid #d7e1ef;border-radius:14px;padding:8px;text-align:center;font-weight:800;color:#083b7a}
+svg{width:100%;height:auto;border:1px solid #e5eef9;border-radius:14px;background:white}.axis{stroke:#111;stroke-width:1.5}.gridline{stroke:#e5eef9}.curve{stroke:#1263e6;stroke-width:3;fill:rgba(18,99,230,.06)}.directrix{stroke:#dc2626;stroke-width:3;stroke-dasharray:8 6}.focus-line{stroke:#b45309;stroke-width:2;stroke-dasharray:6 5}.pt{fill:#1263e6}.focus{fill:#dc2626}text{font-family:"Cambria Math",Georgia,serif;font-size:15px}.label{font-weight:700}
+@media(max-width:900px){.grid,.controls,.badges{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro"><h3>Visualización unificada · Excentricidad</h3><p>La excentricidad e clasifica las cónicas desde la razón entre distancia al foco y distancia a la directriz.</p></div>
+  <div class="grid">
+    <div class="card" data-kind="ecc">
+      <h4>Foco-directriz</h4><p>Directriz x=0, foco F=(2p,0). Al variar e se obtiene elipse, parábola o hipérbola.</p>
+      <svg viewBox="0 0 720 420"></svg>
+      <div class="controls">
+        <div class="control"><label>e <span data-val="e"></span></label><input data-var="e" type="range" min="0.3" max="2.2" step="0.05" value="0.75"></div>
+        <div class="control"><label>p <span data-val="p"></span></label><input data-var="p" type="range" min="0.5" max="2.5" step="0.25" value="1"></div>
+      </div>
+      <div class="badges"><div class="badge" data-out="tipo">Tipo</div><div class="badge" data-out="rel">e</div><div class="badge" data-out="lec">Lectura</div></div>
+      <div class="formula">d(P,F) / d(P,directriz) = e</div>
+    </div>
+    <div class="card">
+      <h4>Clasificación</h4>
+      <div class="badges"><div class="badge">e&lt;1 → Elipse</div><div class="badge">e=1 → Parábola</div><div class="badge">e&gt;1 → Hipérbola</div></div>
+      <div class="formula">e = c/a</div>
+      <p>En elipse e hipérbola se calcula como c/a. La circunferencia queda como caso particular e=0.</p>
+    </div>
+  </div>
+</div>
+<script>
+(()=>{const W=720,H=420,view={xmin:-3,xmax:8,ymin:-4,ymax:4,pad:35},card=document.querySelector('[data-kind="ecc"]');
+function v(n){return Number(card.querySelector(`[data-var="${n}"]`).value)}function f(n){const r=Math.round(n*100)/100;return Number.isInteger(r)?String(r):r.toFixed(2)}
+function P(x,y){const sx=(W-2*view.pad)/(view.xmax-view.xmin),sy=(H-2*view.pad)/(view.ymax-view.ymin),s=Math.min(sx,sy),ox=(W-s*(view.xmax-view.xmin))/2,oy=(H-s*(view.ymax-view.ymin))/2;return{x:ox+(x-view.xmin)*s,y:oy+(view.ymax-y)*s}}
+function E(n,a={}){const e=document.createElementNS("http://www.w3.org/2000/svg",n);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));return e}
+function L(a,b,c,d,cls="axis"){return E("line",{x1:a,y1:b,x2:c,y2:d,class:cls})}function T(x,y,t,cls=""){const e=E("text",{x,y,class:cls});e.textContent=t;return e}
+function C(x,y,r,cls="pt"){return E("circle",{cx:x,cy:y,r,class:cls})}
+function base(svg){svg.innerHTML="";svg.appendChild(E("rect",{width:W,height:H,fill:"white"}));for(let i=-3;i<=8;i++){let a=P(i,-4),b=P(i,4);svg.appendChild(L(a.x,a.y,b.x,b.y,"gridline"))}for(let j=-4;j<=4;j++){let a=P(-3,j),b=P(8,j);svg.appendChild(L(a.x,a.y,b.x,b.y,"gridline"))}let x0=P(-3,0),x1=P(8,0),y0=P(0,-4),y1=P(0,4);svg.appendChild(L(x0.x,x0.y,x1.x,x1.y));svg.appendChild(L(y0.x,y0.y,y1.x,y1.y))}
+function draw(){card.querySelectorAll("input").forEach(inp=>{card.querySelector(`[data-val="${inp.dataset.var}"]`).textContent=f(Number(inp.value))});const e=v("e"),p=v("p"),svg=card.querySelector("svg");base(svg);let tipo=e<.98?"Elipse":e>1.02?"Hipérbola":"Parábola";card.querySelector('[data-out="tipo"]').textContent=tipo;card.querySelector('[data-out="rel"]').textContent="e="+f(e);card.querySelector('[data-out="lec"]').textContent=e<1?"e<1":e>1?"e>1":"e=1";let a=P(0,-4),b=P(0,4),F=P(2*p,0);svg.appendChild(L(a.x,a.y,b.x,b.y,"directrix"));svg.appendChild(C(F.x,F.y,6,"focus"));svg.appendChild(T(F.x+8,F.y-8,"F","label"));let pts=[];for(let x=-2.5;x<=7.5;x+=.03){let y2=-(1-e*e)*x*x+4*p*x-4*p*p;if(y2>=0&&y2<16)pts.push(P(x,Math.sqrt(y2)))}for(let x=7.5;x>=-2.5;x-=.03){let y2=-(1-e*e)*x*x+4*p*x-4*p*p;if(y2>=0&&y2<16)pts.push(P(x,-Math.sqrt(y2)))}if(pts.length>2)svg.appendChild(E("path",{d:"M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L"),class:"curve"}));let q=pts[Math.floor(pts.length*.25)];if(q){svg.appendChild(C(q.x,q.y,5));svg.appendChild(L(q.x,q.y,F.x,F.y,"focus-line"));svg.appendChild(T(q.x+8,q.y-8,"P","label"))}}
+card.querySelectorAll("input").forEach(i=>i.addEventListener("input",draw));draw();})();
+</script>
+</body></html>
