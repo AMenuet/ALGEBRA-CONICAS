@@ -829,5 +829,9 @@ footer {
 }
 
 /* V7.5: Cónicas · Excentricidad */
-.excentricidad-frame { min-height: 980px; }
-@media (max-width: 900px) { .excentricidad-frame { min-height: 1550px; } }
+.excentricidad-frame { min-height: 1280px; }
+@media (max-width: 900px) { .excentricidad-frame { min-height: 1750px; } }
+
+/* V7.6: Excentricidad mejorada */
+.excentricidad-frame { min-height: 1280px; }
+@media (max-width: 900px) { .excentricidad-frame { min-height: 1750px; } }

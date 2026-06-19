@@ -193,3 +193,6 @@ Se completó la subsección Ecuación general:
 
 ## V7.5 · Cónicas · Excentricidad y casos imaginarios
 Se agregó una tarjeta sobre cónicas imaginarias/casos degenerados y se completó la subsección Excentricidad con visualización, actividades y autoevaluación.
+
+## V7.6 · Excentricidad mejorada
+Se reemplazó la visualización de Excentricidad por una versión con foco, directriz, punto P, distancias PF/PD, selector de orientación, botones rápidos y barra conceptual.
