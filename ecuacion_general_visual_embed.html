@@ -28,7 +28,7 @@ input[type=range]{width:100%;accent-color:var(--blue)}
 .steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .step{background:#fbfdff;border:1px solid var(--line);border-radius:14px;padding:10px}
 .step strong{color:var(--blue2)}
-.axis{stroke:#111;stroke-width:1.6}
+.decision-box{fill:#eef5ff;stroke:#bfd3ea;stroke-width:1.5}.decision-yes{fill:#ecfeff}.decision-no{fill:#fef2f2}.decision-par{fill:#ffedd5}.decision-eli{fill:#ccfbf1}.decision-line{stroke:#334155;stroke-width:2;fill:none}.axis{stroke:#111;stroke-width:1.6}
 .gridline{stroke:#e5eef9;stroke-width:1}
 .curve{stroke:#1263e6;stroke-width:3;fill:rgba(18,99,230,.06)}
 .asym{stroke:#dc2626;stroke-width:2;stroke-dasharray:8 6}
@@ -133,14 +133,30 @@ function classify(A,C,D,E,F){
  return {tipo:"Elipse / punto / vacío", delta, info:"A y C mismo signo"};
 }
 function drawDecision(svg){
- base(svg);
- const boxes=[
-  [70,40,"¿A y C?", "#eef5ff"],[70,105,"Mismo signo", "#ecfeff"],[250,105,"Signo opuesto", "#fef2f2"],
-  [35,180,"A=C", "#eef5ff"],[135,180,"A≠C", "#eef5ff"],[250,180,"Hipérbola", "#fee2e2"],
-  [25,250,"Circunferencia", "#dbeafe"],[135,250,"Elipse", "#ccfbf1"],[250,250,"Si A=0 o C=0 → Parábola", "#ffedd5"]
- ];
- boxes.forEach(([x,y,t,fill])=>{svg.appendChild(el("rect",{x,y,width:135,height:42,rx:12,fill,stroke:"#d7e1ef"})); svg.appendChild(txt(x+10,y+25,t))});
- [["137","82","137","105"],["137","147","75","180"],["137","147","175","180"],["137","82","305","105"],["305","147","305","180"],["75","222","75","250"],["175","222","175","250"]].forEach(a=>svg.appendChild(line(a[0],a[1],a[2],a[3],"axis")));
+ svg.innerHTML="";
+ svg.appendChild(el("rect",{width:420,height:320,rx:16,fill:"#ffffff"}));
+ function box(x,y,w,h,t,cls="decision-box"){
+   svg.appendChild(el("rect",{x,y,width:w,height:h,rx:14,class:cls}));
+   const e=txt(x+w/2,y+h/2+5,t); e.setAttribute("text-anchor","middle"); svg.appendChild(e);
+ }
+ function path(d){svg.appendChild(el("path",{d,class:"decision-line"}))}
+ function label(x,y,t){const e=txt(x,y,t); e.setAttribute("text-anchor","middle"); e.setAttribute("font-weight","700"); svg.appendChild(e)}
+ box(135,18,150,44,"¿Hay un solo término cuadrático?");
+ path("M210 62 L120 92"); path("M210 62 L305 92");
+ box(35,92,170,44,"Sí: A=0 o C=0","decision-par");
+ box(245,92,140,44,"No","decision-box");
+ path("M120 136 L120 168");
+ box(45,168,150,44,"Parábola","decision-par");
+ path("M315 136 L315 168");
+ box(235,168,160,44,"¿A y C tienen signos opuestos?","decision-box");
+ path("M315 212 L245 238"); path("M315 212 L365 238");
+ box(185,238,120,44,"No","decision-yes");
+ box(320,238,90,44,"Sí","decision-no");
+ path("M245 282 L170 304"); path("M245 282 L250 304");
+ label(145,304,"A=C → Circunferencia");
+ label(262,304,"A≠C → Elipse");
+ label(365,304,"Hipérbola");
+ const title=txt(210,312,"Caso sin rotación: B=0  ⇒  Δ = −4AC"); title.setAttribute("text-anchor","middle"); title.setAttribute("font-size","13"); title.setAttribute("fill","#083b7a"); title.setAttribute("font-weight","700"); svg.appendChild(title);
 }
 function pathEllipse(h,k,rx,ry){let pts=[]; for(let t=0;t<=Math.PI*2+.05;t+=.05){pts.push(P(h+rx*Math.cos(t),k+ry*Math.sin(t)))} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")+" Z"}
 function pathHyperbola(h,k,a,b){let branch=(side)=>{let pts=[]; for(let u=0;u<=2;u+=.04){pts.push(P(h+side*a*Math.cosh(u),k+b*Math.sinh(u)))} for(let u=2;u>=0;u-=.04){pts.push(P(h+side*a*Math.cosh(u),k-b*Math.sinh(u)))} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")}; return [branch(1),branch(-1)]}

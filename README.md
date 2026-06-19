@@ -196,3 +196,13 @@ Se agregó una tarjeta sobre cónicas imaginarias/casos degenerados y se complet
 
 ## V7.6 · Excentricidad mejorada
 Se reemplazó la visualización de Excentricidad por una versión con foco, directriz, punto P, distancias PF/PD, selector de orientación, botones rápidos y barra conceptual.
+
+## V7.6.1 · Corrección de caché de Excentricidad
+Se renombró la visualización interna a `excentricidad_visual_embed_v76.html` y se actualizó el iframe con versión para evitar que GitHub Pages cargue la gráfica anterior desde caché.
+
+## V7.7 · Ajuste visual del diagrama de decisión
+Se limpió el diagrama de decisión de Ecuación General:
+- sin grilla de fondo;
+- bloques ordenados;
+- conectores más claros;
+- separación explícita del caso parábola.

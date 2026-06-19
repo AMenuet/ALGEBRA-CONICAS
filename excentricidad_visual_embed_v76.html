@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Excentricidad · Visualización mejorada</title>
+<style>
+:root{--blue:#0b5cad;--blue2:#083b7a;--line:#d7e1ef;--soft:#eef5ff;--text:#172033;--muted:#5b6b84;--orange:#b45309;--green:#0f766e;--red:#dc2626;--violet:#5b21b6}
+*{box-sizing:border-box}
+body{margin:0;background:#fbfdff;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
+.wrap{padding:10px}
+.intro{background:white;border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:12px}
+.intro h3{margin:0 0 6px;color:var(--blue2);font-size:22px}
+.intro p{margin:0;color:var(--muted);line-height:1.45}
+.layout{display:grid;grid-template-columns:280px 1fr;gap:12px}
+.panel,.graph-card,.bottom-card{background:white;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 8px 18px rgba(8,59,122,.06)}
+.panel h4,.graph-card h4,.bottom-card h4{margin:0 0 8px;color:var(--blue2)}
+.control{font-size:13px;color:var(--blue2);font-weight:800;margin:12px 0}
+.control label{display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}
+input[type=range]{width:100%;accent-color:var(--blue)}
+select{width:100%;border:1px solid var(--line);border-radius:10px;padding:7px;background:white;color:var(--blue2);font-weight:800}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.quick button{border:1px solid var(--line);background:#eef5ff;color:var(--blue2);border-radius:12px;padding:8px;font-weight:800;cursor:pointer}
+.quick button:hover{background:#dbeafe}
+.class-list{display:grid;gap:8px;margin-top:12px}
+.class-row{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line);background:#fbfdff;border-radius:12px;padding:8px;font-weight:700;color:#334155}
+.class-row.active{border-color:var(--blue);background:#dbeafe;color:#083b7a}
+.metric{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px}
+.metric div{background:#eef5ff;border:1px solid #d7e1ef;border-radius:12px;padding:8px;text-align:center;font-weight:800;color:var(--blue2)}
+svg{width:100%;height:auto;display:block;border:1px solid #e5eef9;border-radius:14px;background:white}
+.axis{stroke:#111;stroke-width:1.6}
+.gridline{stroke:#e5eef9;stroke-width:1}
+.curve{stroke:#1263e6;stroke-width:3;fill:rgba(18,99,230,.08)}
+.directrix{stroke:#dc2626;stroke-width:3;stroke-dasharray:8 6}
+.focus-line{stroke:#b45309;stroke-width:3;stroke-dasharray:6 5}
+.dir-dist{stroke:#0f766e;stroke-width:3;stroke-dasharray:6 5}
+.pt{fill:#1263e6;stroke:white;stroke-width:2;cursor:pointer}
+.focus{fill:#dc2626;stroke:white;stroke-width:2}
+text{font-family:"Cambria Math",Georgia,serif;font-size:15px;fill:#111827}
+.label{font-weight:800;font-size:17px}
+.formula{background:var(--soft);border-left:5px solid var(--blue);border-radius:12px;padding:9px;margin-top:10px;text-align:center;font-family:"Cambria Math",Georgia,serif;font-size:20px}
+.bar{position:relative;height:38px;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:linear-gradient(90deg,#dbeafe 0 5%,#ccfbf1 5% 50%,#ffedd5 50% 52%,#ede9fe 52% 100%)}
+.marker{position:absolute;top:0;width:4px;height:100%;background:#111827;border-radius:999px}
+.bar-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px}
+.legend{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.legend div{border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center;font-weight:800}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.legend{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h3>Excentricidad como parámetro unificador <span style="font-size:13px;color:#5b6b84">V7.6.1</span></h3>
+    <p>Mové la excentricidad e, cambiá la orientación y desplazá el punto P sobre la curva para verificar que PF/PD = e.</p>
+  </div>
+
+  <div class="layout">
+    <aside class="panel">
+      <h4>Controles</h4>
+      <div class="control"><label>e <span data-val="e">0.60</span></label><input id="eSlider" type="range" min="0" max="2.2" step="0.05" value="0.6"></div>
+      <div class="control"><label>posición P <span data-val="t">45°</span></label><input id="tSlider" type="range" min="-80" max="80" step="1" value="35"></div>
+      <div class="control"><label>orientación</label><select id="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
+
+      <div class="quick">
+        <button data-e="0">Circ.</button>
+        <button data-e="0.6">Elipse</button>
+        <button data-e="1">Parábola</button>
+        <button data-e="1.5">Hipérbola</button>
+      </div>
+
+      <div class="class-list">
+        <div class="class-row" data-class="circ"><span>e=0</span><strong>Circunferencia</strong></div>
+        <div class="class-row" data-class="eli"><span>0&lt;e&lt;1</span><strong>Elipse</strong></div>
+        <div class="class-row" data-class="par"><span>e=1</span><strong>Parábola</strong></div>
+        <div class="class-row" data-class="hip"><span>e&gt;1</span><strong>Hipérbola</strong></div>
+      </div>
+
+      <div class="metric">
+        <div id="tipoBox">Tipo</div>
+        <div id="pfBox">PF = </div>
+        <div id="pdBox">PD = </div>
+        <div id="ratioBox">PF/PD = </div>
+      </div>
+    </aside>
+
+    <main class="graph-card">
+      <h4>Foco, directriz y punto P</h4>
+      <svg id="graph" viewBox="0 0 760 460" aria-label="Visualización foco directriz"></svg>
+      <div class="formula">PF / PD = e</div>
+      <div class="bar"><div class="marker" id="marker"></div></div>
+      <div class="bar-labels"><span>e=0</span><span>0&lt;e&lt;1</span><span>e=1</span><span>e&gt;1</span><span>2.2</span></div>
+      <div class="legend">
+        <div>Circunferencia</div><div>Elipse</div><div>Parábola</div><div>Hipérbola</div>
+      </div>
+    </main>
+  </div>
+
+  <div class="bottom-card" style="margin-top:12px">
+    <h4>Idea central</h4>
+    <p>La excentricidad permite ver a la elipse, parábola e hipérbola como una misma familia geométrica. La circunferencia aparece como caso particular de elipse con e=0.</p>
+  </div>
+</div>
+
+<script>
+(() => {
+const svg=document.getElementById("graph");
+const eSlider=document.getElementById("eSlider"), tSlider=document.getElementById("tSlider"), orientSel=document.getElementById("orient");
+const W=760,H=460, view={xmin:-5,xmax:7,ymin:-4.5,ymax:4.5,pad:36};
+const focusDist=2.2; // distancia desde centro/vértice al foco para la representación didáctica
+function val(n){return Number(n.value)}
+function fmt(n){const r=Math.round(n*100)/100; return Number.isInteger(r)?String(r):r.toFixed(2)}
+function P(x,y){const sx=(W-2*view.pad)/(view.xmax-view.xmin), sy=(H-2*view.pad)/(view.ymax-view.ymin), s=Math.min(sx,sy), ox=(W-s*(view.xmax-view.xmin))/2, oy=(H-s*(view.ymax-view.ymin))/2; return {x:ox+(x-view.xmin)*s,y:oy+(view.ymax-y)*s,s}}
+function inv(Q){const sx=(W-2*view.pad)/(view.xmax-view.xmin), sy=(H-2*view.pad)/(view.ymax-view.ymin), s=Math.min(sx,sy), ox=(W-s*(view.xmax-view.xmin))/2, oy=(H-s*(view.ymax-view.ymin))/2; return {x:(Q.x-ox)/s+view.xmin,y:view.ymax-(Q.y-oy)/s}}
+function E(n,a={}){const e=document.createElementNS("http://www.w3.org/2000/svg",n);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));return e}
+function L(a,b,c,d,cls="axis"){return E("line",{x1:a,y1:b,x2:c,y2:d,class:cls})}
+function T(x,y,t,cls=""){const e=E("text",{x,y,class:cls});e.textContent=t;return e}
+function C(x,y,r,cls="pt"){return E("circle",{cx:x,cy:y,r,class:cls})}
+function base(){svg.innerHTML="";svg.appendChild(E("rect",{width:W,height:H,fill:"white"}));for(let i=-5;i<=7;i++){let a=P(i,-4.5),b=P(i,4.5);svg.appendChild(L(a.x,a.y,b.x,b.y,"gridline"))}for(let j=-4;j<=4;j++){let a=P(-5,j),b=P(7,j);svg.appendChild(L(a.x,a.y,b.x,b.y,"gridline"))}let x0=P(-5,0),x1=P(7,0),y0=P(0,-4.5),y1=P(0,4.5);svg.appendChild(L(x0.x,x0.y,x1.x,x1.y));svg.appendChild(L(y0.x,y0.y,y1.x,y1.y));svg.appendChild(T(x1.x-10,x1.y-4,"x"));svg.appendChild(T(y1.x+5,y1.y+14,"y"))}
+function pointOnConic(e,t,orient){
+  const th=t*Math.PI/180;
+  if(e===0){ const r=2.2; return orient==="H"?{x:r*Math.cos(th),y:r*Math.sin(th)}:{x:r*Math.sin(th),y:r*Math.cos(th)}; }
+  if(e<1){
+    const a=2.6, c=e*a, b=Math.sqrt(Math.max(.1,a*a-c*c));
+    return orient==="H"?{x:a*Math.cos(th),y:b*Math.sin(th),a,b,c}:{x:b*Math.sin(th),y:a*Math.cos(th),a,b,c};
+  }
+  if(Math.abs(e-1)<.025){
+    const p=1.2, u=(t/80)*3.2;
+    return orient==="H"?{x:(u*u)/(4*p),y:u,p}:{x:u,y:(u*u)/(4*p),p};
+  }
+  const a=1.6, c=e*a, b=Math.sqrt(Math.max(.1,c*c-a*a)), u=(t/80)*1.75;
+  return orient==="H"?{x:a*Math.cosh(u),y:b*Math.sinh(u),a,b,c}:{x:b*Math.sinh(u),y:a*Math.cosh(u),a,b,c};
+}
+function curvePath(e,orient){
+  let pts=[];
+  if(e===0){
+    for(let th=0;th<=Math.PI*2+.04;th+=.04){let p=pointOnConic(0,th*180/Math.PI,orient);pts.push(P(p.x,p.y))}
+    return ["M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")+" Z"];
+  }
+  if(e<1){
+    for(let th=0;th<=Math.PI*2+.04;th+=.04){let p=pointOnConic(e,th*180/Math.PI,orient);pts.push(P(p.x,p.y))}
+    return ["M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")+" Z"];
+  }
+  if(Math.abs(e-1)<.025){
+    for(let u=-4;u<=4;u+=.05){let p=orient==="H"?{x:(u*u)/(4*1.2),y:u}:{x:u,y:(u*u)/(4*1.2)};pts.push(P(p.x,p.y))}
+    return ["M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")];
+  }
+  let paths=[];
+  for(let side of [1,-1]){
+    pts=[]; const a=1.6,c=e*a,b=Math.sqrt(c*c-a*a);
+    for(let u=-1.8;u<=1.8;u+=.04){let p=orient==="H"?{x:side*a*Math.cosh(u),y:b*Math.sinh(u)}:{x:b*Math.sinh(u),y:side*a*Math.cosh(u)};pts.push(P(p.x,p.y))}
+    paths.push("M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L"));
+  }
+  return paths;
+}
+function focusAndDirectrix(e,orient){
+  if(e===0) return {F:null, direct:null};
+  if(e<1){const a=2.6,c=e*a,d=a/e; return orient==="H"?{F:{x:c,y:0},direct:{type:"v",v:d}}:{F:{x:0,y:c},direct:{type:"h",v:d}}}
+  if(Math.abs(e-1)<.025){const p=1.2; return orient==="H"?{F:{x:p,y:0},direct:{type:"v",v:-p}}:{F:{x:0,y:p},direct:{type:"h",v:-p}}}
+  const a=1.6,c=e*a,d=a/e; return orient==="H"?{F:{x:c,y:0},direct:{type:"v",v:a/e}}:{F:{x:0,y:c},direct:{type:"h",v:a/e}}
+}
+function classify(e){if(e===0)return["Circunferencia","circ"]; if(e<.98)return["Elipse","eli"]; if(e>1.02)return["Hipérbola","hip"]; return["Parábola","par"];}
+function draw(){
+ const e=Number(val(eSlider).toFixed(2)), t=val(tSlider), orient=orientSel.value;
+ document.querySelector('[data-val="e"]').textContent=fmt(e);
+ document.querySelector('[data-val="t"]').textContent=t+"°";
+ base();
+ curvePath(e,orient).forEach(d=>svg.appendChild(E("path",{d,class:"curve"})));
+ const [tipo,key]=classify(e);
+ document.getElementById("tipoBox").textContent=tipo;
+ document.querySelectorAll(".class-row").forEach(r=>r.classList.toggle("active",r.dataset.class===key));
+ document.getElementById("marker").style.left=Math.min(100,Math.max(0,e/2.2*100))+"%";
+ let p=pointOnConic(e,t,orient), qp=P(p.x,p.y);
+ svg.appendChild(C(qp.x,qp.y,6,"pt")); svg.appendChild(T(qp.x+8,qp.y-8,"P","label"));
+ let PF=0, PD=0;
+ const fd=focusAndDirectrix(e,orient);
+ if(fd.F){
+   let qF=P(fd.F.x,fd.F.y); svg.appendChild(C(qF.x,qF.y,6,"focus")); svg.appendChild(T(qF.x+8,qF.y-8,"F","label"));
+   svg.appendChild(L(qp.x,qp.y,qF.x,qF.y,"focus-line"));
+   PF=Math.hypot(p.x-fd.F.x,p.y-fd.F.y);
+   if(fd.direct.type==="v"){
+     let da=P(fd.direct.v,-4.5), db=P(fd.direct.v,4.5), foot=P(fd.direct.v,p.y);
+     svg.appendChild(L(da.x,da.y,db.x,db.y,"directrix")); svg.appendChild(L(qp.x,qp.y,foot.x,foot.y,"dir-dist")); svg.appendChild(T(da.x+8,da.y+20,"directriz","label"));
+     PD=Math.abs(p.x-fd.direct.v);
+   } else {
+     let da=P(-5,fd.direct.v), db=P(7,fd.direct.v), foot=P(p.x,fd.direct.v);
+     svg.appendChild(L(da.x,da.y,db.x,db.y,"directrix")); svg.appendChild(L(qp.x,qp.y,foot.x,foot.y,"dir-dist")); svg.appendChild(T(da.x+8,da.y-8,"directriz","label"));
+     PD=Math.abs(p.y-fd.direct.v);
+   }
+ } else {
+   document.getElementById("pfBox").textContent="PF = no aplica";
+   document.getElementById("pdBox").textContent="PD = no aplica";
+   document.getElementById("ratioBox").textContent="PF/PD = e=0";
+   return;
+ }
+ document.getElementById("pfBox").textContent="PF = "+fmt(PF);
+ document.getElementById("pdBox").textContent="PD = "+fmt(PD);
+ document.getElementById("ratioBox").textContent="PF/PD = "+fmt(PF/PD);
+}
+[eSlider,tSlider,orientSel].forEach(x=>x.addEventListener("input",draw));
+document.querySelectorAll(".quick button").forEach(b=>b.addEventListener("click",()=>{eSlider.value=b.dataset.e;draw()}));
+draw();
+})();
+</script>
+</body>
+</html>
