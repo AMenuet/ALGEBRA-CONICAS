@@ -158,3 +158,13 @@ Se completó la subsección Parábola:
 - visualización interactiva con foco, directriz, latus rectum y propiedad focal;
 - 8 actividades;
 - 8 preguntas de autoevaluación.
+
+## V7.2 · Cónicas · Elipse
+
+Se completó la subsección Elipse:
+- teoría de lugar geométrico;
+- orientación horizontal y vertical;
+- visualización interactiva con focos, suma de distancias, triángulo a-b-c y propiedad focal;
+- lectura básica de excentricidad;
+- 8 actividades;
+- 8 preguntas de autoevaluación.

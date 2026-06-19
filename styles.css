@@ -797,3 +797,13 @@ footer {
     min-height: 2800px;
   }
 }
+
+/* V7.2: Cónicas · Elipse */
+.elipse-frame {
+  min-height: 1550px;
+}
+@media (max-width: 900px) {
+  .elipse-frame {
+    min-height: 2800px;
+  }
+}
