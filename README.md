@@ -168,3 +168,13 @@ Se completó la subsección Elipse:
 - lectura básica de excentricidad;
 - 8 actividades;
 - 8 preguntas de autoevaluación.
+
+## V7.3 · Cónicas · Hipérbola
+
+Se completó la subsección Hipérbola:
+- teoría de lugar geométrico;
+- orientación horizontal y vertical;
+- visualización interactiva con focos, vértices, asíntotas, rectángulo fundamental, triángulo a-b-c y diferencia de distancias;
+- lectura básica de excentricidad;
+- 8 actividades;
+- 8 preguntas de autoevaluación.

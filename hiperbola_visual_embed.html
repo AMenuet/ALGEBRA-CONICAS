@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Visualizaciones · Hipérbola</title>
+<style>
+:root{--blue:#0b5cad;--blue2:#083b7a;--line:#d7e1ef;--soft:#eef5ff;--text:#172033;--muted:#5b6b84;--orange:#b45309;--green:#0f766e;--red:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;background:#fbfdff;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
+.wrap{padding:10px}
+.intro{background:white;border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:12px}
+.intro h3{margin:0 0 6px;color:var(--blue2)}
+.intro p{margin:0;color:var(--muted);line-height:1.45}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 8px 18px rgba(8,59,122,.06)}
+.card h4{margin:0 0 4px;color:var(--blue2);font-size:17px}
+.card p{margin:0 0 8px;color:var(--muted);font-size:13px}
+svg{width:100%;height:auto;display:block;border:1px solid #e5eef9;border-radius:14px;background:white}
+.formula{background:var(--soft);border-left:5px solid var(--blue);border-radius:12px;padding:9px;margin-top:8px;text-align:center;font-family:"Cambria Math",Georgia,serif;font-size:20px;color:#111827}
+.controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.control{font-size:12px;color:var(--blue2);font-weight:700}
+.control label{display:flex;justify-content:space-between;gap:6px}
+input[type=range]{width:100%;accent-color:var(--blue)}
+select{width:100%;border:1px solid var(--line);border-radius:10px;padding:5px;background:white;color:var(--blue2);font-weight:700}
+.note{margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:10px;color:#7c2d12}
+.axis{stroke:#111;stroke-width:1.6}
+.gridline{stroke:#e5eef9;stroke-width:1}
+.branch{stroke:#1263e6;stroke-width:3;fill:none}
+.asym{stroke:#dc2626;stroke-width:2.5;stroke-dasharray:8 6}
+.rect{stroke:#0f766e;stroke-width:2.5;fill:rgba(15,118,110,.06)}
+.real{stroke:#0b5cad;stroke-width:3}
+.imag{stroke:#0f766e;stroke-width:3}
+.focus-line{stroke:#b45309;stroke-width:2;stroke-dasharray:6 5}
+.tri-a{stroke:#0b5cad;stroke-width:4}
+.tri-b{stroke:#0f766e;stroke-width:4}
+.tri-c{stroke:#dc2626;stroke-width:4}
+.pt{fill:#1263e6}
+.focus{fill:#dc2626}
+.center{fill:#111827}
+.vertex{fill:#0f766e}
+text{font-family:"Cambria Math",Georgia,serif;font-size:15px;fill:#111827}
+.label{font-weight:700;font-size:17px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h3>Visualizaciones interactivas · Hipérbola</h3>
+    <p>Explorá eje real horizontal y vertical, focos, vértices, asíntotas, rectángulo fundamental y triángulo a-b-c.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card" data-kind="hyperbola">
+      <h4>1. Hipérbola horizontal / vertical</h4><p>Centro, eje real, focos, vértices y ramas.</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="controls">
+        <div class="control"><label>h <span data-val="h"></span></label><input data-var="h" type="range" min="-2" max="2" step="0.5" value="0"></div>
+        <div class="control"><label>k <span data-val="k"></span></label><input data-var="k" type="range" min="-2" max="2" step="0.5" value="0"></div>
+        <div class="control"><label>a <span data-val="a"></span></label><input data-var="a" type="range" min="1" max="3.5" step="0.5" value="2"></div>
+        <div class="control"><label>b <span data-val="b"></span></label><input data-var="b" type="range" min="1" max="3.5" step="0.5" value="1.5"></div>
+        <div class="control"><label>eje real</label><select data-var="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
+      </div>
+      <div class="formula" data-eq="can">hipérbola</div>
+    </div>
+
+    <div class="card" data-kind="asymptotes">
+      <h4>2. Asíntotas y rectángulo fundamental</h4><p>Las diagonales del rectángulo fundamental son las asíntotas.</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="controls">
+        <div class="control"><label>a <span data-val="a"></span></label><input data-var="a" type="range" min="1" max="3.5" step="0.5" value="2"></div>
+        <div class="control"><label>b <span data-val="b"></span></label><input data-var="b" type="range" min="1" max="3.5" step="0.5" value="2.5"></div>
+        <div class="control"><label>eje real</label><select data-var="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
+      </div>
+      <div class="formula" data-eq="asym">asíntotas</div>
+    </div>
+
+    <div class="card" data-kind="triangle">
+      <h4>3. Triángulo a, b, c</h4><p>Interpretación geométrica de c²=a²+b².</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="controls">
+        <div class="control"><label>a <span data-val="a"></span></label><input data-var="a" type="range" min="1" max="3.5" step="0.5" value="2"></div>
+        <div class="control"><label>b <span data-val="b"></span></label><input data-var="b" type="range" min="1" max="3.5" step="0.5" value="2.5"></div>
+        <div class="control"><label>eje real</label><select data-var="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
+      </div>
+      <div class="formula" data-eq="tri">c²=a²+b²</div>
+    </div>
+
+    <div class="card" data-kind="difference">
+      <h4>4. Diferencia de distancias</h4><p>Para todo punto de la hipérbola, |PF₁ − PF₂| = 2a.</p>
+      <svg viewBox="0 0 420 320"></svg>
+      <div class="controls">
+        <div class="control"><label>a <span data-val="a"></span></label><input data-var="a" type="range" min="1" max="3.5" step="0.5" value="2"></div>
+        <div class="control"><label>b <span data-val="b"></span></label><input data-var="b" type="range" min="1" max="3.5" step="0.5" value="1.5"></div>
+        <div class="control"><label>t <span data-val="t"></span></label><input data-var="t" type="range" min="-2" max="2" step="0.25" value="1"></div>
+        <div class="control"><label>eje real</label><select data-var="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
+      </div>
+      <div class="formula" data-eq="diff">|PF₁ − PF₂| = 2a</div>
+    </div>
+  </div>
+
+  <div class="note">💡 La excentricidad se muestra como lectura básica: en la hipérbola e=c/a&gt;1. El desarrollo completo queda para la subsección Excentricidad.</div>
+</div>
+<script>
+(() => {
+const W=420,H=320, view={xmin:-5,xmax:5,ymin:-5,ymax:5,pad:30};
+const cards=[...document.querySelectorAll(".card")];
+function val(card,n){return Number(card.querySelector(`[data-var="${n}"]`)?.value||0)}
+function str(card,n){return card.querySelector(`[data-var="${n}"]`)?.value||"H"}
+function fmt(n){const r=Math.round(n*100)/100; return Number.isInteger(r)?String(r):r.toFixed(2)}
+function P(x,y){const s=Math.min(W-2*view.pad,H-2*view.pad), ox=(W-s)/2, oy=(H-s)/2; return {x:ox+(x-view.xmin)/(view.xmax-view.xmin)*s, y:oy+(view.ymax-y)/(view.ymax-view.ymin)*s, s:s/(view.xmax-view.xmin)}}
+function el(name,attrs={}){const e=document.createElementNS("http://www.w3.org/2000/svg",name); Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v)); return e}
+function line(x1,y1,x2,y2,cls="real"){return el("line",{x1,y1,x2,y2,class:cls})}
+function txt(x,y,t,cls=""){const e=el("text",{x,y,class:cls}); e.textContent=t; return e}
+function circ(x,y,r,cls="pt"){return el("circle",{cx:x,cy:y,r,class:cls})}
+function updateValues(card){card.querySelectorAll("input").forEach(inp=>{const s=card.querySelector(`[data-val="${inp.dataset.var}"]`); if(s)s.textContent=fmt(Number(inp.value))})}
+function base(svg){svg.innerHTML=""; svg.appendChild(el("rect",{width:W,height:H,fill:"white"})); for(let i=-5;i<=5;i++){let a=P(i,-5),b=P(i,5),c=P(-5,i),d=P(5,i); svg.appendChild(line(a.x,a.y,b.x,b.y,"gridline")); svg.appendChild(line(c.x,c.y,d.x,d.y,"gridline"))} let x0=P(-5,0),x1=P(5,0),y0=P(0,-5),y1=P(0,5); svg.appendChild(line(x0.x,x0.y,x1.x,x1.y,"axis")); svg.appendChild(line(y0.x,y0.y,y1.x,y1.y,"axis")); svg.appendChild(txt(x1.x-10,x1.y-4,"x")); svg.appendChild(txt(y1.x+4,y1.y+12,"y"))}
+function elements(h,k,a,b,orient){const c=Math.sqrt(a*a+b*b); if(orient==="H") return {c,F1:[h-c,k],F2:[h+c,k],V1:[h-a,k],V2:[h+a,k]}; return {c,F1:[h,k-c],F2:[h,k+c],V1:[h,k-a],V2:[h,k+a]}}
+function branchPath(h,k,a,b,orient,side){let pts=[]; for(let u=0;u<=2.1;u+=.04){let X=a*Math.cosh(u)*side, Y=b*Math.sinh(u); if(orient==="H"){pts.push(P(h+X,k+Y))}else{pts.push(P(h+Y,k+X))}} for(let u=2.1;u>=0;u-=.04){let X=a*Math.cosh(u)*side, Y=-b*Math.sinh(u); if(orient==="H"){pts.push(P(h+X,k+Y))}else{pts.push(P(h+Y,k+X))}} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")}
+function drawHyperbola(svg,h,k,a,b,orient,showRect=true){svg.appendChild(el("path",{d:branchPath(h,k,a,b,orient,1),class:"branch"})); svg.appendChild(el("path",{d:branchPath(h,k,a,b,orient,-1),class:"branch"})); const E=elements(h,k,a,b,orient); const C=P(h,k); svg.appendChild(circ(C.x,C.y,5,"center")); svg.appendChild(txt(C.x+6,C.y-6,"C","label")); [E.F1,E.F2].forEach((f,i)=>{const q=P(f[0],f[1]); svg.appendChild(circ(q.x,q.y,5,"focus")); svg.appendChild(txt(q.x+6,q.y-6,`F${i+1}`,"label"))}); [E.V1,E.V2].forEach((v,i)=>{const q=P(v[0],v[1]); svg.appendChild(circ(q.x,q.y,5,"vertex")); svg.appendChild(txt(q.x+6,q.y-6,`V${i+1}`,"label"))}); if(showRect){let corners = orient==="H" ? [[h-a,k-b],[h+a,k-b],[h+a,k+b],[h-a,k+b]] : [[h-b,k-a],[h+b,k-a],[h+b,k+a],[h-b,k+a]]; const pts=corners.map(q=>P(q[0],q[1])); svg.appendChild(el("polygon",{points:pts.map(q=>`${q.x},${q.y}`).join(" "),class:"rect"})); let p1=P(corners[0][0],corners[0][1]),p3=P(corners[2][0],corners[2][1]),p2=P(corners[1][0],corners[1][1]),p4=P(corners[3][0],corners[3][1]); svg.appendChild(line(p1.x,p1.y,p3.x,p3.y,"asym")); svg.appendChild(line(p2.x,p2.y,p4.x,p4.y,"asym"))} return E}
+function draw(card){updateValues(card); const svg=card.querySelector("svg"); base(svg); const a=val(card,"a"), b=val(card,"b"), h=val(card,"h"), k=val(card,"k"), orient=str(card,"orient"); const E=drawHyperbola(svg,h,k,a,b,orient,true); const e=E.c/a;
+ if(card.dataset.kind==="hyperbola"){card.querySelector('[data-eq="can"]').textContent=orient==="H" ? `(x−h)²/a² − (y−k)²/b² = 1` : `(y−k)²/a² − (x−h)²/b² = 1`}
+ if(card.dataset.kind==="asymptotes"){const eq=card.querySelector('[data-eq="asym"]'); eq.textContent=orient==="H" ? `y−k = ±(b/a)(x−h)` : `y−k = ±(a/b)(x−h)`}
+ if(card.dataset.kind==="triangle"){const c=E.c; if(orient==="H"){let O=P(0,0), A=P(a,0), Cc=P(c,0), Bp=P(a,b); svg.appendChild(line(O.x,O.y,A.x,A.y,"tri-a")); svg.appendChild(line(A.x,A.y,Bp.x,Bp.y,"tri-b")); svg.appendChild(line(O.x,O.y,Bp.x,Bp.y,"tri-c")); svg.appendChild(txt((O.x+A.x)/2,O.y-8,"a","label")); svg.appendChild(txt(A.x+6,(A.y+Bp.y)/2,"b","label")); svg.appendChild(txt((O.x+Bp.x)/2,(O.y+Bp.y)/2-8,"c","label")); } else {let O=P(0,0), A=P(0,a), Bp=P(b,a); svg.appendChild(line(O.x,O.y,A.x,A.y,"tri-a")); svg.appendChild(line(A.x,A.y,Bp.x,Bp.y,"tri-b")); svg.appendChild(line(O.x,O.y,Bp.x,Bp.y,"tri-c")); svg.appendChild(txt(O.x+6,(O.y+A.y)/2,"a","label")); svg.appendChild(txt((A.x+Bp.x)/2,A.y-8,"b","label")); svg.appendChild(txt((O.x+Bp.x)/2,(O.y+Bp.y)/2-8,"c","label")); } card.querySelector('[data-eq="tri"]').textContent=`c² = a² + b²  →  ${fmt(c*c)} = ${fmt(a*a)} + ${fmt(b*b)}`}
+ if(card.dataset.kind==="difference"){const t=val(card,"t"); let x,y;if(orient==="H"){x=a*Math.cosh(t); y=b*Math.sinh(t)}else{x=b*Math.sinh(t); y=a*Math.cosh(t)} const P0=P(x,y),F1=P(E.F1[0],E.F1[1]),F2=P(E.F2[0],E.F2[1]); svg.appendChild(line(P0.x,P0.y,F1.x,F1.y,"focus-line")); svg.appendChild(line(P0.x,P0.y,F2.x,F2.y,"focus-line")); svg.appendChild(circ(P0.x,P0.y,5)); svg.appendChild(txt(P0.x+6,P0.y-6,"P","label")); card.querySelector('[data-eq="diff"]').textContent=`|PF₁−PF₂| = ${fmt(2*a)} ; e=${fmt(e)}`}
+}
+cards.forEach(card=>{card.querySelectorAll("input,select").forEach(inp=>inp.addEventListener("input",()=>draw(card))); draw(card)})
+})();
+</script>
+</body>
+</html>

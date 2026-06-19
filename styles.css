@@ -807,3 +807,13 @@ footer {
     min-height: 2800px;
   }
 }
+
+/* V7.3: Cónicas · Hipérbola */
+.hiperbola-frame {
+  min-height: 1550px;
+}
+@media (max-width: 900px) {
+  .hiperbola-frame {
+    min-height: 2800px;
+  }
+}
