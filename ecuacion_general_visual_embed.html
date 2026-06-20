@@ -3,296 +3,192 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Visualizaciones · Ecuación general</title>
+<title>Explorador de la ecuación general</title>
 <style>
-:root{--blue:#0b5cad;--blue2:#083b7a;--line:#d7e1ef;--soft:#eef5ff;--text:#172033;--muted:#5b6b84;--orange:#b45309;--green:#0f766e;--red:#dc2626}
+:root{--blue:#0b5cad;--blue2:#083b7a;--line:#d7e1ef;--soft:#eef5ff;--text:#172033;--muted:#5b6b84;--green:#0f766e;--orange:#b45309;--red:#b91c1c}
 *{box-sizing:border-box}
 body{margin:0;background:#fbfdff;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
-.wrap{padding:10px}
-.intro{background:white;border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-bottom:12px}
-.intro h3{margin:0 0 6px;color:var(--blue2)}
-.intro p{margin:0;color:var(--muted);line-height:1.45}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.card{background:white;border:1px solid var(--line);border-radius:18px;padding:12px;box-shadow:0 8px 18px rgba(8,59,122,.06)}
-.card.full{grid-column:1/-1}
-.card h4{margin:0 0 4px;color:var(--blue2);font-size:17px}
-.card p{margin:0 0 8px;color:var(--muted);font-size:13px}
-svg{width:100%;height:auto;display:block;border:1px solid #e5eef9;border-radius:14px;background:white}
-.formula{background:var(--soft);border-left:5px solid var(--blue);border-radius:12px;padding:9px;margin-top:8px;text-align:center;font-family:"Cambria Math",Georgia,serif;font-size:19px;color:#111827}
-.controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:8px}
-.control{font-size:12px;color:var(--blue2);font-weight:700}
-.control label{display:flex;justify-content:space-between;gap:6px}
-input[type=range]{width:100%;accent-color:var(--blue)}
-.result{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
-.badge{background:#eef5ff;border:1px solid #d7e1ef;border-radius:14px;padding:8px;text-align:center;font-weight:800;color:#083b7a}
-.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.step{background:#fbfdff;border:1px solid var(--line);border-radius:14px;padding:10px}
-.step strong{color:var(--blue2)}
-.decision-box{fill:#eef5ff;stroke:#bfd3ea;stroke-width:1.5}.decision-yes{fill:#ecfeff}.decision-no{fill:#fef2f2}.decision-par{fill:#ffedd5}.decision-eli{fill:#ccfbf1}.decision-line{stroke:#334155;stroke-width:2;fill:none}.axis{stroke:#111;stroke-width:1.6}
-.gridline{stroke:#e5eef9;stroke-width:1}
-.curve{stroke:#1263e6;stroke-width:3;fill:rgba(18,99,230,.06)}
-.asym{stroke:#dc2626;stroke-width:2;stroke-dasharray:8 6}
-.pt{fill:#1263e6}
-text{font-family:"Cambria Math",Georgia,serif;font-size:14px;fill:#111827}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.result,.steps{grid-template-columns:1fr}.card.full{grid-column:auto}}
-
-.representative-note{font-size:13px;fill:#5b6b84}
-.icon-label{font-size:18px;font-weight:800;fill:#083b7a}
-.clean-curve{stroke:#1263e6;stroke-width:4;fill:none;stroke-linecap:round}
-.clean-fill{stroke:#1263e6;stroke-width:4;fill:rgba(18,99,230,.08)}
-.clean-asym{stroke:#6b7280;stroke-width:2;stroke-dasharray:8 7}
-.clean-center{fill:#111827}
-
+button,input{font:inherit}
+.wrap{padding:12px}
+.tool{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 10px 26px rgba(8,59,122,.07)}
+.heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:14px}
+.heading h3{margin:0 0 5px;color:var(--blue2);font-size:21px}
+.heading p{margin:0;color:var(--muted);line-height:1.45}
+.mode{white-space:nowrap;background:var(--soft);border:1px solid #c8daf0;color:var(--blue2);font-weight:800;border-radius:999px;padding:8px 12px}
+.workspace{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(330px,.75fr);gap:16px;align-items:start}
+.plot-panel,.controls-panel{border:1px solid var(--line);border-radius:17px;background:#fff;padding:12px}
+.plot-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px}
+.plot-head strong{color:var(--blue2);font-size:17px}
+.plot-head span{color:var(--muted);font-size:12px}
+.canvas-wrap{position:relative;width:100%;aspect-ratio:1.18/1;min-height:430px;border:1px solid #dfe9f6;border-radius:14px;overflow:hidden;background:#fff}
+canvas{display:block;width:100%;height:100%}
+.empty-note{position:absolute;inset:0;display:none;place-items:center;text-align:center;padding:28px;color:var(--red);font-weight:800;background:rgba(255,255,255,.78);pointer-events:none}
+.empty-note.show{display:grid}
+.controls-panel h4{margin:0 0 4px;color:var(--blue2)}
+.controls-panel>p{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.4}
+.sliders{display:grid;gap:10px}
+.control{background:#f8fbff;border:1px solid #e0eaf6;border-radius:12px;padding:9px 10px}
+.control label{display:flex;justify-content:space-between;align-items:center;font-weight:800;color:var(--blue2)}
+.control output{min-width:48px;text-align:center;background:#fff;border:1px solid #cbd9ea;border-radius:8px;padding:3px 7px;color:var(--text)}
+input[type=range]{width:100%;margin:8px 0 1px;accent-color:var(--blue)}
+.meaning{font-size:11px;color:var(--muted)}
+.presets-title{margin:14px 0 7px;font-size:12px;font-weight:800;color:var(--blue2)}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.preset,.reset{border:1px solid #bfd2e9;background:#f5f9ff;color:var(--blue2);border-radius:999px;padding:6px 9px;font-size:12px;font-weight:700;cursor:pointer}
+.preset:hover,.preset:focus-visible,.reset:hover,.reset:focus-visible{background:#deebfb;outline:2px solid transparent}
+.summary{display:grid;grid-template-columns:1.1fr .75fr 1.35fr;gap:10px;margin-top:14px}
+.summary-card{border:1px solid var(--line);border-radius:14px;padding:11px 12px;background:#f8fbff;min-height:76px}
+.summary-card small{display:block;color:var(--muted);font-weight:700;margin-bottom:4px}
+.summary-card strong{display:block;color:var(--blue2);font-size:17px;line-height:1.25}
+.summary-card.status-real{border-left:5px solid var(--green)}
+.summary-card.status-imaginary{border-left:5px solid var(--red);background:#fff7f7}
+.summary-card.status-degenerate{border-left:5px solid var(--orange);background:#fffaf2}
+.equations{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.equation{border:1px solid var(--line);border-radius:14px;padding:11px 13px;background:#fff}
+.equation small{display:block;color:var(--muted);font-weight:700;margin-bottom:5px}
+.math{font-family:"Cambria Math",Cambria,Georgia,serif;font-size:18px;color:#111827;overflow-wrap:anywhere}
+.note{margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--soft);color:#31445f;font-size:13px;line-height:1.45}
+@media(max-width:900px){
+ .heading{display:block}.mode{display:inline-block;margin-top:10px}.workspace{grid-template-columns:1fr}.canvas-wrap{min-height:390px}.sliders{grid-template-columns:1fr 1fr}.summary{grid-template-columns:1fr}.equations{grid-template-columns:1fr}
+}
+@media(max-width:560px){.tool{padding:12px}.sliders{grid-template-columns:1fr}.canvas-wrap{min-height:330px}.plot-head{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="intro">
-    <h3>Visualizaciones interactivas · Ecuación general de segundo grado</h3>
-    <p>Clasificá cónicas sin rotación, observá el invariante Δ y repasá cómo completar cuadrados, incluyendo el caso con coeficiente principal distinto de 1.</p>
-  </div>
-
-  <div class="grid">
-    <div class="card" data-kind="classifier">
-      <h4>1. Clasificador automático</h4>
-      <p>Ecuación: Ax² + Cy² + Dx + Ey + F = 0, sin término Bxy.</p>
-      <svg viewBox="0 0 420 320"></svg>
-      <div class="controls">
-        <div class="control"><label>A <span data-val="A"></span></label><input data-var="A" type="range" min="-4" max="4" step="1" value="1"></div>
-        <div class="control"><label>C <span data-val="C"></span></label><input data-var="C" type="range" min="-4" max="4" step="1" value="1"></div>
-        <div class="control"><label>D <span data-val="D"></span></label><input data-var="D" type="range" min="-8" max="8" step="1" value="-4"></div>
-        <div class="control"><label>E <span data-val="E"></span></label><input data-var="E" type="range" min="-8" max="8" step="1" value="6"></div>
-        <div class="control"><label>F <span data-val="F"></span></label><input data-var="F" type="range" min="-12" max="12" step="1" value="-3"></div>
+  <main class="tool">
+    <header class="heading">
+      <div>
+        <h3>Explorador de la ecuación general de segundo grado</h3>
+        <p>Mové los coeficientes y observá simultáneamente la gráfica, el discriminante y la naturaleza real o imaginaria del lugar geométrico.</p>
       </div>
-      <div class="result">
-        <div class="badge" data-out="tipo">Tipo</div>
-        <div class="badge" data-out="delta">Δ</div>
-        <div class="badge" data-out="info">Datos</div>
-      </div>
-      <div class="formula" data-eq="general">Ax²+Cy²+Dx+Ey+F=0</div>
-    </div>
+      <span class="mode">Caso sin rotación · B = 0</span>
+    </header>
 
-    <div class="card" data-kind="decision">
-      <h4>2. Diagrama de decisión</h4>
-      <p>Clasificación rápida para el caso sin rotación.</p>
-      <svg viewBox="0 0 420 320"></svg>
-      <div class="formula">B=0 ⇒ Δ = −4AC</div>
-    </div>
-
-    <div class="card full">
-      <h4>3. Completar cuadrados paso a paso</h4>
-      <p>Comparación entre coeficiente principal igual a 1 y coeficiente principal distinto de 1.</p>
-      <div class="steps">
-        <div class="step">
-          <strong>Caso A: coeficiente principal igual a 1</strong>
-          <div class="formula">x² − 4x + y² + 6y − 3 = 0</div>
-          <p>1) Agrupar términos: (x²−4x)+(y²+6y)=3</p>
-          <p>2) Completar: x²−4x=(x−2)²−4</p>
-          <p>3) Completar: y²+6y=(y+3)²−9</p>
-          <p>4) Reordenar: (x−2)²+(y+3)²=16</p>
-          <p><strong>Resultado:</strong> centro C(2,−3), radio r=4.</p>
+    <div class="workspace">
+      <section class="plot-panel" aria-labelledby="plotTitle">
+        <div class="plot-head"><strong id="plotTitle">Gráfica en tiempo real</strong><span id="scaleLabel">Escala automática</span></div>
+        <div class="canvas-wrap">
+          <canvas id="plot" width="820" height="690" aria-label="Gráfica cartesiana de la ecuación seleccionada"></canvas>
+          <div class="empty-note" id="emptyNote">No existen puntos reales para estos coeficientes.</div>
         </div>
-        <div class="step">
-          <strong>Caso B: coeficiente principal distinto de 1</strong>
-          <div class="formula">2x² + 2y² − 8x + 12y − 6 = 0</div>
-          <p>1) Agrupar y sacar factor: 2(x²−4x)+2(y²+6y)=6</p>
-          <p>2) Completar dentro: x²−4x=(x−2)²−4</p>
-          <p>3) Completar dentro: y²+6y=(y+3)²−9</p>
-          <p>4) Cuidar el factor exterior: 2[(x−2)²−4]+2[(y+3)²−9]=6</p>
-          <p>5) Reordenar: 2(x−2)²+2(y+3)²=32</p>
-          <p>6) Dividir: (x−2)²+(y+3)²=16</p>
-          <p><strong>Resultado:</strong> misma circunferencia: centro C(2,−3), radio r=4.</p>
+      </section>
+
+      <aside class="controls-panel">
+        <h4>Coeficientes</h4>
+        <p>A y C cambian el tipo y la apertura. D y E trasladan la gráfica. F modifica su tamaño y puede hacer que el lugar real desaparezca.</p>
+        <div class="sliders">
+          <div class="control"><label for="coefA">A <output id="valA">1</output></label><input id="coefA" data-coef="A" type="range" min="-5" max="5" step="0.25" value="1"><div class="meaning">coeficiente de x²</div></div>
+          <div class="control"><label for="coefC">C <output id="valC">1</output></label><input id="coefC" data-coef="C" type="range" min="-5" max="5" step="0.25" value="1"><div class="meaning">coeficiente de y²</div></div>
+          <div class="control"><label for="coefD">D <output id="valD">−4</output></label><input id="coefD" data-coef="D" type="range" min="-12" max="12" step="0.5" value="-4"><div class="meaning">término lineal en x</div></div>
+          <div class="control"><label for="coefE">E <output id="valE">6</output></label><input id="coefE" data-coef="E" type="range" min="-12" max="12" step="0.5" value="6"><div class="meaning">término lineal en y</div></div>
+          <div class="control"><label for="coefF">F <output id="valF">−3</output></label><input id="coefF" data-coef="F" type="range" min="-20" max="20" step="0.5" value="-3"><div class="meaning">término independiente</div></div>
         </div>
-      </div>
-      <div class="formula">Regla clave: si A≠1 o C≠1, primero se factoriza el coeficiente antes de completar cuadrados.</div>
+        <div class="presets-title">Ejemplos rápidos</div>
+        <div class="presets">
+          <button class="preset" data-values="1,1,-4,6,-3">Circunferencia</button>
+          <button class="preset" data-values="4,1,0,0,-16">Elipse</button>
+          <button class="preset" data-values="1,0,0,-4,0">Parábola</button>
+          <button class="preset" data-values="1,-1,0,0,-4">Hipérbola</button>
+          <button class="preset" data-values="1,1,0,0,4">Imaginaria</button>
+          <button class="preset" data-values="1,-1,0,0,0">Degenerada</button>
+          <button class="reset" type="button">Restablecer</button>
+        </div>
+      </aside>
     </div>
 
-    <div class="card full" data-kind="invariant">
-      <h4>4. Invariante Δ = B² − 4AC</h4>
-      <p>En el caso sin rotación B=0, entonces Δ=−4AC.</p>
-      <div class="result">
-        <div class="badge">Δ&lt;0 → Elipse / Circunferencia</div>
-        <div class="badge">Δ=0 → Parábola</div>
-        <div class="badge">Δ&gt;0 → Hipérbola</div>
-      </div>
-      <div class="formula">Ax² + Bxy + Cy² + Dx + Ey + F = 0</div>
-    </div>
-  </div>
+    <section class="summary" aria-live="polite">
+      <div class="summary-card status-real" id="statusCard"><small>Clasificación completa</small><strong id="typeOut">Circunferencia real</strong></div>
+      <div class="summary-card"><small>Discriminante</small><strong id="deltaOut">Δ = −4</strong></div>
+      <div class="summary-card"><small>Lectura geométrica</small><strong id="detailsOut">Centro (2, −3) · radio 4</strong></div>
+    </section>
+
+    <section class="equations">
+      <div class="equation"><small>Ecuación general</small><div class="math" id="generalOut"></div></div>
+      <div class="equation"><small>Forma trasladada o canónica</small><div class="math" id="canonicalOut"></div></div>
+    </section>
+    <div class="note" id="explanation">Como Δ&lt;0 y A=C, el caso no degenerado es una circunferencia. La verificación adicional confirma que tiene puntos reales.</div>
+  </main>
 </div>
 
 <script>
 (() => {
-const W=420,H=320, view={xmin:-6,xmax:6,ymin:-6,ymax:6,pad:30};
-const cards=[...document.querySelectorAll(".card")];
-function val(card,n){return Number(card.querySelector(`[data-var="${n}"]`)?.value||0)}
-function fmt(n){const r=Math.round(n*100)/100; return Number.isInteger(r)?String(r):r.toFixed(2)}
-function P(x,y){const s=Math.min(W-2*view.pad,H-2*view.pad), ox=(W-s)/2, oy=(H-s)/2; return {x:ox+(x-view.xmin)/(view.xmax-view.xmin)*s, y:oy+(view.ymax-y)/(view.ymax-view.ymin)*s, s:s/(view.xmax-view.xmin)}}
-function el(name,attrs={}){const e=document.createElementNS("http://www.w3.org/2000/svg",name); Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v)); return e}
-function line(x1,y1,x2,y2,cls="axis"){return el("line",{x1,y1,x2,y2,class:cls})}
-function txt(x,y,t,cls=""){const e=el("text",{x,y,class:cls}); e.textContent=t; return e}
-function updateValues(card){card.querySelectorAll("input").forEach(inp=>{const s=card.querySelector(`[data-val="${inp.dataset.var}"]`); if(s)s.textContent=fmt(Number(inp.value))})}
-function base(svg){svg.innerHTML=""; svg.appendChild(el("rect",{width:W,height:H,fill:"white"})); for(let i=-6;i<=6;i++){let a=P(i,-6),b=P(i,6),c=P(-6,i),d=P(6,i); svg.appendChild(line(a.x,a.y,b.x,b.y,"gridline")); svg.appendChild(line(c.x,c.y,d.x,d.y,"gridline"))} let x0=P(-6,0),x1=P(6,0),y0=P(0,-6),y1=P(0,6); svg.appendChild(line(x0.x,x0.y,x1.x,x1.y,"axis")); svg.appendChild(line(y0.x,y0.y,y1.x,y1.y,"axis"))}
-function classify(A,C,D,E,F){
- if(A===0 && C===0) return {tipo:"No es cónica cuadrática", delta:0, info:"Sin x²/y²"};
- const B=0, delta=B*B-4*A*C;
- if(A===0 || C===0) return {tipo:"Parábola / degenerada", delta, info:"Un solo término cuadrático"};
- if(A*C<0) return {tipo:"Hipérbola", delta, info:"A y C opuestos"};
- if(A===C) return {tipo:"Circunferencia / punto / vacío", delta, info:"A=C"};
- return {tipo:"Elipse / punto / vacío", delta, info:"A y C mismo signo"};
-}
-function drawDecision(svg){
- svg.innerHTML="";
- svg.appendChild(el("rect",{width:420,height:320,rx:16,fill:"#ffffff"}));
+  const EPS=1e-9;
+  const canvas=document.getElementById("plot"), ctx=canvas.getContext("2d");
+  const inputs=[...document.querySelectorAll("[data-coef]")];
+  const $=id=>document.getElementById(id);
+  const fmt=n=>{if(Math.abs(n)<EPS)n=0;const r=Math.round(n*100)/100;return (Number.isInteger(r)?String(r):r.toFixed(2)).replace("-","−")};
+  const coef=()=>Object.fromEntries(inputs.map(i=>[i.dataset.coef,Number(i.value)]));
+  const sq=(variable,center)=>center===0?`${variable}²`:`(${variable}${center<0?"+":"−"}${fmt(Math.abs(center))})²`;
+  const term=(value,label,first=false)=>{if(Math.abs(value)<EPS)return "";const sign=value<0?"−":(first?"":"+");const a=Math.abs(value);const number=Math.abs(a-1)<EPS&&label?"":fmt(a);return `${sign}${sign?" ":""}${number}${label}`};
+  function equation({A,C,D,E,F}){const parts=[];[[A,"x²"],[C,"y²"],[D,"x"],[E,"y"],[F,""]].forEach(([v,l])=>{const t=term(v,l,parts.length===0);if(t)parts.push(t)});return `${parts.join(" ")||"0"} = 0`}
 
- function box(x,y,w,h,t,cls="decision-box"){
-   svg.appendChild(el("rect",{x,y,width:w,height:h,rx:14,class:cls}));
-   const e=txt(x+w/2,y+h/2+5,t);
-   e.setAttribute("text-anchor","middle");
-   e.setAttribute("font-size","14");
-   e.setAttribute("font-weight","700");
-   svg.appendChild(e);
- }
-
- function path(d){
-   svg.appendChild(el("path",{d,class:"decision-line"}));
- }
-
- function label(x,y,t){
-   const e=txt(x,y,t);
-   e.setAttribute("text-anchor","middle");
-   e.setAttribute("font-size","13");
-   e.setAttribute("font-weight","700");
-   svg.appendChild(e);
- }
-
- box(100,18,220,42,"¿Hay un solo término cuadrático?");
- path("M210 60 L110 92");
- path("M210 60 L310 92");
-
- box(35,92,150,42,"Sí: A=0 o C=0","decision-par");
- box(255,92,110,42,"No","decision-box");
-
- path("M110 134 L110 166");
- box(35,166,150,42,"Parábola","decision-par");
-
- path("M310 134 L310 166");
- box(200,166,220,42,"¿A·C < 0?","decision-box");
-
- path("M310 208 L240 238");
- path("M310 208 L370 238");
-
- box(185,238,110,40,"No","decision-yes");
- box(335,238,70,40,"Sí","decision-no");
-
- path("M240 278 L160 300");
- path("M240 278 L250 300");
- path("M370 278 L370 300");
-
- label(135,302,"A=C → Circunferencia");
- label(250,302,"A≠C → Elipse");
- label(370,302,"Hipérbola");
-
- const foot=txt(210,318,"B=0  ⇒  Δ = −4AC");
- foot.setAttribute("text-anchor","middle");
- foot.setAttribute("font-size","13");
- foot.setAttribute("fill","#083b7a");
- foot.setAttribute("font-weight","700");
- svg.appendChild(foot);
-}
-function pathEllipse(h,k,rx,ry){let pts=[]; for(let t=0;t<=Math.PI*2+.05;t+=.05){pts.push(P(h+rx*Math.cos(t),k+ry*Math.sin(t)))} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")+" Z"}
-function pathHyperbola(h,k,a,b){let branch=(side)=>{let pts=[]; for(let u=0;u<=2;u+=.04){pts.push(P(h+side*a*Math.cosh(u),k+b*Math.sinh(u)))} for(let u=2;u>=0;u-=.04){pts.push(P(h+side*a*Math.cosh(u),k-b*Math.sinh(u)))} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")}; return [branch(1),branch(-1)]}
-function drawClassifier(card){
- updateValues(card);
- const svg=card.querySelector("svg");
- base(svg);
-
- let A=val(card,"A"), C=val(card,"C"), D=val(card,"D"), E=val(card,"E"), F=val(card,"F");
- const c=classify(A,C,D,E,F);
-
- let tipoBase = c.tipo;
- let tipo = "Indefinida";
- let cond = c.info;
-
- if(A===0 && C===0){
-   tipo = "No cuadrática";
-   cond = "sin x²/y²";
- } else if(A===0 || C===0){
-   tipo = "Parábola";
-   cond = "A=0 o C=0";
- } else if(A*C<0){
-   tipo = "Hipérbola";
-   cond = "A·C < 0";
- } else if(A===C){
-   tipo = "Circunferencia";
-   cond = "A=C";
- } else {
-   tipo = "Elipse";
-   cond = "A·C > 0";
- }
-
- card.querySelector('[data-out="tipo"]').textContent = "Tipo: " + tipo;
- card.querySelector('[data-out="delta"]').textContent = `Δ=${fmt(c.delta)}`;
- card.querySelector('[data-out="info"]').textContent = cond;
- card.querySelector('[data-eq="general"]').textContent=`${fmt(A)}x² ${C>=0?"+":""}${fmt(C)}y² ${D>=0?"+":""}${fmt(D)}x ${E>=0?"+":""}${fmt(E)}y ${F>=0?"+":""}${fmt(F)} = 0`;
-
- drawRepresentative(svg, tipo);
-}
-
-function drawRepresentative(svg,tipo){
-  // Clear previous plotted exact curve but keep base already drawn.
-  const cx = 210, cy = 160;
-  const title = (tipo || "Cónica");
-  const label = txt(210,32,title,"icon-label");
-  label.setAttribute("text-anchor","middle");
-  svg.appendChild(label);
-
-  if(tipo==="Circunferencia"){
-    svg.appendChild(el("circle",{cx:210,cy:170,r:78,class:"clean-fill"}));
-    svg.appendChild(el("circle",{cx:210,cy:170,r:5,class:"clean-center"}));
-    const note=txt(210,330,"Miniatura representativa: circunferencia", "representative-note");
-    note.setAttribute("text-anchor","middle");
-    svg.appendChild(note);
-    return;
+  function analyze({A,C,D,E,F}){
+    const delta=-4*A*C;
+    let type,status="real",details,canonical,explanation,anchor={x:0,y:0},extent=7;
+    if(Math.abs(A)<EPS&&Math.abs(C)<EPS){
+      if(Math.abs(D)>EPS||Math.abs(E)>EPS){type="Ecuación lineal (no es una cónica)";details="Recta real";canonical=`${term(D,"x",true)} ${term(E,"y",Math.abs(D)<EPS)} ${term(F,"",Math.abs(D)<EPS&&Math.abs(E)<EPS)} = 0`;explanation="Al anularse A y C desaparecen todos los términos cuadráticos.";}
+      else if(Math.abs(F)<EPS){type="Identidad";details="Todo el plano";canonical="0 = 0";explanation="Todos los coeficientes son cero.";status="degenerate";}
+      else{type="Conjunto vacío";details="No hay puntos reales";canonical=`${fmt(F)} = 0`;explanation="La igualdad constante es imposible.";status="imaginary";}
+      return {delta,type,status,details,canonical,explanation,anchor,extent};
+    }
+    if(Math.abs(A)<EPS||Math.abs(C)<EPS){
+      if(Math.abs(A)>EPS){
+        const h=-D/(2*A), q=F-D*D/(4*A); anchor={x:h,y:Math.abs(E)>EPS?-q/E:0};
+        if(Math.abs(E)>EPS){type="Parábola real";details=`Vértice (${fmt(anchor.x)}, ${fmt(anchor.y)}) · eje vertical`;canonical=`${fmt(A)}${sq("x",h)} ${term(E,"y",false)} ${term(q,"",false)} = 0`;explanation="Δ=0 y queda un término lineal en y: el lugar geométrico es una parábola real.";extent=Math.max(6,Math.abs(A/E)*10);}
+        else{const r=-q/A;if(r>EPS){type="Par de rectas paralelas";status="degenerate";details=`x = ${fmt(h-Math.sqrt(r))} y x = ${fmt(h+Math.sqrt(r))}`;canonical=`${sq("x",h)} = ${fmt(r)}`;explanation="Δ=0, pero falta el término lineal transversal: la ecuación se degenera en dos rectas.";}else if(Math.abs(r)<=EPS){type="Recta doble";status="degenerate";details=`x = ${fmt(h)}`;canonical=`${sq("x",h)} = 0`;explanation="La cónica degenerada coincide dos veces con la misma recta.";}else{type="Parábola imaginaria / conjunto vacío";status="imaginary";details="No hay puntos reales";canonical=`${sq("x",h)} = ${fmt(r)}`;explanation="El cuadrado debería tomar un valor negativo, por lo que no existen puntos reales.";}}
+      }else{
+        const k=-E/(2*C), q=F-E*E/(4*C);anchor={x:Math.abs(D)>EPS?-q/D:0,y:k};
+        if(Math.abs(D)>EPS){type="Parábola real";details=`Vértice (${fmt(anchor.x)}, ${fmt(anchor.y)}) · eje horizontal`;canonical=`${fmt(C)}${sq("y",k)} ${term(D,"x",false)} ${term(q,"",false)} = 0`;explanation="Δ=0 y queda un término lineal en x: el lugar geométrico es una parábola real.";extent=Math.max(6,Math.abs(C/D)*10);}
+        else{const r=-q/C;if(r>EPS){type="Par de rectas paralelas";status="degenerate";details=`y = ${fmt(k-Math.sqrt(r))} y y = ${fmt(k+Math.sqrt(r))}`;canonical=`${sq("y",k)} = ${fmt(r)}`;explanation="La ecuación se degenera en dos rectas paralelas.";}else if(Math.abs(r)<=EPS){type="Recta doble";status="degenerate";details=`y = ${fmt(k)}`;canonical=`${sq("y",k)} = 0`;explanation="La cónica degenerada coincide dos veces con la misma recta.";}else{type="Parábola imaginaria / conjunto vacío";status="imaginary";details="No hay puntos reales";canonical=`${sq("y",k)} = ${fmt(r)}`;explanation="El cuadrado debería tomar un valor negativo, por lo que no existen puntos reales.";}}
+      }
+      return {delta,type,status,details,canonical,explanation,anchor,extent};
+    }
+    const h=-D/(2*A),k=-E/(2*C),K=-F+D*D/(4*A)+E*E/(4*C);anchor={x:h,y:k};
+    canonical=`${fmt(A)}${sq("x",h)} ${term(C,sq("y",k),false)} = ${fmt(K)}`;
+    if(A*C<0){
+      if(Math.abs(K)<EPS){type="Par de rectas secantes";status="degenerate";details=`Centro (${fmt(h)}, ${fmt(k)})`;explanation="Δ>0, pero el segundo miembro es cero: la hipérbola se degenera en dos rectas que se cortan.";extent=7;}
+      else{type="Hipérbola real";const horizontal=(K/A)>0;const a=Math.sqrt(Math.abs(K/(horizontal?A:C))),b=Math.sqrt(Math.abs(K/(horizontal?C:A)));details=`Centro (${fmt(h)}, ${fmt(k)}) · eje ${horizontal?"horizontal":"vertical"}`;explanation="Como Δ>0, los coeficientes cuadráticos tienen signos opuestos y se obtiene una hipérbola real.";extent=Math.max(6,1.7*a,1.7*b);}
+    }else{
+      const R=K*Math.sign(A);
+      if(R>EPS){const rx=Math.sqrt(R/Math.abs(A)),ry=Math.sqrt(R/Math.abs(C));type=Math.abs(A-C)<EPS?"Circunferencia real":"Elipse real";details=`Centro (${fmt(h)}, ${fmt(k)}) · ${Math.abs(A-C)<EPS?`radio ${fmt(rx)}`:`semiejes ${fmt(rx)} y ${fmt(ry)}`}`;explanation=`Como Δ<0 y ${Math.abs(A-C)<EPS?"A=C":"A≠C"}, el caso es ${Math.abs(A-C)<EPS?"circular":"elíptico"}. La verificación del segundo miembro confirma que tiene puntos reales.`;extent=Math.max(6,1.35*rx,1.35*ry);}
+      else if(Math.abs(R)<=EPS){type="Punto (cónica degenerada)";status="degenerate";details=`Único punto (${fmt(h)}, ${fmt(k)})`;explanation="Δ<0 no basta para asegurar una elipse: aquí el segundo miembro es cero y el lugar se reduce a un punto.";extent=6;}
+      else{type=Math.abs(A-C)<EPS?"Circunferencia imaginaria":"Elipse imaginaria";status="imaginary";details="No hay puntos reales";explanation="Aunque Δ<0 indica familia elíptica, la forma canónica exige una suma de cuadrados negativa; el lugar geométrico real es vacío.";extent=6;}
+    }
+    return {delta,type,status,details,canonical,explanation,anchor,extent};
   }
 
-  if(tipo==="Elipse"){
-    svg.appendChild(el("ellipse",{cx:210,cy:170,rx:115,ry:70,class:"clean-fill"}));
-    svg.appendChild(el("circle",{cx:210,cy:170,r:5,class:"clean-center"}));
-    const note=txt(210,330,"Miniatura representativa: elipse", "representative-note");
-    note.setAttribute("text-anchor","middle");
-    svg.appendChild(note);
-    return;
+  function draw(c,a){
+    const w=canvas.width,h=canvas.height,pad=48,span=Math.min(35,Math.max(4,a.extent));
+    const xmin=a.anchor.x-span,xmax=a.anchor.x+span,ymin=a.anchor.y-span*h/w,ymax=a.anchor.y+span*h/w;
+    const X=x=>pad+(x-xmin)/(xmax-xmin)*(w-2*pad),Y=y=>h-pad-(y-ymin)/(ymax-ymin)*(h-2*pad);
+    ctx.clearRect(0,0,w,h);ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);
+    const rawStep=span/5,pow=10**Math.floor(Math.log10(rawStep)),m=rawStep/pow,step=(m<1.5?1:m<3.5?2:m<7.5?5:10)*pow;
+    ctx.lineWidth=1;ctx.font="13px Segoe UI";ctx.textAlign="center";ctx.textBaseline="top";
+    for(let x=Math.ceil(xmin/step)*step;x<=xmax;x+=step){const px=X(x);ctx.strokeStyle="#e5edf7";ctx.beginPath();ctx.moveTo(px,pad);ctx.lineTo(px,h-pad);ctx.stroke();if(Math.abs(x)>EPS&&Y(0)>=pad&&Y(0)<=h-pad){ctx.fillStyle="#718096";ctx.fillText(fmt(x),px,Y(0)+5)}}
+    ctx.textAlign="right";ctx.textBaseline="middle";
+    for(let y=Math.ceil(ymin/step)*step;y<=ymax;y+=step){const py=Y(y);ctx.strokeStyle="#e5edf7";ctx.beginPath();ctx.moveTo(pad,py);ctx.lineTo(w-pad,py);ctx.stroke();if(Math.abs(y)>EPS&&X(0)>=pad&&X(0)<=w-pad){ctx.fillStyle="#718096";ctx.fillText(fmt(y),X(0)-6,py)}}
+    ctx.strokeStyle="#26364b";ctx.lineWidth=1.6;if(0>=xmin&&0<=xmax){ctx.beginPath();ctx.moveTo(X(0),pad);ctx.lineTo(X(0),h-pad);ctx.stroke()}if(0>=ymin&&0<=ymax){ctx.beginPath();ctx.moveTo(pad,Y(0));ctx.lineTo(w-pad,Y(0));ctx.stroke()}
+    if(a.status!=="imaginary"){
+      const nx=210,ny=Math.max(150,Math.round(nx*(ymax-ymin)/(xmax-xmin)*(w-2*pad)/(h-2*pad))),dx=(xmax-xmin)/nx,dy=(ymax-ymin)/ny;
+      const f=(x,y)=>c.A*x*x+c.C*y*y+c.D*x+c.E*y+c.F;
+      ctx.strokeStyle="#1263e6";ctx.lineWidth=3;ctx.lineCap="round";ctx.beginPath();
+      for(let j=0;j<ny;j++)for(let i=0;i<nx;i++){const x=xmin+i*dx,y=ymin+j*dy;const v=[f(x,y),f(x+dx,y),f(x+dx,y+dy),f(x,y+dy)];const pts=[];const edge=(a1,a2,x1,y1,x2,y2)=>{if((a1<=0&&a2>0)||(a1>0&&a2<=0)){const t=a1/(a1-a2);pts.push([x1+t*(x2-x1),y1+t*(y2-y1)])}};edge(v[0],v[1],x,y,x+dx,y);edge(v[1],v[2],x+dx,y,x+dx,y+dy);edge(v[2],v[3],x+dx,y+dy,x,y+dy);edge(v[3],v[0],x,y+dy,x,y);if(pts.length>=2){ctx.moveTo(X(pts[0][0]),Y(pts[0][1]));ctx.lineTo(X(pts[1][0]),Y(pts[1][1]));if(pts.length===4){ctx.moveTo(X(pts[2][0]),Y(pts[2][1]));ctx.lineTo(X(pts[3][0]),Y(pts[3][1]))}}}
+      ctx.stroke();
+      if(a.type.startsWith("Punto")){ctx.fillStyle="#1263e6";ctx.beginPath();ctx.arc(X(a.anchor.x),Y(a.anchor.y),6,0,Math.PI*2);ctx.fill()}
+    }
+    $("scaleLabel").textContent=`Escala automática · x: ${fmt(xmin)} a ${fmt(xmax)}`;
   }
 
-  if(tipo==="Parábola"){
-    svg.appendChild(el("path",{d:"M 120 70 C 205 110, 205 230, 120 270",class:"clean-curve"}));
-    svg.appendChild(el("circle",{cx:120,cy:170,r:5,class:"clean-center"}));
-    const note=txt(210,330,"Miniatura representativa: parábola", "representative-note");
-    note.setAttribute("text-anchor","middle");
-    svg.appendChild(note);
-    return;
+  function update(){
+    const c=coef(),a=analyze(c);inputs.forEach(i=>$("val"+i.dataset.coef).value=fmt(Number(i.value)));
+    $("generalOut").textContent=equation(c);$("canonicalOut").textContent=a.canonical;$("typeOut").textContent=a.type;$("deltaOut").textContent=`Δ = ${fmt(a.delta)}`;$("detailsOut").textContent=a.details;$("explanation").textContent=a.explanation;
+    const status=$("statusCard");status.className=`summary-card status-${a.status}`;$("emptyNote").classList.toggle("show",a.status==="imaginary");draw(c,a);
   }
-
-  if(tipo==="Hipérbola"){
-    svg.appendChild(el("line",{x1:95,y1:285,x2:325,y2:55,class:"clean-asym"}));
-    svg.appendChild(el("line",{x1:95,y1:55,x2:325,y2:285,class:"clean-asym"}));
-    svg.appendChild(el("path",{d:"M 112 55 C 150 105, 165 145, 128 170 C 165 195, 150 235, 112 285",class:"clean-curve"}));
-    svg.appendChild(el("path",{d:"M 308 55 C 270 105, 255 145, 292 170 C 255 195, 270 235, 308 285",class:"clean-curve"}));
-    const note=txt(210,330,"Miniatura representativa: hipérbola", "representative-note");
-    note.setAttribute("text-anchor","middle");
-    svg.appendChild(note);
-    return;
-  }
-
-  const note=txt(210,170,"No se representa una cónica cuadrática", "representative-note");
-  note.setAttribute("text-anchor","middle");
-  svg.appendChild(note);
-}
-
- cards.forEach(card=>{
- if(card.dataset.kind==="decision"){drawDecision(card.querySelector("svg"))}
- if(card.dataset.kind==="classifier"){card.querySelectorAll("input").forEach(inp=>inp.addEventListener("input",()=>drawClassifier(card))); drawClassifier(card)}
-})
+  inputs.forEach(i=>i.addEventListener("input",update));
+  document.querySelectorAll(".preset").forEach(b=>b.addEventListener("click",()=>{b.dataset.values.split(",").forEach((v,i)=>inputs[i].value=v);update()}));
+  document.querySelector(".reset").addEventListener("click",()=>{[1,1,-4,6,-3].forEach((v,i)=>inputs[i].value=v);update()});
+  update();
 })();
 </script>
 </body>
