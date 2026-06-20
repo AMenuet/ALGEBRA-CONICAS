@@ -794,6 +794,9 @@ footer {
 /* V7.0: Cónicas · Circunferencia */
 .conicas-visual-frame{width:100%;min-height:1500px;border:1px solid var(--line);border-radius:20px;background:#fbfdff;}@media(max-width:900px){.conicas-visual-frame{min-height:2650px;}}
 
+.planos-visual-frame { min-height: 780px; }
+@media (max-width: 900px) { .planos-visual-frame { min-height: 1160px; } }
+
 /* V7.1: Cónicas · Parábola */
 .parabola-frame {
   min-height: 1550px;

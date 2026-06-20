@@ -6,7 +6,7 @@
   <title>VectorLab · Unidad 1: Vectores</title>
   <meta name="description" content="Manual interactivo de vectores para Álgebra y Geometría Analítica." />
   <meta name="author" content="Ing. Mg. Agustín Menuet · FICA · Universidad Nacional de San Luis" />
-  <link rel="stylesheet" href="styles.css?v=7.8.1" />
+  <link rel="stylesheet" href="styles.css?v=7.8.2" />
 </head>
 <body>
   <header class="hero">
@@ -1246,7 +1246,7 @@
         <button class="module-subtab active" data-module-panel="ga-sub1">Distancia y segmentos</button>
         <button class="module-subtab" data-module-panel="ga-sub2">Rectas en el plano</button>
         <button class="module-subtab" data-module-panel="ga-sub3">Distancias y ángulos</button>
-        <button class="module-subtab" data-module-panel="ga-sub4">Rectas y planos en el espacio</button>
+        <button class="module-subtab" data-module-panel="ga-sub4">Planos</button>
         <button class="module-subtab" data-module-panel="ga-pdf">Material PDF</button>
       </nav>
 
@@ -1468,7 +1468,7 @@
       
       <article id="ga-sub4" class="module-panel">
         <div class="section-header compact">
-          <div><h3>Rectas y planos en el espacio</h3><p>Formas vectoriales, paramétricas, planos y distancia entre rectas oblicuas.</p></div>
+          <div><h3>Planos en el espacio</h3><p>Ecuaciones, trazas, posiciones relativas, intersecciones y distancia de un punto a un plano.</p></div>
           <span class="badge">Teoría ampliada · 8 actividades · 8 preguntas</span>
         </div>
         <nav class="inner-tabs ga-inner-tabs">
@@ -1477,72 +1477,20 @@
           <button class="inner-tab" data-panel="ga4-activities">Actividades</button>
           <button class="inner-tab" data-panel="ga4-quiz">Autoevaluación</button>
         </nav>
-        <section id="ga4-theory" class="panel active"><div class="theory-grid"><div class="theory-card"><h3>1. Recta en el espacio</h3><p>Una recta en R³ queda determinada por un punto P₀(x₀,y₀,z₀) y un vector director A=(a,b,c).</p><div class="formula">X = X₀ + tA</div></div><div class="theory-card"><h3>2. Ecuaciones paramétricas de la recta</h3><p>A partir de X=X₀+tA se obtienen las ecuaciones paramétricas.</p><div class="formula">x=x₀+at ; y=y₀+bt ; z=z₀+ct</div></div><div class="theory-card"><h3>3. Ecuaciones simétricas</h3><p>Si a, b y c son no nulos, puede escribirse la recta en forma simétrica.</p><div class="formula">(x−x₀)/a = (y−y₀)/b = (z−z₀)/c</div></div><div class="theory-card"><h3>4. Plano en el espacio</h3><p>Un plano queda determinado por un punto P₀ y un vector normal n=(A,B,C).</p><div class="formula">A(x−x₀)+B(y−y₀)+C(z−z₀)=0</div></div><div class="theory-card"><h3>5. Forma general del plano</h3><p>La forma general de un plano en R³ es:</p><div class="formula">Ax+By+Cz+D=0</div></div><div class="theory-card"><h3>6. Plano por tres puntos</h3><p>Tres puntos no alineados determinan un plano. Puede obtenerse usando dos vectores del plano y calculando un vector normal mediante producto vectorial.</p><div class="formula">n = AB × AC</div></div><div class="theory-card"><h3>7. Recta y plano</h3><p>Una recta puede ser paralela a un plano, estar contenida en él o cortarlo en un punto. Esto depende de la relación entre el vector director de la recta y el vector normal del plano.</p></div><div class="theory-card"><h3>8. Rectas oblicuas</h3><p>Dos rectas del espacio pueden no ser paralelas ni cortarse. En ese caso se denominan rectas oblicuas o alabeadas.</p></div><div class="theory-card"><h3>9. Distancia entre rectas oblicuas</h3><p>La distancia mínima entre rectas oblicuas se calcula usando el producto mixto entre el vector que une puntos de ambas rectas y los vectores directores.</p><div class="formula">d=|(X₂−X₁)·(A₁×A₂)| / ||A₁×A₂||</div></div><div class="theory-card"><h3>10. Interpretación geométrica</h3><p>La fórmula anterior representa la altura de un paralelepípedo cuya base está generada por los vectores directores de las rectas.</p></div></div></section>
+        <section id="ga4-theory" class="panel active"><div class="theory-grid"><div class="theory-card"><h3>1. Plano y vector normal</h3><p>Un punto P₀ y un vector no nulo n perpendicular al plano determinan un único plano.</p><div class="formula">n · (P−P₀)=0</div></div><div class="theory-card"><h3>2. Forma punto-normal</h3><p>Si n=(A,B,C) y P₀=(x₀,y₀,z₀), la condición de perpendicularidad se escribe por componentes.</p><div class="formula">A(x−x₀)+B(y−y₀)+C(z−z₀)=0</div></div><div class="theory-card"><h3>3. Forma general</h3><p>Al desarrollar la forma punto-normal se obtiene la ecuación cartesiana del plano.</p><div class="formula">Ax+By+Cz+D=0</div></div><div class="theory-card"><h3>4. Plano por tres puntos</h3><p>Tres puntos no colineales determinan un plano. Dos vectores contenidos en él permiten hallar una normal.</p><div class="formula">n = P₁P₂ × P₁P₃</div></div><div class="theory-card"><h3>5. Trazas e intersecciones</h3><p>Las trazas se obtienen intersectando el plano con xy, xz y yz; para ello se hace z=0, y=0 o x=0.</p><div class="formula">π∩xy: z=0</div></div><div class="theory-card"><h3>6. Planos paralelos</h3><p>Dos planos son paralelos cuando sus vectores normales son proporcionales. Si además sus ecuaciones son proporcionales, coinciden.</p><div class="formula">n₁ = k n₂</div></div><div class="theory-card"><h3>7. Planos perpendiculares</h3><p>Dos planos son perpendiculares cuando sus vectores normales son ortogonales.</p><div class="formula">n₁ · n₂ = 0</div></div><div class="theory-card"><h3>8. Intersección de dos planos</h3><p>Dos planos no paralelos se cortan en una recta. Su dirección es perpendicular a ambas normales.</p><div class="formula">d = n₁ × n₂</div></div><div class="theory-card"><h3>9. Intersección de tres planos</h3><p>Resolver simultáneamente tres ecuaciones de planos permite obtener un punto, una recta, un plano o un sistema incompatible.</p></div><div class="theory-card"><h3>10. Distancia de un punto al plano</h3><p>La distancia es el valor absoluto de la distancia dirigida dividido por el módulo de la normal.</p><div class="formula">d=|Ax₀+By₀+Cz₀+D|/√(A²+B²+C²)</div></div></div></section>
         
-        <section id="ga4-visual" class="panel">
-          <div class="section-note">
-            <h3>Visualización conceptual</h3>
-            <p>La recta en R³ se representa con un punto y un vector director; el plano con un punto y un vector normal.</p>
-          </div>
-          <div class="graph-card">
-            <div class="graph-header">
-              <div><h4>Recta, plano y normal</h4><p>La figura resume la relación entre punto, vector director y vector normal.</p></div>
-              <div class="live-values"><span>X=X₀+tA</span><span>n=(A,B,C)</span><span>Ax+By+Cz+D=0</span></div>
-            </div>
-            <svg class="ga-svg" viewBox="0 0 720 420" role="img" aria-label="Recta y plano en el espacio">
-              <rect width="720" height="420" fill="#fbfdff"/>
-              <polygon points="120,310 540,270 640,130 220,170" fill="rgba(11,92,173,.14)" stroke="#0b5cad" stroke-width="3"/>
-              <line x1="190" y1="290" x2="590" y2="150" stroke="#111827" stroke-width="5"/>
-              <circle cx="310" cy="248" r="7" fill="#111827"/>
-              <line x1="310" y1="248" x2="415" y2="210" stroke="#0f766e" stroke-width="5"/>
-              <line x1="415" y1="210" x2="398" y2="207" stroke="#0f766e" stroke-width="4"/>
-              <line x1="415" y1="210" x2="404" y2="224" stroke="#0f766e" stroke-width="4"/>
-              <line x1="380" y1="205" x2="380" y2="80" stroke="#dc2626" stroke-width="5"/>
-              <line x1="380" y1="80" x2="372" y2="96" stroke="#dc2626" stroke-width="4"/>
-              <line x1="380" y1="80" x2="388" y2="96" stroke="#dc2626" stroke-width="4"/>
-              <text x="295" y="270" class="svg-small">P₀</text>
-              <text x="420" y="208" class="svg-label" fill="#0f766e">A</text>
-              <text x="390" y="90" class="svg-label" fill="#dc2626">n</text>
-              <text x="450" y="305" class="svg-label" fill="#0b5cad">plano</text>
-              <text x="170" y="120" class="svg-label">recta: X=X₀+tA</text>
-            </svg>
-          </div>
-        </section>
+        <section id="ga4-visual" class="panel"><iframe class="conicas-visual-frame planos-visual-frame" src="planos_visual_embed.html?v=1.0.0" title="Explorador interactivo de planos en el espacio"></iframe></section>
 
-        <section id="ga4-activities" class="panel"><div class="section-note"><h3>Actividades guiadas</h3><p>Rectas en R³, planos, pertenencia, paralelismo y producto mixto aplicado.</p></div><div class="activity-list">
-<div class="activity-card" data-answer="(1,3,-5)|1,3,-5" data-hint="Restá Q−P.">
-<h4>Actividad 1 · Vector director</h4><p>La recta pasa por P(1,−1,3) y Q(2,2,−2). Hallar un vector director.</p><input type="text" placeholder="Ingresá tu respuesta">
-<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
-<p class="feedback"></p><div class="solution">A=Q−P=(1,3,−5).</div></div>
-<div class="activity-card" data-answer="x=1+2t,y=3-t,z=4+t|x=1+2t;y=3-t;z=4+t" data-hint="Usá X=X₀+tA.">
-<h4>Actividad 2 · Paramétricas</h4><p>Escribir las paramétricas de la recta que pasa por P₀(1,3,4) y tiene director A=(2,−1,1).</p><input type="text" placeholder="Ingresá tu respuesta">
-<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
-<p class="feedback"></p><div class="solution">x=1+2t, y=3−t, z=4+t.</div></div>
-<div class="activity-card" data-answer="(2,-1,3)|2,-1,3" data-hint="En Ax+By+Cz+D=0, la normal es (A,B,C).">
-<h4>Actividad 3 · Vector normal del plano</h4><p>Indicar un vector normal al plano 2x−y+3z−5=0.</p><input type="text" placeholder="Ingresá tu respuesta">
-<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
-<p class="feedback"></p><div class="solution">n=(2,−1,3).</div></div>
-<div class="activity-card" data-answer="x+y+z=4|x + y + z = 4" data-hint="Sustituí el punto en la forma punto-normal.">
-<h4>Actividad 4 · Plano punto-normal</h4><p>Hallar el plano con normal n=(1,1,1) que pasa por P₀(2,1,1).</p><input type="text" placeholder="Ingresá tu respuesta">
-<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
-<p class="feedback"></p><div class="solution">(x−2)+(y−1)+(z−1)=0, entonces x+y+z=4.</div></div>
-<div class="activity-card" data-answer="paralela|paralelas" data-hint="Si las normales son proporcionales, los planos son paralelos.">
-<h4>Actividad 5 · Planos paralelos</h4><p>Determinar la relación entre 2x+2y+2z−1=0 y x+y+z+3=0.</p><input type="text" placeholder="Ingresá tu respuesta">
-<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
-<p class="feedback"></p><div class="solution">Las normales (2,2,2) y (1,1,1) son proporcionales, por lo tanto los planos son paralelos.</div></div>
-<div class="activity-card" data-answer="0" data-hint="Si el punto satisface la ecuación del plano, la distancia es cero.">
-<h4>Actividad 6 · Punto en plano</h4><p>Verificar la distancia de P(1,1,2) al plano x+y+z−4=0.</p><input type="text" placeholder="Ingresá tu respuesta">
-<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
-<p class="feedback"></p><div class="solution">1+1+2−4=0, por lo tanto el punto pertenece al plano y la distancia es 0.</div></div>
-<div class="activity-card" data-answer="si|sí|pertenece" data-hint="Sustituí las coordenadas en la ecuación.">
-<h4>Actividad 7 · Pertenencia a un plano</h4><p>¿El punto P(1,2,1) pertenece al plano x+y+z−4=0?</p><input type="text" placeholder="Ingresá tu respuesta">
-<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
-<p class="feedback"></p><div class="solution">1+2+1−4=0. Sí, pertenece.</div></div>
-<div class="activity-card" data-answer="producto mixto|mixto" data-hint="Recordá la fórmula de distancia entre rectas oblicuas.">
-<h4>Actividad 8 · Rectas oblicuas</h4><p>¿Qué operación vectorial aparece en la distancia entre rectas oblicuas?</p><input type="text" placeholder="Ingresá tu respuesta">
-<div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div>
-<p class="feedback"></p><div class="solution">Aparece el producto mixto: (X₂−X₁)·(A₁×A₂).</div></div></div></section>
-        <section id="ga4-quiz" class="panel"><div class="quiz-grid"><div class="quiz-card" data-correct="1"><h4>1. Una recta en R³ queda determinada por:</h4><button>Solo un punto</button><button>Un punto y un vector director</button><button>Solo una normal</button><button>Tres pendientes</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>2. En X=X₀+tA, el parámetro es:</h4><button>X₀</button><button>A</button><button>t</button><button>z</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>3. En Ax+By+Cz+D=0, un vector normal al plano es:</h4><button>(A,B,C)</button><button>(A,C,D)</button><button>(B,C,D)</button><button>(A,B,D)</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>4. Tres puntos determinan un plano si:</h4><button>Están alineados</button><button>No están alineados</button><button>Son iguales</button><button>Tienen z=0</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>5. La normal de un plano por tres puntos puede obtenerse con:</h4><button>Producto escalar</button><button>Suma vectorial</button><button>Producto vectorial</button><button>Regla de tres</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="3"><h4>6. Rectas oblicuas son rectas que:</h4><button>Son paralelas</button><button>Se cortan</button><button>Están en el mismo plano</button><button>No son paralelas ni se cortan</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>7. La distancia entre rectas oblicuas usa:</h4><button>Solo pendiente</button><button>Producto mixto</button><button>Determinante 2x2</button><button>Punto medio</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>8. Si un punto satisface la ecuación de un plano:</h4><button>Pertenece al plano</button><button>No pertenece</button><button>La distancia es 1</button><button>El plano no existe</button><p class="quiz-feedback"></p></div></div></section>
+        <section id="ga4-activities" class="panel"><div class="section-note"><h3>Actividades guiadas</h3><p>Ejercicios de ecuaciones, trazas, posiciones relativas, intersecciones y distancia, en la línea de la guía práctica.</p></div><div class="activity-list">
+<div class="activity-card" data-answer="2x-3y+4z-19=0|2x−3y+4z−19=0|2x-3y+4z=19" data-hint="Usá n·(P−P₀)=0."><h4>Actividad 1 · Plano punto-normal</h4><p>Hallar el plano perpendicular a n=(2,−3,4) que contiene a P(5,1,3).</p><input type="text" placeholder="Formato: Ax+By+Cz+D=0"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">2(x−5)−3(y−1)+4(z−3)=0, por lo tanto 2x−3y+4z−19=0.</div></div>
+<div class="activity-card" data-answer="(-3,4,-1)|-3,4,-1|(3,-4,1)|3,-4,1" data-hint="Formá dos vectores y calculá su producto vectorial."><h4>Actividad 2 · Plano por tres puntos</h4><p>Hallar una normal del plano que pasa por P=(0,0,0), Q=(1,1,1) y R=(3,2,−1).</p><input type="text" placeholder="Formato: (a,b,c)"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">PQ×PR=(−3,4,−1); su opuesto también es una normal válida.</div></div>
+<div class="activity-card" data-answer="3" data-hint="Para cortar el eje z, hacé x=0 e y=0."><h4>Actividad 3 · Corte con el eje z</h4><p>¿En qué valor corta al eje z el plano 2x+3y+6z=18?</p><input type="text" placeholder="Ingresá el valor de z"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">6z=18, entonces z=3 y el corte es (0,0,3).</div></div>
+<div class="activity-card" data-answer="paralelos|paralelas" data-hint="Compará los vectores normales."><h4>Actividad 4 · Planos paralelos</h4><p>Determinar la relación entre 2x+2y+2z−1=0 y x+y+z+3=0.</p><input type="text" placeholder="Paralelos, perpendiculares o secantes"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">Sus normales son proporcionales, por lo que los planos son paralelos no coincidentes.</div></div>
+<div class="activity-card" data-answer="perpendiculares|perpendicular" data-hint="Calculá n₁·n₂."><h4>Actividad 5 · Planos perpendiculares</h4><p>Determinar la relación entre x+y=0 y x−y+2z=0.</p><input type="text" placeholder="Paralelos, perpendiculares o secantes"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">(1,1,0)·(1,−1,2)=0, por lo tanto son perpendiculares.</div></div>
+<div class="activity-card" data-answer="(0,0,1)|0,0,1|(0,0,-1)|0,0,-1" data-hint="La dirección es paralela a n₁×n₂."><h4>Actividad 6 · Intersección de planos</h4><p>Indicar un vector director de la recta intersección de x+y=0 y x−y=0.</p><input type="text" placeholder="Formato: (a,b,c)"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">n₁×n₂=(0,0,−2), por lo que puede usarse d=(0,0,1).</div></div>
+<div class="activity-card" data-answer="si|sí|pertenece" data-hint="Sustituí las coordenadas en la ecuación."><h4>Actividad 7 · Pertenencia</h4><p>¿El punto P(1,2,1) pertenece al plano x+y+z−4=0?</p><input type="text" placeholder="Sí o no"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">1+2+1−4=0. Sí, pertenece.</div></div>
+<div class="activity-card" data-answer="2" data-hint="Aplicá la fórmula de distancia punto-plano."><h4>Actividad 8 · Distancia punto-plano</h4><p>Calcular la distancia de P=(−5,−10,−3) al plano 4x−3y+12z=0.</p><input type="text" placeholder="Ingresá la distancia"><div class="buttons"><button class="check-btn">Verificar</button><button class="hint-btn">Pista</button><button class="solution-btn">Ver resolución</button></div><p class="feedback"></p><div class="solution">d=|−20+30−36|/√169=26/13=2.</div></div></div></section>
+        <section id="ga4-quiz" class="panel"><div class="quiz-grid"><div class="quiz-card" data-correct="2"><h4>1. Un punto y un vector no nulo determinan un plano cuando el vector es:</h4><button>Paralelo al plano</button><button>Director de una recta cualquiera</button><button>Normal al plano</button><button>Nulo</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>2. En Ax+By+Cz+D=0, una normal es:</h4><button>(A,B,C)</button><button>(A,C,D)</button><button>(B,C,D)</button><button>(x,y,z)</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>3. Tres puntos determinan un único plano si:</h4><button>Son colineales</button><button>No son colineales</button><button>Dos son iguales</button><button>Están en el eje x</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>4. Para hallar la traza sobre xy se sustituye:</h4><button>x=0</button><button>y=0</button><button>z=0</button><button>D=0</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="1"><h4>5. Dos planos son paralelos cuando sus normales son:</h4><button>Ortogonales</button><button>Proporcionales</button><button>Nulas</button><button>Iguales a D</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="3"><h4>6. Dos planos son perpendiculares si:</h4><button>n₁=n₂</button><button>n₁×n₂=0</button><button>D₁=D₂</button><button>n₁·n₂=0</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="2"><h4>7. Dos planos no paralelos se intersecan en:</h4><button>Un punto</button><button>Otro plano</button><button>Una recta</button><button>Una circunferencia</button><p class="quiz-feedback"></p></div><div class="quiz-card" data-correct="0"><h4>8. En la distancia punto-plano, el numerador se toma:</h4><button>En valor absoluto</button><button>Al cuadrado</button><button>Sin D</button><button>Como producto vectorial</button><p class="quiz-feedback"></p></div></div></section>
       </article>
 
       <article id="ga-pdf" class="module-panel">
