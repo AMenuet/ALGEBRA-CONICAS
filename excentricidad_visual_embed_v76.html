@@ -32,10 +32,13 @@ svg{width:100%;height:auto;display:block;border:1px solid #e5eef9;border-radius:
 .gridline{stroke:#e5eef9;stroke-width:1}
 .curve{stroke:#1263e6;stroke-width:3;fill:rgba(18,99,230,.08)}
 .directrix{stroke:#dc2626;stroke-width:3;stroke-dasharray:8 6}
+.directrix-secondary{stroke:#dc2626;stroke-width:2;stroke-dasharray:8 6;opacity:.38}
 .focus-line{stroke:#b45309;stroke-width:3;stroke-dasharray:6 5}
 .dir-dist{stroke:#0f766e;stroke-width:3;stroke-dasharray:6 5}
 .pt{fill:#1263e6;stroke:white;stroke-width:2;cursor:pointer}
 .focus{fill:#dc2626;stroke:white;stroke-width:2}
+.focus-secondary{fill:#dc2626;stroke:white;stroke-width:2;opacity:.42}
+.label-secondary{font-weight:800;font-size:16px;opacity:.45}
 text{font-family:"Cambria Math",Georgia,serif;font-size:15px;fill:#111827}
 .label{font-weight:800;font-size:17px}
 .formula{background:var(--soft);border-left:5px solid var(--blue);border-radius:12px;padding:9px;margin-top:10px;text-align:center;font-family:"Cambria Math",Georgia,serif;font-size:20px}
@@ -50,7 +53,7 @@ text{font-family:"Cambria Math",Georgia,serif;font-size:15px;fill:#111827}
 <body>
 <div class="wrap">
   <div class="intro">
-    <h3>Excentricidad como parámetro unificador <span style="font-size:13px;color:#5b6b84">V7.6.1</span></h3>
+    <h3>Excentricidad como parámetro unificador <span style="font-size:13px;color:#5b6b84">V7.6.3</span></h3>
     <p>Mové la excentricidad e, cambiá la orientación y desplazá el punto P sobre la curva para verificar que PF/PD = e.</p>
   </div>
 
@@ -155,11 +158,25 @@ function curvePath(e,orient){
   return paths;
 }
 function focusAndDirectrix(e,orient,p){
-  if(e===0) return {F:null, direct:null};
-  if(e<1){const a=2.6,c=e*a,d=a/e; return orient==="H"?{F:{x:c,y:0},direct:{type:"v",v:d}}:{F:{x:0,y:c},direct:{type:"h",v:d}}}
-  if(Math.abs(e-1)<.025){const p=1.2; return orient==="H"?{F:{x:p,y:0},direct:{type:"v",v:-p}}:{F:{x:0,y:p},direct:{type:"h",v:-p}}}
-  const a=1.6,c=e*a,side=p?.side||1;
-  return orient==="H"?{F:{x:side*c,y:0},direct:{type:"v",v:side*a/e}}:{F:{x:0,y:side*c},direct:{type:"h",v:side*a/e}}
+  if(e===0) return {pairs:[]};
+  if(e<1){
+    const a=2.6,c=e*a,d=a/e,activeSide=(orient==="H"?p.x:p.y)>=0?1:-1;
+    return {pairs:[1,-1].map((side,index)=>({
+      side,label:index===0?"₁":"₂",active:side===activeSide,
+      F:orient==="H"?{x:side*c,y:0}:{x:0,y:side*c},
+      direct:orient==="H"?{type:"v",v:side*d}:{type:"h",v:side*d}
+    }))};
+  }
+  if(Math.abs(e-1)<.025){
+    const q=1.2;
+    return {pairs:[{side:1,label:"",active:true,F:orient==="H"?{x:q,y:0}:{x:0,y:q},direct:orient==="H"?{type:"v",v:-q}:{type:"h",v:-q}}]};
+  }
+  const a=1.6,c=e*a,activeSide=p?.side||1;
+  return {pairs:[1,-1].map((side,index)=>({
+    side,label:index===0?"₁":"₂",active:side===activeSide,
+    F:orient==="H"?{x:side*c,y:0}:{x:0,y:side*c},
+    direct:orient==="H"?{type:"v",v:side*a/e}:{type:"h",v:side*a/e}
+  }))};
 }
 function classify(e){if(e===0)return["Circunferencia","circ"]; if(e<.98)return["Elipse","eli"]; if(e>1.02)return["Hipérbola","hip"]; return["Parábola","par"];}
 function draw(){
@@ -176,19 +193,25 @@ function draw(){
  svg.appendChild(C(qp.x,qp.y,6,"pt")); svg.appendChild(T(qp.x+8,qp.y-8,"P","label"));
  let PF=0, PD=0;
  const fd=focusAndDirectrix(e,orient,p);
- if(fd.F){
-   let qF=P(fd.F.x,fd.F.y); svg.appendChild(C(qF.x,qF.y,6,"focus")); svg.appendChild(T(qF.x+8,qF.y-8,"F","label"));
-   svg.appendChild(L(qp.x,qp.y,qF.x,qF.y,"focus-line"));
-   PF=Math.hypot(p.x-fd.F.x,p.y-fd.F.y);
-   if(fd.direct.type==="v"){
-     let da=P(fd.direct.v,-4.5), db=P(fd.direct.v,4.5), foot=P(fd.direct.v,p.y);
-     svg.appendChild(L(da.x,da.y,db.x,db.y,"directrix")); svg.appendChild(L(qp.x,qp.y,foot.x,foot.y,"dir-dist")); svg.appendChild(T(da.x+8,da.y+20,"directriz","label"));
-     PD=Math.abs(p.x-fd.direct.v);
-   } else {
-     let da=P(-5,fd.direct.v), db=P(7,fd.direct.v), foot=P(p.x,fd.direct.v);
-     svg.appendChild(L(da.x,da.y,db.x,db.y,"directrix")); svg.appendChild(L(qp.x,qp.y,foot.x,foot.y,"dir-dist")); svg.appendChild(T(da.x+8,da.y-8,"directriz","label"));
-     PD=Math.abs(p.y-fd.direct.v);
-   }
+ if(fd.pairs.length){
+   const ordered=[...fd.pairs].sort((a,b)=>Number(a.active)-Number(b.active));
+   ordered.forEach(pair=>{
+     const qF=P(pair.F.x,pair.F.y), focusClass=pair.active?"focus":"focus-secondary", labelClass=pair.active?"label":"label-secondary";
+     svg.appendChild(C(qF.x,qF.y,6,focusClass));
+     svg.appendChild(T(qF.x+8,qF.y-8,"F"+pair.label,labelClass));
+     if(pair.direct.type==="v"){
+       const da=P(pair.direct.v,-4.5),db=P(pair.direct.v,4.5),foot=P(pair.direct.v,p.y);
+       svg.appendChild(L(da.x,da.y,db.x,db.y,pair.active?"directrix":"directrix-secondary"));
+       svg.appendChild(T(da.x+8,da.y+20,"d"+pair.label,labelClass));
+       if(pair.active){svg.appendChild(L(qp.x,qp.y,foot.x,foot.y,"dir-dist"));PD=Math.abs(p.x-pair.direct.v)}
+     }else{
+       const da=P(-5,pair.direct.v),db=P(7,pair.direct.v),foot=P(p.x,pair.direct.v);
+       svg.appendChild(L(da.x,da.y,db.x,db.y,pair.active?"directrix":"directrix-secondary"));
+       svg.appendChild(T(da.x+8,da.y-8,"d"+pair.label,labelClass));
+       if(pair.active){svg.appendChild(L(qp.x,qp.y,foot.x,foot.y,"dir-dist"));PD=Math.abs(p.y-pair.direct.v)}
+     }
+     if(pair.active){svg.appendChild(L(qp.x,qp.y,qF.x,qF.y,"focus-line"));PF=Math.hypot(p.x-pair.F.x,p.y-pair.F.y)}
+   });
  } else {
    document.getElementById("pfBox").textContent="PF = no aplica";
    document.getElementById("pdBox").textContent="PD = no aplica";
