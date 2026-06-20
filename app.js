@@ -814,8 +814,14 @@ function setupDragging() {
     graphArea.addEventListener("pointerdown", (ev) => {
       ev.preventDefault();
       const p = pointerPosition(ev, graphArea);
-      if (nearPoint(graphArea, p, state.g7.u)) { state.g7.drag = "u"; startCanvasDrag(graphArea, ev); }
-      else if (nearPoint(graphArea, p, state.g7.v)) { state.g7.drag = "v"; startCanvasDrag(graphArea, ev); }
+      const selected = nearestEndpoint(graphArea, p, [
+        { name: "u", point: state.g7.u },
+        { name: "v", point: state.g7.v }
+      ]);
+      if (selected) {
+        state.g7.drag = selected;
+        startCanvasDrag(graphArea, ev);
+      }
     });
     graphArea.addEventListener("pointermove", (ev) => {
       if (!state.g7.drag) return;
