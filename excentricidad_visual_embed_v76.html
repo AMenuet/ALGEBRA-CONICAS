@@ -58,7 +58,7 @@ text{font-family:"Cambria Math",Georgia,serif;font-size:15px;fill:#111827}
     <aside class="panel">
       <h4>Controles</h4>
       <div class="control"><label>e <span data-val="e">0.60</span></label><input id="eSlider" type="range" min="0" max="2.2" step="0.05" value="0.6"></div>
-      <div class="control"><label>posición P <span data-val="t">45°</span></label><input id="tSlider" type="range" min="-80" max="80" step="1" value="35"></div>
+      <div class="control"><label>posición P <span data-val="t">35°</span></label><input id="tSlider" type="range" min="0" max="360" step="1" value="35"></div>
       <div class="control"><label>orientación</label><select id="orient"><option value="H">Horizontal</option><option value="V">Vertical</option></select></div>
 
       <div class="quick">
@@ -124,11 +124,13 @@ function pointOnConic(e,t,orient){
     return orient==="H"?{x:a*Math.cos(th),y:b*Math.sin(th),a,b,c}:{x:b*Math.sin(th),y:a*Math.cos(th),a,b,c};
   }
   if(Math.abs(e-1)<.025){
-    const p=1.2, u=(t/80)*3.2;
+    const p=1.2, u=((t-180)/180)*4;
     return orient==="H"?{x:(u*u)/(4*p),y:u,p}:{x:u,y:(u*u)/(4*p),p};
   }
-  const a=1.6, c=e*a, b=Math.sqrt(Math.max(.1,c*c-a*a)), u=(t/80)*1.75;
-  return orient==="H"?{x:a*Math.cosh(u),y:b*Math.sinh(u),a,b,c}:{x:b*Math.sinh(u),y:a*Math.cosh(u),a,b,c};
+  const a=1.6, c=e*a, b=Math.sqrt(Math.max(.1,c*c-a*a));
+  const side=t<180?1:-1;
+  const u=t<180?((t-90)/90)*1.75:((t-270)/90)*1.75;
+  return orient==="H"?{x:side*a*Math.cosh(u),y:b*Math.sinh(u),a,b,c,side}:{x:b*Math.sinh(u),y:side*a*Math.cosh(u),a,b,c,side};
 }
 function curvePath(e,orient){
   let pts=[];
@@ -152,11 +154,12 @@ function curvePath(e,orient){
   }
   return paths;
 }
-function focusAndDirectrix(e,orient){
+function focusAndDirectrix(e,orient,p){
   if(e===0) return {F:null, direct:null};
   if(e<1){const a=2.6,c=e*a,d=a/e; return orient==="H"?{F:{x:c,y:0},direct:{type:"v",v:d}}:{F:{x:0,y:c},direct:{type:"h",v:d}}}
   if(Math.abs(e-1)<.025){const p=1.2; return orient==="H"?{F:{x:p,y:0},direct:{type:"v",v:-p}}:{F:{x:0,y:p},direct:{type:"h",v:-p}}}
-  const a=1.6,c=e*a,d=a/e; return orient==="H"?{F:{x:c,y:0},direct:{type:"v",v:a/e}}:{F:{x:0,y:c},direct:{type:"h",v:a/e}}
+  const a=1.6,c=e*a,side=p?.side||1;
+  return orient==="H"?{F:{x:side*c,y:0},direct:{type:"v",v:side*a/e}}:{F:{x:0,y:side*c},direct:{type:"h",v:side*a/e}}
 }
 function classify(e){if(e===0)return["Circunferencia","circ"]; if(e<.98)return["Elipse","eli"]; if(e>1.02)return["Hipérbola","hip"]; return["Parábola","par"];}
 function draw(){
@@ -172,7 +175,7 @@ function draw(){
  let p=pointOnConic(e,t,orient), qp=P(p.x,p.y);
  svg.appendChild(C(qp.x,qp.y,6,"pt")); svg.appendChild(T(qp.x+8,qp.y-8,"P","label"));
  let PF=0, PD=0;
- const fd=focusAndDirectrix(e,orient);
+ const fd=focusAndDirectrix(e,orient,p);
  if(fd.F){
    let qF=P(fd.F.x,fd.F.y); svg.appendChild(C(qF.x,qF.y,6,"focus")); svg.appendChild(T(qF.x+8,qF.y-8,"F","label"));
    svg.appendChild(L(qp.x,qp.y,qF.x,qF.y,"focus-line"));
