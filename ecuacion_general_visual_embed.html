@@ -35,6 +35,14 @@ input[type=range]{width:100%;accent-color:var(--blue)}
 .pt{fill:#1263e6}
 text{font-family:"Cambria Math",Georgia,serif;font-size:14px;fill:#111827}
 @media(max-width:900px){.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr 1fr}.result,.steps{grid-template-columns:1fr}.card.full{grid-column:auto}}
+
+.representative-note{font-size:13px;fill:#5b6b84}
+.icon-label{font-size:18px;font-weight:800;fill:#083b7a}
+.clean-curve{stroke:#1263e6;stroke-width:4;fill:none;stroke-linecap:round}
+.clean-fill{stroke:#1263e6;stroke-width:4;fill:rgba(18,99,230,.08)}
+.clean-asym{stroke:#6b7280;stroke-width:2;stroke-dasharray:8 7}
+.clean-center{fill:#111827}
+
 </style>
 </head>
 <body>
@@ -135,55 +143,153 @@ function classify(A,C,D,E,F){
 function drawDecision(svg){
  svg.innerHTML="";
  svg.appendChild(el("rect",{width:420,height:320,rx:16,fill:"#ffffff"}));
+
  function box(x,y,w,h,t,cls="decision-box"){
    svg.appendChild(el("rect",{x,y,width:w,height:h,rx:14,class:cls}));
-   const e=txt(x+w/2,y+h/2+5,t); e.setAttribute("text-anchor","middle"); svg.appendChild(e);
+   const e=txt(x+w/2,y+h/2+5,t);
+   e.setAttribute("text-anchor","middle");
+   e.setAttribute("font-size","14");
+   e.setAttribute("font-weight","700");
+   svg.appendChild(e);
  }
- function path(d){svg.appendChild(el("path",{d,class:"decision-line"}))}
- function label(x,y,t){const e=txt(x,y,t); e.setAttribute("text-anchor","middle"); e.setAttribute("font-weight","700"); svg.appendChild(e)}
- box(135,18,150,44,"¿Hay un solo término cuadrático?");
- path("M210 62 L120 92"); path("M210 62 L305 92");
- box(35,92,170,44,"Sí: A=0 o C=0","decision-par");
- box(245,92,140,44,"No","decision-box");
- path("M120 136 L120 168");
- box(45,168,150,44,"Parábola","decision-par");
- path("M315 136 L315 168");
- box(235,168,160,44,"¿A y C tienen signos opuestos?","decision-box");
- path("M315 212 L245 238"); path("M315 212 L365 238");
- box(185,238,120,44,"No","decision-yes");
- box(320,238,90,44,"Sí","decision-no");
- path("M245 282 L170 304"); path("M245 282 L250 304");
- label(145,304,"A=C → Circunferencia");
- label(262,304,"A≠C → Elipse");
- label(365,304,"Hipérbola");
- const title=txt(210,312,"Caso sin rotación: B=0  ⇒  Δ = −4AC"); title.setAttribute("text-anchor","middle"); title.setAttribute("font-size","13"); title.setAttribute("fill","#083b7a"); title.setAttribute("font-weight","700"); svg.appendChild(title);
+
+ function path(d){
+   svg.appendChild(el("path",{d,class:"decision-line"}));
+ }
+
+ function label(x,y,t){
+   const e=txt(x,y,t);
+   e.setAttribute("text-anchor","middle");
+   e.setAttribute("font-size","13");
+   e.setAttribute("font-weight","700");
+   svg.appendChild(e);
+ }
+
+ box(100,18,220,42,"¿Hay un solo término cuadrático?");
+ path("M210 60 L110 92");
+ path("M210 60 L310 92");
+
+ box(35,92,150,42,"Sí: A=0 o C=0","decision-par");
+ box(255,92,110,42,"No","decision-box");
+
+ path("M110 134 L110 166");
+ box(35,166,150,42,"Parábola","decision-par");
+
+ path("M310 134 L310 166");
+ box(200,166,220,42,"¿A·C < 0?","decision-box");
+
+ path("M310 208 L240 238");
+ path("M310 208 L370 238");
+
+ box(185,238,110,40,"No","decision-yes");
+ box(335,238,70,40,"Sí","decision-no");
+
+ path("M240 278 L160 300");
+ path("M240 278 L250 300");
+ path("M370 278 L370 300");
+
+ label(135,302,"A=C → Circunferencia");
+ label(250,302,"A≠C → Elipse");
+ label(370,302,"Hipérbola");
+
+ const foot=txt(210,318,"B=0  ⇒  Δ = −4AC");
+ foot.setAttribute("text-anchor","middle");
+ foot.setAttribute("font-size","13");
+ foot.setAttribute("fill","#083b7a");
+ foot.setAttribute("font-weight","700");
+ svg.appendChild(foot);
 }
 function pathEllipse(h,k,rx,ry){let pts=[]; for(let t=0;t<=Math.PI*2+.05;t+=.05){pts.push(P(h+rx*Math.cos(t),k+ry*Math.sin(t)))} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")+" Z"}
 function pathHyperbola(h,k,a,b){let branch=(side)=>{let pts=[]; for(let u=0;u<=2;u+=.04){pts.push(P(h+side*a*Math.cosh(u),k+b*Math.sinh(u)))} for(let u=2;u>=0;u-=.04){pts.push(P(h+side*a*Math.cosh(u),k-b*Math.sinh(u)))} return "M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L")}; return [branch(1),branch(-1)]}
 function drawClassifier(card){
- updateValues(card); const svg=card.querySelector("svg"); base(svg);
+ updateValues(card);
+ const svg=card.querySelector("svg");
+ base(svg);
+
  let A=val(card,"A"), C=val(card,"C"), D=val(card,"D"), E=val(card,"E"), F=val(card,"F");
- if(A===0 && C===0){A=1; C=1}
  const c=classify(A,C,D,E,F);
- card.querySelector('[data-out="tipo"]').textContent=c.tipo;
- card.querySelector('[data-out="delta"]').textContent=`Δ=${fmt(c.delta)}`;
- card.querySelector('[data-out="info"]').textContent=c.info;
+
+ let tipoBase = c.tipo;
+ let tipo = "Indefinida";
+ let cond = c.info;
+
+ if(A===0 && C===0){
+   tipo = "No cuadrática";
+   cond = "sin x²/y²";
+ } else if(A===0 || C===0){
+   tipo = "Parábola";
+   cond = "A=0 o C=0";
+ } else if(A*C<0){
+   tipo = "Hipérbola";
+   cond = "A·C < 0";
+ } else if(A===C){
+   tipo = "Circunferencia";
+   cond = "A=C";
+ } else {
+   tipo = "Elipse";
+   cond = "A·C > 0";
+ }
+
+ card.querySelector('[data-out="tipo"]').textContent = "Tipo: " + tipo;
+ card.querySelector('[data-out="delta"]').textContent = `Δ=${fmt(c.delta)}`;
+ card.querySelector('[data-out="info"]').textContent = cond;
  card.querySelector('[data-eq="general"]').textContent=`${fmt(A)}x² ${C>=0?"+":""}${fmt(C)}y² ${D>=0?"+":""}${fmt(D)}x ${E>=0?"+":""}${fmt(E)}y ${F>=0?"+":""}${fmt(F)} = 0`;
- if(A!==0 && C!==0 && A*C>0){
-   const h=-D/(2*A), k=-E/(2*C);
-   const K=D*D/(4*A)+E*E/(4*C)-F;
-   if(K>0){const rx=Math.sqrt(Math.abs(K/A)), ry=Math.sqrt(Math.abs(K/C)); svg.appendChild(el("path",{d:pathEllipse(h,k,rx,ry),class:"curve"}));}
- }
- if(A!==0 && C!==0 && A*C<0){
-   const h=-D/(2*A), k=-E/(2*C);
-   const K=D*D/(4*A)+E*E/(4*C)-F;
-   if(K!==0){let a=Math.sqrt(Math.abs(K/A)), b=Math.sqrt(Math.abs(K/C)); pathHyperbola(h,k,a,b).forEach(d=>svg.appendChild(el("path",{d,class:"curve"})));}
- }
- if((A===0) !== (C===0)){
-   let pts=[]; if(A!==0){for(let x=-5;x<=5;x+=.1){let y=-(A*x*x+D*x+F)/E; if(Number.isFinite(y))pts.push(P(x,y))}} else {for(let y=-5;y<=5;y+=.1){let x=-(C*y*y+E*y+F)/D; if(Number.isFinite(x))pts.push(P(x,y))}} if(pts.length) svg.appendChild(el("path",{d:"M"+pts.map(q=>`${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(" L"),class:"curve"}));
- }
+
+ drawRepresentative(svg, tipo);
 }
-cards.forEach(card=>{
+
+function drawRepresentative(svg,tipo){
+  // Clear previous plotted exact curve but keep base already drawn.
+  const cx = 210, cy = 160;
+  const title = (tipo || "Cónica");
+  const label = txt(210,32,title,"icon-label");
+  label.setAttribute("text-anchor","middle");
+  svg.appendChild(label);
+
+  if(tipo==="Circunferencia"){
+    svg.appendChild(el("circle",{cx:210,cy:170,r:78,class:"clean-fill"}));
+    svg.appendChild(el("circle",{cx:210,cy:170,r:5,class:"clean-center"}));
+    const note=txt(210,330,"Miniatura representativa: circunferencia", "representative-note");
+    note.setAttribute("text-anchor","middle");
+    svg.appendChild(note);
+    return;
+  }
+
+  if(tipo==="Elipse"){
+    svg.appendChild(el("ellipse",{cx:210,cy:170,rx:115,ry:70,class:"clean-fill"}));
+    svg.appendChild(el("circle",{cx:210,cy:170,r:5,class:"clean-center"}));
+    const note=txt(210,330,"Miniatura representativa: elipse", "representative-note");
+    note.setAttribute("text-anchor","middle");
+    svg.appendChild(note);
+    return;
+  }
+
+  if(tipo==="Parábola"){
+    svg.appendChild(el("path",{d:"M 120 70 C 205 110, 205 230, 120 270",class:"clean-curve"}));
+    svg.appendChild(el("circle",{cx:120,cy:170,r:5,class:"clean-center"}));
+    const note=txt(210,330,"Miniatura representativa: parábola", "representative-note");
+    note.setAttribute("text-anchor","middle");
+    svg.appendChild(note);
+    return;
+  }
+
+  if(tipo==="Hipérbola"){
+    svg.appendChild(el("line",{x1:95,y1:285,x2:325,y2:55,class:"clean-asym"}));
+    svg.appendChild(el("line",{x1:95,y1:55,x2:325,y2:285,class:"clean-asym"}));
+    svg.appendChild(el("path",{d:"M 112 55 C 150 105, 165 145, 128 170 C 165 195, 150 235, 112 285",class:"clean-curve"}));
+    svg.appendChild(el("path",{d:"M 308 55 C 270 105, 255 145, 292 170 C 255 195, 270 235, 308 285",class:"clean-curve"}));
+    const note=txt(210,330,"Miniatura representativa: hipérbola", "representative-note");
+    note.setAttribute("text-anchor","middle");
+    svg.appendChild(note);
+    return;
+  }
+
+  const note=txt(210,170,"No se representa una cónica cuadrática", "representative-note");
+  note.setAttribute("text-anchor","middle");
+  svg.appendChild(note);
+}
+
+ cards.forEach(card=>{
  if(card.dataset.kind==="decision"){drawDecision(card.querySelector("svg"))}
  if(card.dataset.kind==="classifier"){card.querySelectorAll("input").forEach(inp=>inp.addEventListener("input",()=>drawClassifier(card))); drawClassifier(card)}
 })

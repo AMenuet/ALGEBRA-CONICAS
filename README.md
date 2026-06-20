@@ -206,3 +206,10 @@ Se limpió el diagrama de decisión de Ecuación General:
 - bloques ordenados;
 - conectores más claros;
 - separación explícita del caso parábola.
+
+## V7.8 · Pulido final de Ecuación General
+Se ajustó la visualización de Ecuación General:
+- el clasificador automático usa miniaturas representativas limpias;
+- la miniatura cambia según la clasificación;
+- se conserva Tipo, Δ y condición algebraica;
+- se incorporó el diagrama de decisión definitivo.
