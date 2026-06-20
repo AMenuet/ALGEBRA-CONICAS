@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Explorador de planos</title>
+  <style>
+    :root{--blue:#073b7a;--blue2:#1267b7;--line:#cbdcf2;--light:#eef5ff;--muted:#52657d;--red:#dc2626;--green:#0f766e}
+    *{box-sizing:border-box} body{margin:0;background:#fff;color:#10233f;font:15px/1.42 system-ui,-apple-system,"Segoe UI",sans-serif}
+    .app{padding:16px}.intro,.controls,.stage,.result{border:1px solid var(--line);border-radius:18px;background:#fff}
+    .intro{padding:14px 16px;margin-bottom:12px}.intro h2{margin:0 0 4px;color:var(--blue);font-size:22px}.intro p{margin:0;color:var(--muted)}
+    .layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:12px}.controls{padding:14px}.controls h3,.stage h3{margin:0 0 10px;color:var(--blue);font-size:16px}
+    .control{margin-bottom:13px}.control label{display:flex;justify-content:space-between;font-weight:800;color:var(--blue);margin-bottom:4px}.control output{color:#111827}
+    input[type=range]{width:100%;accent-color:var(--blue2)}.presets{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:14px}
+    button{border:0;border-radius:11px;padding:9px 7px;background:#e8f0fb;color:var(--blue);font-weight:800;cursor:pointer}button:hover{background:#d8e8fb}
+    .stage{padding:14px;min-width:0}.topline{display:flex;justify-content:space-between;gap:10px;align-items:start}.equation{font-family:"Cambria Math",Georgia,serif;font-size:20px;font-weight:800;color:var(--blue);background:var(--light);border-radius:12px;padding:8px 12px}
+    canvas{display:block;width:100%;height:auto;max-height:520px;aspect-ratio:16/9;background:#fbfdff;border:1px solid #e4edf8;border-radius:14px;margin-top:10px}
+    .results{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.result{padding:9px 10px;background:#f8fbff}.result small{display:block;color:var(--muted);font-weight:700}.result b{display:block;margin-top:2px;color:var(--blue);font-family:"Cambria Math",Georgia,serif}
+    .warning{display:none;margin-top:8px;padding:8px 10px;border-radius:10px;background:#fff1f2;color:#9f1239;font-weight:700}
+    @media(max-width:760px){.layout{grid-template-columns:1fr}.results{grid-template-columns:1fr 1fr}.topline{display:block}.equation{margin-top:8px}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <section class="intro"><h2>Explorador de planos en R³</h2><p>Modificá los coeficientes de <b>Ax + By + Cz + D = 0</b> y observá el plano, su vector normal y sus intersecciones.</p></section>
+  <div class="layout">
+    <aside class="controls">
+      <h3>Coeficientes</h3>
+      <div class="control"><label for="a">A <output id="av">2</output></label><input id="a" type="range" min="-5" max="5" step="0.5" value="2"></div>
+      <div class="control"><label for="b">B <output id="bv">3</output></label><input id="b" type="range" min="-5" max="5" step="0.5" value="3"></div>
+      <div class="control"><label for="c">C <output id="cv">2</output></label><input id="c" type="range" min="-5" max="5" step="0.5" value="2"></div>
+      <div class="control"><label for="d">D <output id="dv">-6</output></label><input id="d" type="range" min="-12" max="12" step="0.5" value="-6"></div>
+      <div class="presets">
+        <button data-preset="2,3,6,-18">Tres cortes</button><button data-preset="1,1,-1,0">Por el origen</button>
+        <button data-preset="0,0,1,-2">Horizontal</button><button data-preset="1,0,0,-2">Vertical</button>
+      </div>
+      <div id="warning" class="warning">A, B y C no pueden ser simultáneamente cero.</div>
+    </aside>
+    <section class="stage">
+      <div class="topline"><div><h3>Plano, normal y ejes coordenados</h3><span style="color:var(--muted)">El polígono visible es la sección del plano dentro de una caja de referencia.</span></div><div id="equation" class="equation"></div></div>
+      <canvas id="canvas" width="960" height="540" aria-label="Representación tridimensional de un plano"></canvas>
+      <div class="results">
+        <div class="result"><small>Vector normal</small><b id="normal"></b></div>
+        <div class="result"><small>Punto más próximo al origen</small><b id="closest"></b></div>
+        <div class="result"><small>Distancia al origen</small><b id="distance"></b></div>
+        <div class="result"><small>Cortes con x, y, z</small><b id="cuts"></b></div>
+      </div>
+    </section>
+  </div>
+</main>
+<script>
+const ids=['a','b','c','d']; const $=id=>document.getElementById(id); const canvas=$('canvas'),ctx=canvas.getContext('2d');
+const fmt=n=>Math.abs(n)<1e-9?'0':Number(n.toFixed(2)).toString();
+function equation(A,B,C,D){const terms=[];[[A,'x'],[B,'y'],[C,'z']].forEach(([v,s])=>{if(!v)return;const sign=v<0?'−':terms.length?'+':'';const mag=Math.abs(v)===1?'':fmt(Math.abs(v));terms.push(`${sign}${mag}${s}`)});if(D)terms.push(`${D<0?'−':terms.length?'+':''}${fmt(Math.abs(D))}`);return `${terms.join(' ')||'0'} = 0`}
+function project([x,y,z]){const sx=canvas.width/2+(x-y)*43;const sy=canvas.height*.59+(x+y)*20-z*43;return[sx,sy]}
+function edgePoints(A,B,C,D){const L=5,verts=[];for(const x of [-L,L])for(const y of [-L,L])for(const z of [-L,L])verts.push([x,y,z]);const edges=[];for(let i=0;i<8;i++)for(let j=i+1;j<8;j++){let diff=0;for(let k=0;k<3;k++)if(verts[i][k]!==verts[j][k])diff++;if(diff===1)edges.push([verts[i],verts[j]])}const f=p=>A*p[0]+B*p[1]+C*p[2]+D,pts=[];for(const [p,q] of edges){const fp=f(p),fq=f(q);if(Math.abs(fp)<1e-8)pts.push(p);if(fp*fq<0){const t=fp/(fp-fq);pts.push(p.map((v,k)=>v+t*(q[k]-v)))}}return pts.filter((p,i)=>pts.findIndex(q=>Math.hypot(...p.map((v,k)=>v-q[k]))<1e-6)===i)}
+function sortPlane(pts,n){if(pts.length<3)return pts;const c=[0,1,2].map(k=>pts.reduce((s,p)=>s+p[k],0)/pts.length);let ref=Math.abs(n[2])<.9?[0,0,1]:[0,1,0];let u=[n[1]*ref[2]-n[2]*ref[1],n[2]*ref[0]-n[0]*ref[2],n[0]*ref[1]-n[1]*ref[0]],m=Math.hypot(...u);u=u.map(v=>v/m);const v=[n[1]*u[2]-n[2]*u[1],n[2]*u[0]-n[0]*u[2],n[0]*u[1]-n[1]*u[0]];return pts.sort((p,q)=>Math.atan2(p.reduce((s,x,k)=>s+(x-c[k])*v[k],0),p.reduce((s,x,k)=>s+(x-c[k])*u[k],0))-Math.atan2(q.reduce((s,x,k)=>s+(x-c[k])*v[k],0),q.reduce((s,x,k)=>s+(x-c[k])*u[k],0)))}
+function line(p,q,color,width=2,dash=[]){const a=project(p),b=project(q);ctx.beginPath();ctx.setLineDash(dash);ctx.moveTo(...a);ctx.lineTo(...b);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();ctx.setLineDash([])}
+function label(text,p,color){const q=project(p);ctx.fillStyle=color;ctx.font='bold 18px system-ui';ctx.fillText(text,q[0]+7,q[1]-7)}
+function draw(){let [A,B,C,D]=ids.map(id=>Number($(id).value));if(!A&&!B&&!C){C=.5;$('c').value=.5;$('warning').style.display='block'}else $('warning').style.display='none';ids.forEach(id=>$(id+'v').value=fmt(Number($(id).value)));$('equation').textContent=equation(A,B,C,D);const norm=Math.hypot(A,B,C),n=[A/norm,B/norm,C/norm];ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#fbfdff';ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(let k=-5;k<=5;k++){line([-5,k,0],[5,k,0],'#e5edf7',1);line([k,-5,0],[k,5,0],'#e5edf7',1)}
+  const pts=sortPlane(edgePoints(A,B,C,D),n);if(pts.length>=3){ctx.beginPath();pts.map(project).forEach((p,i)=>i?ctx.lineTo(...p):ctx.moveTo(...p));ctx.closePath();ctx.fillStyle='rgba(18,103,183,.24)';ctx.fill();ctx.strokeStyle='#1267b7';ctx.lineWidth=3;ctx.stroke()}
+  line([-5,0,0],[5,0,0],'#dc2626',3);line([0,-5,0],[0,5,0],'#15803d',3);line([0,0,-5],[0,0,5],'#2563eb',3);label('x',[5,0,0],'#dc2626');label('y',[0,5,0],'#15803d');label('z',[0,0,5],'#2563eb');
+  const p0=[-D*A/(norm*norm),-D*B/(norm*norm),-D*C/(norm*norm)],end=p0.map((v,i)=>v+n[i]*2.4);line(p0,end,'#b91c1c',5);label('n',end,'#b91c1c');const cp=project(p0);ctx.beginPath();ctx.arc(...cp,7,0,Math.PI*2);ctx.fillStyle='#111827';ctx.fill();label('P₀',p0,'#111827');
+  $('normal').textContent=`(${fmt(A)}, ${fmt(B)}, ${fmt(C)})`;$('closest').textContent=`(${p0.map(fmt).join(', ')})`;$('distance').textContent=fmt(Math.abs(D)/norm);const cut=(coef)=>coef?fmt(-D/coef):'—';$('cuts').textContent=`(${cut(A)}, ${cut(B)}, ${cut(C)})`;
+}
+ids.forEach(id=>$(id).addEventListener('input',draw));document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{b.dataset.preset.split(',').forEach((v,i)=>$(ids[i]).value=v);draw()}));draw();
+</script>
+</body>
+</html>
