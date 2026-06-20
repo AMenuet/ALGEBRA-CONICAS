@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sistema polar interactivo</title>
+  <style>
+    :root{--blue:#073b7a;--blue2:#1267b7;--line:#cbdcf2;--light:#eef5ff;--muted:#52657d;--red:#dc2626;--green:#0f766e;--orange:#d97706}
+    *{box-sizing:border-box}body{margin:0;background:#fff;color:#10233f;font:15px/1.42 system-ui,-apple-system,"Segoe UI",sans-serif}.app{padding:16px}
+    .intro,.controls,.stage,.result,.equiv{border:1px solid var(--line);border-radius:18px;background:#fff}.intro{padding:14px 16px;margin-bottom:12px}.intro h2{margin:0 0 4px;color:var(--blue);font-size:22px}.intro p{margin:0;color:var(--muted)}
+    .layout{display:grid;grid-template-columns:285px minmax(0,1fr);gap:12px}.controls,.stage{padding:14px}.controls h3,.stage h3{margin:0 0 10px;color:var(--blue);font-size:16px}.control{margin-bottom:14px}.control label{display:flex;justify-content:space-between;gap:8px;font-weight:800;color:var(--blue);margin-bottom:4px}.control output{color:#111827}input[type=range]{width:100%;accent-color:var(--blue2)}
+    .number-row{display:grid;grid-template-columns:1fr 74px;gap:8px;align-items:center}.number-row input[type=number]{width:100%;border:1px solid var(--line);border-radius:9px;padding:6px}
+    .presets{display:grid;grid-template-columns:1fr 1fr;gap:7px}.actions{display:grid;gap:7px;margin-top:8px}button{border:0;border-radius:11px;padding:9px 7px;background:#e8f0fb;color:var(--blue);font-weight:800;cursor:pointer}button:hover{background:#d8e8fb}button.active{background:var(--blue2);color:#fff}
+    .hint{margin-top:12px;padding:9px;border-radius:11px;background:#fff8e8;color:#805313;font-size:13px}.topline{display:flex;justify-content:space-between;gap:10px;align-items:start}.coordinate{font:800 20px "Cambria Math",Georgia,serif;color:var(--blue);background:var(--light);border-radius:12px;padding:8px 12px}
+    canvas{display:block;width:100%;height:auto;max-height:600px;aspect-ratio:16/10;background:#fbfdff;border:1px solid #e4edf8;border-radius:14px;margin-top:10px;touch-action:none;cursor:crosshair}
+    .results{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.result{padding:9px 10px;background:#f8fbff}.result small,.equiv small{display:block;color:var(--muted);font-weight:700}.result b,.equiv b{display:block;margin-top:2px;color:var(--blue);font-family:"Cambria Math",Georgia,serif}
+    .equiv{grid-column:span 2;padding:9px 10px;background:#f8fbff}.negative-note{display:none;margin-top:8px;padding:8px 10px;border-radius:10px;background:#fff1f2;color:#9f1239;font-weight:700}
+    @media(max-width:780px){.layout{grid-template-columns:1fr}.results{grid-template-columns:1fr 1fr}.topline{display:block}.coordinate{margin-top:8px}.equiv{grid-column:span 2}}
+  </style>
+</head>
+<body><main class="app">
+  <section class="intro"><h2>Sistema polar: radio vector y ángulo polar</h2><p>Mové (r) y θ o arrastrá el punto. Compará representaciones equivalentes y observá el caso (r&lt;0).</p></section>
+  <div class="layout">
+    <aside class="controls"><h3>Controles</h3>
+      <div class="control"><label for="radius">Radio r <output id="rv">4</output></label><div class="number-row"><input id="radius" type="range" min="-6" max="6" step="0.25" value="4"><input id="radiusNumber" type="number" min="-6" max="6" step="0.25" value="4" aria-label="Valor de r"></div></div>
+      <div class="control"><label for="angle">Ángulo θ <output id="tv">30°</output></label><div class="number-row"><input id="angle" type="range" min="-360" max="720" step="1" value="30"><input id="angleNumber" type="number" min="-360" max="720" step="1" value="30" aria-label="Ángulo en grados"></div></div>
+      <div class="presets"><button data-r="4" data-t="30">4, 30°</button><button data-r="-4" data-t="30">−4, 30°</button><button data-r="4" data-t="390">Ángulo +360°</button><button data-r="-4" data-t="210">Radio opuesto</button></div>
+      <div class="actions"><button id="animate">▶ Animar θ</button><button id="reset">Restablecer</button></div>
+      <div class="hint">Un mismo punto admite infinitas coordenadas:  (r,θ+360°k)  y  (−r,θ+180°+360°k).</div><div id="negative" class="negative-note">Como r es negativo, el punto se ubica en el sentido opuesto al rayo angular.</div>
+    </aside>
+    <section class="stage"><div class="topline"><div><h3>Plano polar y correspondencia cartesiana</h3><span style="color:var(--muted)">El arco naranja representa θ; el segmento azul representa el radio vector.</span></div><div id="coordinate" class="coordinate"></div></div>
+      <canvas id="polarCanvas" width="1000" height="625" aria-label="Plano polar interactivo"></canvas>
+      <div class="results"><div class="result"><small>Ángulo en radianes</small><b id="radians"></b></div><div class="result"><small>Coordenadas cartesianas</small><b id="cartesian"></b></div><div class="result"><small>Distancia al polo</small><b id="distance"></b></div><div class="result"><small>Dirección efectiva</small><b id="effective"></b></div><div class="equiv"><small>Mismo radio, ángulo equivalente</small><b id="equivPositive"></b></div><div class="equiv"><small>Radio opuesto, representación equivalente</small><b id="equivNegative"></b></div></div>
+    </section>
+  </div>
+</main><script>
+const $=id=>document.getElementById(id),canvas=$('polarCanvas'),ctx=canvas.getContext('2d');let timer=null,dragging=false;
+const fmt=n=>Math.abs(n)<1e-9?'0':Number(n.toFixed(3)).toString();const normDeg=a=>((a%360)+360)%360;
+function piText(deg){let n=Math.round(deg),g=(a,b)=>b?g(b,a%b):Math.abs(a);if(n===0)return'0';let d=180,k=g(n,d),num=n/k,den=d/k;let sign=num<0?'−':'';num=Math.abs(num);if(den===1)return sign+(num===1?'π':num+'π');return sign+(num===1?'π':num+'π')+'/'+den}
+function values(){return{r:Number($('radius').value),t:Number($('angle').value)}}
+function sync(source){if(source==='rnum')$('radius').value=$('radiusNumber').value;if(source==='r')$('radiusNumber').value=$('radius').value;if(source==='tnum')$('angle').value=$('angleNumber').value;if(source==='t')$('angleNumber').value=$('angle').value;draw()}
+function point(){const {r,t}=values(),a=t*Math.PI/180;return{x:r*Math.cos(a),y:r*Math.sin(a)}}
+function drawArrow(x1,y1,x2,y2,color,width=4){ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const a=Math.atan2(y2-y1,x2-x1);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-14*Math.cos(a-.45),y2-14*Math.sin(a-.45));ctx.lineTo(x2-14*Math.cos(a+.45),y2-14*Math.sin(a+.45));ctx.closePath();ctx.fill()}
+function draw(){const {r,t}=values(),p=point(),cx=canvas.width/2,cy=canvas.height/2,scale=44;$('rv').value=fmt(r);$('tv').value=fmt(t)+'°';$('negative').style.display=r<0?'block':'none';ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#fbfdff';ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(let q=1;q<=6;q++){ctx.beginPath();ctx.arc(cx,cy,q*scale,0,Math.PI*2);ctx.strokeStyle=q===6?'#bfd2e9':'#dce8f5';ctx.lineWidth=1;ctx.stroke();ctx.fillStyle='#71839a';ctx.font='13px system-ui';ctx.fillText(q,cx+q*scale+4,cy-5)}
+  for(let d=0;d<360;d+=15){const a=-d*Math.PI/180,major=d%45===0;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+6*scale*Math.cos(a),cy+6*scale*Math.sin(a));ctx.strokeStyle=major?'#cad9ea':'#e8eff8';ctx.lineWidth=major?1.4:.8;ctx.stroke();if(major){ctx.fillStyle='#60738a';ctx.font='12px system-ui';ctx.fillText(d+'°',cx+(6.3*scale)*Math.cos(a)-10,cy+(6.3*scale)*Math.sin(a)+4)}}
+  ctx.strokeStyle='#172033';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx-6.5*scale,cy);ctx.lineTo(cx+6.5*scale,cy);ctx.moveTo(cx,cy-6.5*scale);ctx.lineTo(cx,cy+6.5*scale);ctx.stroke();ctx.fillStyle='#172033';ctx.font='bold 17px system-ui';ctx.fillText('eje polar',cx+5.25*scale,cy-10);ctx.fillText('π/2',cx+8,cy-5.7*scale);
+  const rayA=-t*Math.PI/180;ctx.setLineDash([8,6]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+6*scale*Math.cos(rayA),cy+6*scale*Math.sin(rayA));ctx.strokeStyle='#d97706';ctx.lineWidth=2;ctx.stroke();ctx.setLineDash([]);
+  const turns=Math.min(Math.abs(t),720),dir=t>=0?-1:1,full=Math.floor(turns/360),rest=(turns%360)*Math.PI/180;for(let q=0;q<full;q++){ctx.beginPath();ctx.arc(cx,cy,35+q*8,0,Math.PI*2,dir<0);ctx.strokeStyle='rgba(217,119,6,.35)';ctx.lineWidth=2;ctx.stroke()}if(rest){ctx.beginPath();ctx.arc(cx,cy,35+full*8,0,dir*rest,dir<0);ctx.strokeStyle='#d97706';ctx.lineWidth=3;ctx.stroke()}
+  const px=cx+p.x*scale,py=cy-p.y*scale;drawArrow(cx,cy,px,py,'#1267b7',5);ctx.beginPath();ctx.arc(px,py,8,0,Math.PI*2);ctx.fillStyle='#dc2626';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#10233f';ctx.font='bold 18px system-ui';ctx.fillText('P',px+12,py-10);ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fillStyle='#111827';ctx.fill();
+  const eff=normDeg(t+(r<0?180:0));$('coordinate').textContent=`P(${fmt(r)}, ${fmt(t)}°)`;$('radians').textContent=piText(t);$('cartesian').textContent=`(${fmt(p.x)}, ${fmt(p.y)})`;$('distance').textContent=fmt(Math.abs(r));$('effective').textContent=fmt(eff)+'°';$('equivPositive').textContent=`(${fmt(r)}, ${fmt(t+360)}°)`;$('equivNegative').textContent=`(${fmt(-r)}, ${fmt(t+180)}°)`;
+}
+function setPoint(ev){const rect=canvas.getBoundingClientRect(),x=(ev.clientX-rect.left)*canvas.width/rect.width-canvas.width/2,y=canvas.height/2-(ev.clientY-rect.top)*canvas.height/rect.height;let mag=Math.min(6,Math.hypot(x,y)/44),deg=normDeg(Math.atan2(y,x)*180/Math.PI),r=Number($('radius').value);if(r<0){mag=-mag;deg=normDeg(deg-180)}$('radius').value=(Math.round(mag*4)/4);$('radiusNumber').value=$('radius').value;$('angle').value=Math.round(deg);$('angleNumber').value=$('angle').value;draw()}
+$('radius').addEventListener('input',()=>sync('r'));$('radiusNumber').addEventListener('input',()=>sync('rnum'));$('angle').addEventListener('input',()=>sync('t'));$('angleNumber').addEventListener('input',()=>sync('tnum'));document.querySelectorAll('[data-r]').forEach(b=>b.addEventListener('click',()=>{$('radius').value=b.dataset.r;$('radiusNumber').value=b.dataset.r;$('angle').value=b.dataset.t;$('angleNumber').value=b.dataset.t;draw()}));
+$('animate').addEventListener('click',()=>{if(timer){clearInterval(timer);timer=null;$('animate').textContent='▶ Animar θ';$('animate').classList.remove('active')}else{timer=setInterval(()=>{let t=Number($('angle').value)+2;if(t>720)t=-360;$('angle').value=t;$('angleNumber').value=t;draw()},35);$('animate').textContent='■ Detener';$('animate').classList.add('active')}});$('reset').addEventListener('click',()=>{$('radius').value=4;$('radiusNumber').value=4;$('angle').value=30;$('angleNumber').value=30;draw()});canvas.addEventListener('pointerdown',ev=>{dragging=true;canvas.setPointerCapture?.(ev.pointerId);setPoint(ev)});canvas.addEventListener('pointermove',ev=>{if(dragging)setPoint(ev)});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);draw();
+</script></body></html>
