@@ -803,6 +803,9 @@ footer {
 .conversion-polar-frame { min-height: 930px; }
 @media (max-width: 900px) { .conversion-polar-frame { min-height: 1340px; } }
 
+.graficas-polares-frame { min-height: 940px; }
+@media (max-width: 900px) { .graficas-polares-frame { min-height: 1400px; } }
+
 /* V7.1: Cónicas · Parábola */
 .parabola-frame {
   min-height: 1550px;
