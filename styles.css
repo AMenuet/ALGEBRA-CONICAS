@@ -809,6 +809,9 @@ footer {
 .conicas-polares-frame { min-height: 950px; }
 @media (max-width: 900px) { .conicas-polares-frame { min-height: 1420px; } }
 
+.rectas-parametricas-frame { min-height: 940px; }
+@media (max-width: 900px) { .rectas-parametricas-frame { min-height: 1420px; } }
+
 /* V7.1: Cónicas · Parábola */
 .parabola-frame {
   min-height: 1550px;
