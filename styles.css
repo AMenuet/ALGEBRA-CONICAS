@@ -811,6 +811,8 @@ footer {
 
 .rectas-parametricas-frame { min-height: 940px; }
 @media (max-width: 900px) { .rectas-parametricas-frame { min-height: 1420px; } }
+.planos-parametricos-frame { min-height: 1060px; }
+@media (max-width: 900px) { .planos-parametricos-frame { min-height: 1660px; } }
 
 /* V7.1: Cónicas · Parábola */
 .parabola-frame {
