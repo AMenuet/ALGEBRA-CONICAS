@@ -3,38 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VectorLab · Unidad 1: Vectores</title>
-  <meta name="description" content="Manual interactivo de vectores para Álgebra y Geometría Analítica." />
+  <title>VectorLab · Álgebra y Geometría Analítica</title>
+  <meta name="description" content="Plataforma interactiva de Álgebra y Geometría Analítica con teoría, visualizaciones, actividades y seguimiento del progreso." />
   <meta name="author" content="Ing. Mg. Agustín Menuet · FICA · Universidad Nacional de San Luis" />
-  <link rel="stylesheet" href="styles.css?v=7.8.10" />
+  <link rel="stylesheet" href="styles.css?v=8.1" />
 </head>
 <body>
   <header class="hero">
     <div>
       <p class="eyebrow">UNSL · FICA · Álgebra y Geometría Analítica</p>
       <h1>VectorLab</h1>
-      <p class="subtitle">Unidad 1: Vectores · Manual interactivo + actividades + autoevaluación</p>
+      <p class="subtitle">Teoría · visualizaciones · actividades · seguimiento académico</p>
     </div>
-    <div class="status-card">
-      <span>Versión</span>
-      <strong>V7.8 · Cónicas</strong>
-      <small>Cónicas · Ecuación general pulida</small>
+    <div class="hero-actions">
+      <button id="openAuthBtn" class="account-btn" type="button">
+        <span id="accountButtonLabel">Ingresar</span>
+        <small id="accountButtonDetail">Cuenta de estudiante</small>
+      </button>
     </div>
   </header>
 
   <main>
     <section class="intro">
       <div>
-        <h2>Recorrido de la unidad</h2>
+        <h2>Tu espacio de aprendizaje</h2>
         <p>
-          Esta app acompaña el estudio de vectores integrando teoría, gráficas interactivas,
-          actividades guiadas y autoevaluación.
+          Explorá los módulos, interactuá con las visualizaciones y comprobá tu avance
+          mediante actividades y autoevaluaciones.
         </p>
-      </div>
-      <div class="notation-box">
-        <strong>Convención:</strong>
-        los vectores se escriben como <span class="vec">𝐮</span>, <span class="vec">𝐯</span>, <span class="vec">𝐰</span>;
-        las componentes como <span class="comp">u₁</span>, <span class="comp">u₂</span>, <span class="comp">v₁</span>, <span class="comp">v₂</span>.
       </div>
     </section>
 
@@ -42,7 +38,7 @@
     <section class="authorship-card">
       <div>
         <span class="authorship-kicker">Autoría y uso académico</span>
-        <h2>VectorLab · Unidad 1: Vectores</h2>
+        <h2>VectorLab · Álgebra y Geometría Analítica</h2>
         <p>
           Material educativo interactivo desarrollado por <strong>Ing. Mg. Agustín Menuet</strong>
           para el acompañamiento de clases de Álgebra y Geometría Analítica.
@@ -63,6 +59,8 @@
       <button class="section-tab" data-section="sec-polares">4. Coordenadas Polares</button>
       <button class="section-tab" data-section="sec-parametricas">5. Paramétricas</button>
       <button class="section-tab" data-section="sec-pdf">6. Material PDF</button>
+      <button class="section-tab progress-tab" data-section="sec-progress">Mi progreso</button>
+      <button id="teacherTab" class="section-tab teacher-tab" data-section="sec-teacher" hidden>Panel docente</button>
     </nav>
 
 
@@ -75,6 +73,12 @@
           <h2>1. Vectores</h2>
           <p>Unidad de vectores con teoría, actividades, autoevaluación y gráficas interactivas.</p>
         </div>
+      </div>
+
+      <div class="notation-box vector-notation">
+        <strong>Convención de notación:</strong>
+        los vectores se escriben como <span class="vec">𝐮</span>, <span class="vec">𝐯</span>, <span class="vec">𝐰</span>;
+        las componentes como <span class="comp">u₁</span>, <span class="comp">u₂</span>, <span class="comp">v₁</span>, <span class="comp">v₂</span>.
       </div>
 
       <nav class="module-subtabs" aria-label="Subsecciones de Vectores">
@@ -1913,10 +1917,209 @@
       </div>
     </section>
 
+    <section id="sec-progress" class="section progress-section">
+      <div class="section-header">
+        <div>
+          <h2>Mi progreso</h2>
+          <p>Seguimiento local de actividades y autoevaluaciones realizadas en este dispositivo.</p>
+        </div>
+        <span class="badge">Guardado automático</span>
+      </div>
+
+      <div class="progress-overview">
+        <div class="progress-ring" id="progressRing" style="--progress: 0">
+          <strong id="progressPercent">0%</strong>
+          <span>completado</span>
+        </div>
+        <div class="progress-summary">
+          <div><strong id="progressCompleted">0</strong><span>respuestas correctas</span></div>
+          <div><strong id="progressAttempted">0</strong><span>ejercicios intentados</span></div>
+          <div><strong id="progressAttempts">0</strong><span>intentos totales</span></div>
+          <div><strong id="progressTotal">0</strong><span>ejercicios disponibles</span></div>
+        </div>
+      </div>
+
+      <div class="learning-metrics">
+        <article class="metric-group">
+          <div class="metric-heading">
+            <span>Desempeño</span>
+            <small>Cómo resolvés las actividades</small>
+          </div>
+          <div class="metric-grid">
+            <div><strong id="metricAccuracy">0%</strong><span>precisión por intento</span></div>
+            <div><strong id="metricFirstAttempt">0%</strong><span>correctas al primer intento</span></div>
+            <div><strong id="metricWithoutHelp">0</strong><span>resueltas sin ayuda</span></div>
+            <div><strong id="metricHints">0</strong><span>actividades con pistas</span></div>
+          </div>
+        </article>
+
+        <article class="metric-group">
+          <div class="metric-heading">
+            <span>Dedicación</span>
+            <small>Tiempo activo y continuidad</small>
+          </div>
+          <div class="metric-grid">
+            <div><strong id="metricActiveTime">0 s</strong><span>tiempo activo</span></div>
+            <div><strong id="metricSessions">0</strong><span>sesiones de estudio</span></div>
+            <div><strong id="metricActiveDays">0</strong><span>días activos</span></div>
+            <div><strong id="metricLastAccess">—</strong><span>último acceso activo</span></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="progress-note">
+        <div>
+          <strong>Tu avance queda guardado en este navegador.</strong>
+          <p>El tiempo solo se cuenta mientras la app está visible y detecta actividad reciente. Más adelante podremos sincronizar estos indicadores con una cuenta.</p>
+        </div>
+        <button id="resetProgressBtn" class="danger-outline-btn" type="button">Reiniciar progreso</button>
+      </div>
+
+      <div id="progressModules" class="progress-modules" aria-live="polite"></div>
+    </section>
+
+    <section id="sec-teacher" class="section teacher-section">
+      <div class="section-header">
+        <div>
+          <h2>Panel docente</h2>
+          <p>Administración de cursos y seguimiento académico de los estudiantes.</p>
+        </div>
+        <button id="refreshTeacherBtn" class="teacher-secondary-btn" type="button">Actualizar datos</button>
+      </div>
+
+      <div id="teacherFeedback" class="teacher-feedback" aria-live="polite"></div>
+
+      <div class="teacher-layout">
+        <aside class="teacher-sidebar">
+          <form id="createCourseForm" class="teacher-form">
+            <h3>Crear curso</h3>
+            <label>Nombre<input name="name" type="text" placeholder="Álgebra 2026 · Comisión A" required></label>
+            <label>Código<input name="code" type="text" placeholder="ALG-2026-A" required></label>
+            <label>Año académico<input name="year" type="number" min="2020" max="2100" value="2026"></label>
+            <button class="auth-primary-btn" type="submit">Crear curso</button>
+          </form>
+
+          <div class="teacher-course-list">
+            <h3>Mis cursos</h3>
+            <div id="teacherCourses"></div>
+          </div>
+        </aside>
+
+        <div class="teacher-main">
+          <div id="teacherEmptyState" class="teacher-empty">
+            Creá o seleccioná un curso para comenzar.
+          </div>
+
+          <div id="teacherCourseView" hidden>
+            <div class="teacher-course-header">
+              <div>
+                <span id="teacherCourseCode" class="auth-kicker"></span>
+                <h3 id="teacherCourseName"></h3>
+              </div>
+              <form id="addStudentForm" class="add-student-form">
+                <input name="email" type="email" placeholder="correo@alumno.edu" required>
+                <button class="teacher-secondary-btn" type="submit">Agregar alumno</button>
+              </form>
+            </div>
+
+            <div class="teacher-summary">
+              <div><strong id="teacherStudentCount">0</strong><span>alumnos</span></div>
+              <div><strong id="teacherAverageProgress">0%</strong><span>avance promedio</span></div>
+              <div><strong id="teacherAverageAccuracy">0%</strong><span>precisión promedio</span></div>
+              <div><strong id="teacherTotalTime">0 min</strong><span>tiempo activo total</span></div>
+            </div>
+
+            <div class="teacher-table-wrap">
+              <table class="teacher-table">
+                <thead>
+                  <tr>
+                    <th>Alumno</th>
+                    <th>Avance</th>
+                    <th>Precisión</th>
+                    <th>Tiempo activo</th>
+                    <th>Sesiones</th>
+                    <th>Último acceso</th>
+                  </tr>
+                </thead>
+                <tbody id="teacherStudents"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <footer><span>VectorLab · V6.1 Geometría Analítica</span><span>Autor: Ing. Mg. Agustín Menuet · FICA · UNSL · 2026</span><span>© 2026 Agustín Menuet. Material educativo. Uso académico citando la fuente.</span></footer>
+  <div id="authModal" class="auth-modal" hidden>
+    <div class="auth-backdrop" data-close-auth></div>
+    <section class="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <button class="auth-close" type="button" data-close-auth aria-label="Cerrar">×</button>
 
-  <script src="app.js?v=7.8"></script>
+      <div id="authGuestView">
+        <span class="auth-kicker">Cuenta VectorLab</span>
+        <h2 id="authTitle">Guardá tu progreso</h2>
+        <p class="auth-description">Ingresá o creá una cuenta para asociar el avance a tu identidad.</p>
+
+        <div id="authConfigNotice" class="auth-notice" hidden>
+          La interfaz está lista. Falta configurar el proyecto de Supabase para habilitar las cuentas.
+        </div>
+
+        <button id="googleLoginBtn" class="google-auth-btn" type="button">
+          <span class="google-mark">G</span>
+          Continuar con Google
+        </button>
+        <div class="auth-divider"><span>o usar correo electrónico</span></div>
+
+        <form id="magicLinkForm" class="magic-link-form">
+          <label>Correo electrónico<input name="email" type="email" autocomplete="email" required></label>
+          <button class="magic-link-btn" type="submit">Recibir enlace de acceso</button>
+          <small>Sirve para ingresar o crear una cuenta sin contraseña.</small>
+        </form>
+
+        <div class="auth-tabs" role="tablist">
+          <button class="auth-tab active" type="button" data-auth-panel="loginPanel">Con contraseña</button>
+          <button class="auth-tab" type="button" data-auth-panel="registerPanel">Crear contraseña</button>
+        </div>
+
+        <form id="loginPanel" class="auth-form active">
+          <label>Correo electrónico<input name="email" type="email" autocomplete="email" required></label>
+          <label>Contraseña<input name="password" type="password" autocomplete="current-password" minlength="6" required></label>
+          <button class="auth-primary-btn" type="submit">Ingresar</button>
+        </form>
+
+        <form id="registerPanel" class="auth-form">
+          <label>Nombre y apellido<input name="fullName" type="text" autocomplete="name" required></label>
+          <label>Correo electrónico<input name="email" type="email" autocomplete="email" required></label>
+          <label>Matrícula o identificación<input name="studentCode" type="text" autocomplete="off"></label>
+          <label>Contraseña<input name="password" type="password" autocomplete="new-password" minlength="6" required></label>
+          <button class="auth-primary-btn" type="submit">Crear cuenta de alumno</button>
+          <small>Las cuentas docentes se habilitan exclusivamente desde la administración.</small>
+        </form>
+      </div>
+
+      <div id="authUserView" hidden>
+        <span class="auth-kicker">Sesión activa</span>
+        <h2 id="authUserName">Estudiante</h2>
+        <p id="authUserEmail" class="auth-description"></p>
+        <div class="account-summary">
+          <div><span>Rol</span><strong id="authUserRole">Alumno</strong></div>
+          <div><span>Sincronización</span><strong id="authSyncStatus">Pendiente</strong></div>
+        </div>
+        <button id="logoutBtn" class="danger-outline-btn auth-logout" type="button">Cerrar sesión</button>
+      </div>
+
+      <p id="authFeedback" class="auth-feedback" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <footer><span>VectorLab · Plataforma interactiva</span><span>Autor: Ing. Mg. Agustín Menuet · FICA · UNSL · 2026</span><span>© 2026 Agustín Menuet · Uso académico citando la fuente.</span></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase-config.js?v=1.0"></script>
+  <script src="app.js?v=8.0"></script>
+  <script src="auth.js?v=1.2"></script>
+  <script src="sync.js?v=1.0"></script>
+  <script src="teacher.js?v=1.1"></script>
 </body>
 </html>

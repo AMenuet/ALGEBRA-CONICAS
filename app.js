@@ -12,6 +12,435 @@ const state = {
 
 const $ = (id) => document.getElementById(id);
 
+const PROGRESS_STORAGE_KEY = "vectorlab_progress_v1";
+const ACTIVE_WINDOW_MS = 60 * 1000;
+const ACTIVITY_TICK_MS = 10 * 1000;
+const progressCatalog = [];
+let progressData = loadProgress();
+let lastUserActivityAt = Date.now();
+let lastActivityTickAt = Date.now();
+let activityTicksSinceSave = 0;
+let currentSession = null;
+
+function emptyProgress() {
+  return {
+    version: 2,
+    startedAt: new Date().toISOString(),
+    updatedAt: null,
+    items: {},
+    engagement: {
+      totalActiveSeconds: 0,
+      sessions: [],
+      activeDays: {}
+    }
+  };
+}
+
+function migrateProgress(stored) {
+  const migrated = {
+    ...emptyProgress(),
+    ...stored,
+    version: 2,
+    items: stored?.items || {},
+    engagement: {
+      totalActiveSeconds: stored?.engagement?.totalActiveSeconds || 0,
+      sessions: Array.isArray(stored?.engagement?.sessions) ? stored.engagement.sessions : [],
+      activeDays: stored?.engagement?.activeDays || {}
+    }
+  };
+
+  Object.values(migrated.items).forEach((item) => {
+    item.correctAttempts = item.correctAttempts ?? (item.correct ? 1 : 0);
+    item.hintsUsed = item.hintsUsed || 0;
+    item.solutionsViewed = item.solutionsViewed || 0;
+    item.firstAttemptCorrect = item.firstAttemptCorrect ?? (item.correct && item.attempts === 1);
+  });
+  return migrated;
+}
+
+function loadProgress() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(PROGRESS_STORAGE_KEY));
+    if (stored?.items) return migrateProgress(stored);
+  } catch (error) {
+    console.warn("No se pudo leer el progreso guardado.", error);
+  }
+  return emptyProgress();
+}
+
+function saveProgress() {
+  progressData.updatedAt = new Date().toISOString();
+  try {
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progressData));
+    window.dispatchEvent(new CustomEvent("vectorlab:progress-changed"));
+  } catch (error) {
+    console.warn("No se pudo guardar el progreso.", error);
+  }
+}
+
+function cleanLabel(text) {
+  return String(text || "").replace(/\s+/g, " ").trim();
+}
+
+function localDateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function formatDuration(totalSeconds) {
+  const seconds = Math.max(0, Math.round(totalSeconds || 0));
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  if (hours) return `${hours} h ${minutes} min`;
+  if (minutes) return `${minutes} min`;
+  return `${seconds} s`;
+}
+
+function beginStudySession() {
+  const now = new Date();
+  currentSession = {
+    id: `${now.getTime()}-${Math.random().toString(36).slice(2, 8)}`,
+    startedAt: now.toISOString(),
+    lastActiveAt: now.toISOString(),
+    activeSeconds: 0
+  };
+  progressData.engagement.sessions.push(currentSession);
+  progressData.engagement.sessions = progressData.engagement.sessions.slice(-100);
+  saveProgress();
+}
+
+function accrueActiveTime() {
+  const now = Date.now();
+  const elapsedSeconds = Math.min(ACTIVITY_TICK_MS / 1000, Math.max(0, (now - lastActivityTickAt) / 1000));
+  const isActive = document.visibilityState === "visible" && now - lastUserActivityAt <= ACTIVE_WINDOW_MS;
+  lastActivityTickAt = now;
+  if (!isActive || !currentSession || elapsedSeconds <= 0) return;
+
+  const roundedSeconds = Math.round(elapsedSeconds);
+  const dayKey = localDateKey();
+  progressData.engagement.totalActiveSeconds += roundedSeconds;
+  progressData.engagement.activeDays[dayKey] =
+    (progressData.engagement.activeDays[dayKey] || 0) + roundedSeconds;
+  currentSession.activeSeconds += roundedSeconds;
+  currentSession.lastActiveAt = new Date(now).toISOString();
+  activityTicksSinceSave += 1;
+
+  if (activityTicksSinceSave >= 3) {
+    activityTicksSinceSave = 0;
+    saveProgress();
+    renderProgressDashboard();
+  }
+}
+
+function markUserActivity() {
+  accrueActiveTime();
+  lastUserActivityAt = Date.now();
+  lastActivityTickAt = Date.now();
+}
+
+function setupEngagementTracking() {
+  beginStudySession();
+  ["pointerdown", "keydown", "scroll", "touchstart"].forEach((eventName) => {
+    document.addEventListener(eventName, markUserActivity, { passive: true });
+  });
+  window.setInterval(accrueActiveTime, ACTIVITY_TICK_MS);
+  document.addEventListener("visibilitychange", () => {
+    accrueActiveTime();
+    lastActivityTickAt = Date.now();
+  });
+  window.addEventListener("pagehide", () => {
+    accrueActiveTime();
+    saveProgress();
+  });
+}
+
+function catalogItem(card, type) {
+  const section = card.closest(".section");
+  const modulePanel = card.closest(".module-panel");
+  const contentPanel = card.closest(".panel");
+  const scopeId = modulePanel?.id || section?.id || "general";
+  const panelId = contentPanel?.id || scopeId;
+  const itemSelector = type === "activity" ? ".activity-card" : ".quiz-card";
+  const siblingItems = [...(contentPanel || modulePanel || section).querySelectorAll(itemSelector)];
+  const localIndex = siblingItems.indexOf(card);
+  const id = `${panelId}:${type}:${localIndex + 1}`;
+  const moduleButton = modulePanel
+    ? document.querySelector(`.module-subtab[data-module-panel="${modulePanel.id}"]`)
+    : null;
+  const sectionButton = section
+    ? document.querySelector(`.section-tab[data-section="${section.id}"]`)
+    : null;
+
+  const item = {
+    id,
+    type,
+    card,
+    scopeId,
+    moduleName: cleanLabel(moduleButton?.textContent || sectionButton?.textContent || "General"),
+    sectionName: cleanLabel(sectionButton?.textContent || "VectorLab"),
+    title: cleanLabel(card.querySelector("h4")?.textContent || `${type} ${localIndex + 1}`)
+  };
+
+  card.dataset.progressId = id;
+  progressCatalog.push(item);
+  return item;
+}
+
+function recordProgress(item, result) {
+  const previous = progressData.items[item.id] || {
+    type: item.type,
+    attempts: 0,
+    correct: false,
+    correctAttempts: 0,
+    hintsUsed: 0,
+    solutionsViewed: 0
+  };
+  const isFirstAttempt = previous.attempts === 0;
+
+  progressData.items[item.id] = {
+    ...previous,
+    type: item.type,
+    attempts: previous.attempts + 1,
+    correctAttempts: (previous.correctAttempts || 0) + (result.correct ? 1 : 0),
+    correct: previous.correct || result.correct,
+    firstAttemptCorrect: previous.firstAttemptCorrect || (isFirstAttempt && result.correct),
+    solvedWithoutHelp: previous.solvedWithoutHelp || (
+      result.correct &&
+      !(previous.hintsUsed || 0) &&
+      !(previous.solutionsViewed || 0)
+    ),
+    lastCorrect: result.correct,
+    lastAnswer: result.answer,
+    selectedIndex: result.selectedIndex,
+    updatedAt: new Date().toISOString()
+  };
+
+  saveProgress();
+  applyItemProgress(item);
+  renderProgressDashboard();
+}
+
+function recordLearningSupport(item, kind) {
+  const previous = progressData.items[item.id] || {
+    type: item.type,
+    attempts: 0,
+    correct: false,
+    correctAttempts: 0,
+    hintsUsed: 0,
+    solutionsViewed: 0
+  };
+  const field = kind === "hint" ? "hintsUsed" : "solutionsViewed";
+  progressData.items[item.id] = {
+    ...previous,
+    [field]: (previous[field] || 0) + 1,
+    updatedAt: new Date().toISOString()
+  };
+  saveProgress();
+  renderProgressDashboard();
+}
+
+function applyItemProgress(item) {
+  const saved = progressData.items[item.id];
+  item.card.classList.toggle("progress-complete", Boolean(saved?.correct));
+
+  let label = item.card.querySelector(".item-progress-label");
+  if (saved?.correct && !label) {
+    label = document.createElement("span");
+    label.className = "item-progress-label";
+    label.textContent = "Completado";
+    item.card.insertBefore(label, item.card.firstChild);
+  } else if (!saved?.correct && label) {
+    label.remove();
+  }
+}
+
+function progressStats(items = progressCatalog) {
+  return items.reduce((stats, item) => {
+    const saved = progressData.items[item.id];
+    if (saved?.attempts > 0) stats.attempted += 1;
+    if (saved?.correct) stats.completed += 1;
+    if (saved?.firstAttemptCorrect) stats.firstAttemptCorrect += 1;
+    if (saved?.solvedWithoutHelp) stats.solvedWithoutHelp += 1;
+    if (saved?.hintsUsed > 0) stats.itemsWithHints += 1;
+    if (saved?.solutionsViewed > 0) stats.itemsWithSolutions += 1;
+    stats.attempts += saved?.attempts || 0;
+    stats.correctAttempts += saved?.correctAttempts || 0;
+    stats.hintsUsed += saved?.hintsUsed || 0;
+    stats.solutionsViewed += saved?.solutionsViewed || 0;
+    stats.total += 1;
+    return stats;
+  }, {
+    attempted: 0,
+    completed: 0,
+    attempts: 0,
+    correctAttempts: 0,
+    firstAttemptCorrect: 0,
+    solvedWithoutHelp: 0,
+    itemsWithHints: 0,
+    itemsWithSolutions: 0,
+    hintsUsed: 0,
+    solutionsViewed: 0,
+    total: 0
+  });
+}
+
+function renderProgressDashboard() {
+  const container = $("progressModules");
+  if (!container) return;
+
+  const overall = progressStats();
+  const percent = overall.total ? Math.round(overall.completed / overall.total * 100) : 0;
+  const accuracy = overall.attempts ? Math.round(overall.correctAttempts / overall.attempts * 100) : 0;
+  const firstAttemptRate = overall.attempted
+    ? Math.round(overall.firstAttemptCorrect / overall.attempted * 100)
+    : 0;
+  const engagement = progressData.engagement;
+  const activeSessions = engagement.sessions.filter((session) => session.activeSeconds > 0);
+  const activeDays = Object.keys(engagement.activeDays).filter((day) => engagement.activeDays[day] > 0);
+  $("progressPercent").textContent = `${percent}%`;
+  $("progressCompleted").textContent = overall.completed;
+  $("progressAttempted").textContent = overall.attempted;
+  $("progressAttempts").textContent = overall.attempts;
+  $("progressTotal").textContent = overall.total;
+  $("progressRing").style.setProperty("--progress", percent);
+  $("metricAccuracy").textContent = `${accuracy}%`;
+  $("metricFirstAttempt").textContent = `${firstAttemptRate}%`;
+  $("metricWithoutHelp").textContent = overall.solvedWithoutHelp;
+  $("metricHints").textContent = overall.itemsWithHints;
+  $("metricActiveTime").textContent = formatDuration(engagement.totalActiveSeconds);
+  $("metricSessions").textContent = activeSessions.length;
+  $("metricActiveDays").textContent = activeDays.length;
+  $("metricLastAccess").textContent = activeSessions.length
+    ? new Date(activeSessions[activeSessions.length - 1].lastActiveAt).toLocaleDateString("es-AR")
+    : "—";
+
+  const groups = new Map();
+  progressCatalog.forEach((item) => {
+    const key = `${item.sectionName} · ${item.moduleName}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(item);
+  });
+
+  container.innerHTML = [...groups.entries()].map(([name, items]) => {
+    const stats = progressStats(items);
+    const modulePercent = stats.total ? Math.round(stats.completed / stats.total * 100) : 0;
+    return `
+      <article class="progress-module-card">
+        <header>
+          <h3>${name}</h3>
+          <strong>${modulePercent}%</strong>
+        </header>
+        <p>${stats.completed} de ${stats.total} correctos · ${stats.attempted} intentados</p>
+        <div class="progress-bar" aria-label="${modulePercent}% completado">
+          <span style="width:${modulePercent}%"></span>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function mergeProgressSnapshot(remote) {
+  if (!remote) return;
+
+  Object.entries(remote.items || {}).forEach(([itemId, remoteItem]) => {
+    const localItem = progressData.items[itemId];
+    if (!localItem) {
+      progressData.items[itemId] = remoteItem;
+      return;
+    }
+    const remoteIsNewer = String(remoteItem.updatedAt || "") > String(localItem.updatedAt || "");
+    progressData.items[itemId] = {
+      ...localItem,
+      ...(remoteIsNewer ? {
+        lastAnswer: remoteItem.lastAnswer,
+        selectedIndex: remoteItem.selectedIndex,
+        lastCorrect: remoteItem.lastCorrect,
+        updatedAt: remoteItem.updatedAt
+      } : {}),
+      type: localItem.type || remoteItem.type,
+      attempts: Math.max(localItem.attempts || 0, remoteItem.attempts || 0),
+      correctAttempts: Math.max(localItem.correctAttempts || 0, remoteItem.correctAttempts || 0),
+      correct: Boolean(localItem.correct || remoteItem.correct),
+      firstAttemptCorrect: Boolean(localItem.firstAttemptCorrect || remoteItem.firstAttemptCorrect),
+      solvedWithoutHelp: Boolean(localItem.solvedWithoutHelp || remoteItem.solvedWithoutHelp),
+      hintsUsed: Math.max(localItem.hintsUsed || 0, remoteItem.hintsUsed || 0),
+      solutionsViewed: Math.max(localItem.solutionsViewed || 0, remoteItem.solutionsViewed || 0)
+    };
+  });
+
+  const sessionsById = new Map(
+    progressData.engagement.sessions.map((session) => [session.id, session])
+  );
+  (remote.engagement?.sessions || []).forEach((remoteSession) => {
+    const localSession = sessionsById.get(remoteSession.id);
+    sessionsById.set(remoteSession.id, localSession ? {
+      ...localSession,
+      lastActiveAt: String(remoteSession.lastActiveAt) > String(localSession.lastActiveAt)
+        ? remoteSession.lastActiveAt
+        : localSession.lastActiveAt,
+      activeSeconds: Math.max(localSession.activeSeconds || 0, remoteSession.activeSeconds || 0)
+    } : remoteSession);
+  });
+  progressData.engagement.sessions = [...sessionsById.values()]
+    .sort((a, b) => String(a.startedAt).localeCompare(String(b.startedAt)))
+    .slice(-100);
+
+  Object.entries(remote.engagement?.activeDays || {}).forEach(([day, seconds]) => {
+    progressData.engagement.activeDays[day] = Math.max(
+      progressData.engagement.activeDays[day] || 0,
+      seconds || 0
+    );
+  });
+  progressData.engagement.totalActiveSeconds = Math.max(
+    progressData.engagement.totalActiveSeconds || 0,
+    remote.engagement?.totalActiveSeconds || 0,
+    Object.values(progressData.engagement.activeDays).reduce((sum, seconds) => sum + seconds, 0)
+  );
+
+  saveProgress();
+  progressCatalog.forEach(applyItemProgress);
+  renderProgressDashboard();
+}
+
+function setupProgress() {
+  const resetButton = $("resetProgressBtn");
+  if (resetButton) {
+    resetButton.addEventListener("click", () => {
+      const accepted = window.confirm("¿Querés borrar todos los intentos y resultados guardados en este navegador?");
+      if (!accepted) return;
+      progressData = emptyProgress();
+      currentSession = null;
+      try {
+        localStorage.removeItem(PROGRESS_STORAGE_KEY);
+      } catch (error) {
+        console.warn("No se pudo borrar el progreso guardado.", error);
+      }
+      progressCatalog.forEach((item) => {
+        item.card.classList.remove("progress-complete");
+        item.card.querySelector(".item-progress-label")?.remove();
+        if (item.type === "activity") {
+          const input = item.card.querySelector("input");
+          const feedback = item.card.querySelector(".feedback");
+          if (input) input.value = "";
+          if (feedback) feedback.textContent = "";
+          item.card.querySelector(".solution")?.classList.remove("visible");
+        } else {
+          item.card.querySelectorAll("button").forEach((button) => {
+            button.disabled = false;
+            button.classList.remove("correct", "wrong");
+          });
+          const feedback = item.card.querySelector(".quiz-feedback");
+          if (feedback) feedback.textContent = "";
+        }
+      });
+      beginStudySession();
+      renderProgressDashboard();
+    });
+  }
+}
+
 function fmt(n) {
   const r = Math.round(n * 100) / 100;
   return Number.isInteger(r) ? String(r) : r.toFixed(2);
@@ -862,6 +1291,11 @@ function setupNavigation() {
       document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
       btn.classList.add("active");
       $(btn.dataset.section).classList.add("active");
+      const navigation = btn.closest(".section-tabs");
+      if (navigation && navigation.getBoundingClientRect().top < 0) {
+        const top = navigation.getBoundingClientRect().top + window.scrollY - 12;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
       setTimeout(redrawAll, 60);
     });
   });
@@ -894,66 +1328,103 @@ function normalizeAnswer(text) {
 }
 
 function setupActivities() {
-  document.querySelectorAll(".activity-card").forEach(card => {
+  document.querySelectorAll(".activity-card").forEach((card) => {
+    const item = catalogItem(card, "activity");
     const input = card.querySelector("input");
     const feedback = card.querySelector(".feedback");
     const solution = card.querySelector(".solution");
     const answers = card.dataset.answer.split("|").map(normalizeAnswer);
+    const saved = progressData.items[item.id];
+
+    if (saved?.lastAnswer) input.value = saved.lastAnswer;
+    if (saved?.correct) {
+      feedback.textContent = "Correcto. Progreso guardado.";
+      feedback.style.color = "var(--green)";
+    }
+    applyItemProgress(item);
 
     card.querySelector(".check-btn").addEventListener("click", () => {
       const user = normalizeAnswer(input.value);
-      if (answers.includes(user)) {
-        feedback.textContent = "Correcto.";
+      const isCorrect = answers.includes(user);
+      if (isCorrect) {
+        feedback.textContent = "Correcto. Progreso guardado.";
         feedback.style.color = "var(--green)";
       } else {
         feedback.textContent = "Revisar. Pedí una pista o mirá la resolución si lo necesitás.";
         feedback.style.color = "var(--red)";
       }
+      recordProgress(item, {
+        correct: isCorrect,
+        answer: input.value
+      });
     });
 
     card.querySelector(".hint-btn").addEventListener("click", () => {
       feedback.textContent = card.dataset.hint ? "Pista: " + card.dataset.hint : "Pista: revisá la definición o aplicá la fórmula componente a componente.";
       feedback.style.color = "var(--orange)";
+      recordLearningSupport(item, "hint");
     });
 
     card.querySelector(".solution-btn").addEventListener("click", () => {
       solution.classList.toggle("visible");
+      if (solution.classList.contains("visible")) recordLearningSupport(item, "solution");
     });
   });
 }
 
 function setupQuiz() {
-  document.querySelectorAll(".quiz-card").forEach(card => {
+  document.querySelectorAll(".quiz-card").forEach((card) => {
+    const item = catalogItem(card, "quiz");
     const correct = Number(card.dataset.correct);
     const buttons = [...card.querySelectorAll("button")];
     const feedback = card.querySelector(".quiz-feedback");
+    const saved = progressData.items[item.id];
+
+    if (Number.isInteger(saved?.selectedIndex)) {
+      buttons.forEach((button, buttonIndex) => {
+        button.disabled = saved.correct || buttonIndex === saved.selectedIndex;
+        if (buttonIndex === correct) button.classList.add("correct");
+        if (buttonIndex === saved.selectedIndex && buttonIndex !== correct) button.classList.add("wrong");
+      });
+      feedback.textContent = saved.correct ? "Correcto. Progreso guardado." : "Revisar el concepto.";
+      feedback.style.color = saved.correct ? "var(--green)" : "var(--red)";
+    }
+    applyItemProgress(item);
 
     buttons.forEach((btn, index) => {
       btn.addEventListener("click", () => {
         buttons.forEach((b, i) => {
-          b.disabled = true;
+          b.disabled = index === correct || i === index;
           if (i === correct) b.classList.add("correct");
           if (i === index && i !== correct) b.classList.add("wrong");
         });
 
         if (index === correct) {
-          feedback.textContent = "Correcto.";
+          feedback.textContent = "Correcto. Progreso guardado.";
           feedback.style.color = "var(--green)";
         } else {
           feedback.textContent = "Revisar el concepto.";
           feedback.style.color = "var(--red)";
         }
+        recordProgress(item, {
+          correct: index === correct,
+          answer: btn.textContent,
+          selectedIndex: index
+        });
       });
     });
   });
 }
 
 function init() {
+  setupEngagementTracking();
   setupNavigation();
   setupModuleSubtabs();
   setupDragging();
   setupActivities();
   setupQuiz();
+  setupProgress();
+  renderProgressDashboard();
   setupCrossSvg();
   setupMixedSvg();
 
@@ -966,6 +1437,13 @@ function init() {
   }
 
   redrawAll();
+
+  window.vectorLabProgress = {
+    getSnapshot() {
+      return JSON.parse(JSON.stringify(progressData));
+    },
+    mergeSnapshot: mergeProgressSnapshot
+  };
 }
 
 init();
