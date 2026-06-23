@@ -1313,6 +1313,88 @@ function setupNavigation() {
   });
 }
 
+function setupMobileNavigation() {
+  const mainNavigation = document.querySelector(".section-tabs");
+  if (!mainNavigation) return;
+
+  const mobileNavigation = document.createElement("div");
+  mobileNavigation.className = "mobile-context-nav";
+  mobileNavigation.innerHTML = `
+    <label>
+      <span>Módulo</span>
+      <select id="mobileSectionSelect" aria-label="Seleccionar módulo"></select>
+    </label>
+    <label>
+      <span>Tema</span>
+      <select id="mobileModuleSelect" aria-label="Seleccionar tema"></select>
+    </label>
+  `;
+  mainNavigation.insertAdjacentElement("afterend", mobileNavigation);
+
+  const sectionSelect = $("mobileSectionSelect");
+  const moduleSelect = $("mobileModuleSelect");
+
+  function visibleSectionButtons() {
+    return [...document.querySelectorAll(".section-tab")].filter((button) => !button.hidden);
+  }
+
+  function syncMobileNavigation() {
+    const sectionButtons = visibleSectionButtons();
+    const activeSectionButton = sectionButtons.find((button) => button.classList.contains("active"))
+      || sectionButtons[0];
+
+    sectionSelect.innerHTML = sectionButtons.map((button) => `
+      <option value="${button.dataset.section}" ${button === activeSectionButton ? "selected" : ""}>
+        ${cleanLabel(button.textContent)}
+      </option>
+    `).join("");
+
+    const activeSection = activeSectionButton
+      ? document.getElementById(activeSectionButton.dataset.section)
+      : null;
+    const moduleButtons = activeSection
+      ? [...activeSection.querySelectorAll(".module-subtab")].filter((button) => !button.hidden)
+      : [];
+    const activeModuleButton = moduleButtons.find((button) => button.classList.contains("active"))
+      || moduleButtons[0];
+
+    moduleSelect.innerHTML = moduleButtons.length
+      ? moduleButtons.map((button) => `
+          <option value="${button.dataset.modulePanel}" ${button === activeModuleButton ? "selected" : ""}>
+            ${cleanLabel(button.textContent)}
+          </option>
+        `).join("")
+      : '<option value="">Vista general</option>';
+    moduleSelect.disabled = moduleButtons.length === 0;
+  }
+
+  sectionSelect.addEventListener("change", () => {
+    document.querySelector(`.section-tab[data-section="${sectionSelect.value}"]`)?.click();
+    window.setTimeout(syncMobileNavigation, 0);
+  });
+
+  moduleSelect.addEventListener("change", () => {
+    const activeSection = document.querySelector(".section.active");
+    activeSection
+      ?.querySelector(`.module-subtab[data-module-panel="${moduleSelect.value}"]`)
+      ?.click();
+  });
+
+  document.querySelectorAll(".section-tab, .module-subtab").forEach((button) => {
+    button.addEventListener("click", () => window.setTimeout(syncMobileNavigation, 0));
+  });
+
+  const teacherTab = $("teacherTab");
+  if (teacherTab) {
+    new MutationObserver(syncMobileNavigation).observe(teacherTab, {
+      attributes: true,
+      attributeFilter: ["hidden"]
+    });
+  }
+
+  syncMobileNavigation();
+}
+
 function normalizeAnswer(text) {
   return String(text)
     .toLowerCase()
@@ -1419,6 +1501,7 @@ function setupQuiz() {
 function init() {
   setupEngagementTracking();
   setupNavigation();
+  setupMobileNavigation();
   setupModuleSubtabs();
   setupDragging();
   setupActivities();
