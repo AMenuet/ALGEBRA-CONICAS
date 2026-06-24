@@ -2080,10 +2080,14 @@ footer {
     line-height: 1.4;
   }
 
-  .section-header .badge {
-    white-space: normal;
-    font-size: .75rem;
-  }
+.section-header .badge {
+  white-space: normal;
+  font-size: .75rem;
+}
+
+.module-panel > .section-header > .badge {
+  display: none;
+}
 
   .theory-card,
   .graph-card,
@@ -2190,6 +2194,20 @@ footer {
     transition-duration: .01ms !important;
     animation-duration: .01ms !important;
   }
+}
+
+/* Las subsecciones mantienen una cabecera homogénea, sin etiquetas de estado. */
+.module-panel > .section-header > .badge {
+  display: none;
+}
+
+/* Los módulos académicos tampoco muestran resúmenes redundantes en su cabecera. */
+#sec-vectores > .section-header > .badge,
+#sec-geo > .section-header > .badge,
+#sec-conicas > .section-header > .badge,
+#sec-polares > .section-header > .badge,
+#sec-parametricas > .section-header > .badge {
+  display: none;
 }
 
 /* V7.6: Excentricidad mejorada */
