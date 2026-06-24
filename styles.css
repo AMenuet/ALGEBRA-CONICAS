@@ -1539,6 +1539,105 @@ footer {
 .ga-svg .svg-small { font-family: "Cambria Math", Georgia, serif; font-size: 18px; }
 .theory-card ul { margin: .4rem 0 0 1.1rem; color: var(--muted); line-height: 1.5; }
 
+.ga-concept-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.ga-concept-card {
+  min-width: 0;
+  padding: .85rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.ga-concept-heading {
+  display: flex;
+  gap: .7rem;
+  align-items: flex-start;
+  margin-bottom: .7rem;
+}
+
+.ga-concept-number {
+  display: grid;
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 10px;
+  color: white;
+  background: var(--blue);
+  font-weight: 900;
+}
+
+.ga-concept-heading h5 {
+  margin: 0 0 .18rem;
+  color: var(--blue);
+  font-size: 1rem;
+}
+
+.ga-concept-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .84rem;
+  line-height: 1.35;
+}
+
+.ga-concept-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+  border-radius: 14px;
+}
+
+.ga-concept-svg text {
+  font-family: "Cambria Math", Georgia, serif;
+}
+
+.ga-diagram-label {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.ga-diagram-small {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.ga-distance-label {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.ga-formula-label {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+  .ga-concept-grid {
+    grid-template-columns: 1fr;
+    gap: .75rem;
+  }
+
+  .ga-concept-card {
+    padding: .65rem;
+    border-radius: 15px;
+  }
+
+  .ga-concept-heading {
+    margin-bottom: .5rem;
+  }
+
+  .ga-concept-svg {
+    margin-inline: auto;
+    max-width: 560px;
+  }
+}
+
 
 /* V6.4: visualizaciones ampliadas de rectas */
 .rectas-visual-frame {
@@ -1599,6 +1698,9 @@ footer {
 @media (max-width: 900px) { .conicas-parametricas-frame { min-height: 1540px; } }
 .eliminacion-parametro-frame { min-height: 1110px; }
 @media (max-width: 900px) { .eliminacion-parametro-frame { min-height: 1710px; } }
+
+.distance-line-frame { min-height: 940px; }
+@media (max-width: 900px) { .distance-line-frame { min-height: 1320px; } }
 
 /* V7.1: Cónicas · Parábola */
 .parabola-frame {

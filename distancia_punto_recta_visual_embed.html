@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Distancia de un punto a una recta</title>
+<style>
+:root{--blue:#0b5cad;--blue2:#083b7a;--line:#d7e1ef;--soft:#eef5ff;--text:#172033;--muted:#64748b;--red:#dc2626;--green:#0f766e;--orange:#b45309}
+*{box-sizing:border-box}
+body{margin:0;background:#fbfdff;color:var(--text);font-family:"Segoe UI",Arial,sans-serif}
+.wrap{padding:10px}
+.intro,.controls,.stage,.calculation{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 20px rgba(8,59,122,.06)}
+.intro{padding:14px 16px;margin-bottom:12px}
+.intro h2{margin:0 0 5px;color:var(--blue2);font-size:21px}
+.intro p{margin:0;color:var(--muted);line-height:1.45}
+.layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:12px}
+.controls{padding:14px}
+.controls h3,.stage h3,.calculation h3{margin:0 0 8px;color:var(--blue2);font-size:17px}
+.group{padding:10px;margin-top:10px;border:1px solid var(--line);border-radius:13px;background:#fbfdff}
+.group-title{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;color:var(--blue2);font-weight:900;font-size:13px}
+.control{margin:8px 0}
+.control label{display:flex;justify-content:space-between;gap:8px;margin-bottom:4px;color:#334155;font-size:12px;font-weight:800}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.presets button{min-height:38px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--blue2);font-weight:800;cursor:pointer}
+.hint{margin:10px 0 0;color:var(--muted);font-size:12px;line-height:1.4}
+.stage{padding:12px;min-width:0}
+.stage-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:8px}
+.stage-head p{margin:0;color:var(--muted);font-size:13px}
+.badge{flex:0 0 auto;padding:6px 9px;border-radius:999px;background:#dcfce7;color:#166534;font-weight:900;font-size:12px}
+svg{display:block;width:100%;height:auto;border:1px solid #e5eef9;border-radius:14px;background:#fff;touch-action:none}
+.grid{stroke:#e5eef9;stroke-width:1}
+.axis{stroke:#334155;stroke-width:1.5}
+.line-r{stroke:var(--blue);stroke-width:4;stroke-linecap:round}
+.distance{stroke:var(--red);stroke-width:4;stroke-dasharray:8 6}
+.point-p{fill:var(--red);stroke:#fff;stroke-width:3;cursor:grab}
+.point-r{fill:var(--green);stroke:#fff;stroke-width:3;cursor:grab}
+.point-h{fill:var(--blue);stroke:#fff;stroke-width:2}
+.label{font-family:"Cambria Math",Georgia,serif;font-size:18px;font-weight:800;fill:#172033}
+.small{font-family:"Cambria Math",Georgia,serif;font-size:15px;font-weight:700;fill:#334155}
+.right-angle{fill:none;stroke:#172033;stroke-width:2.5}
+.calculation{margin-top:12px;padding:14px}
+.equation{padding:10px;border-left:5px solid var(--blue);border-radius:11px;background:var(--soft);font-family:"Cambria Math",Georgia,serif;font-size:18px;text-align:center;overflow-wrap:anywhere}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:9px}
+.step{padding:9px;border:1px solid var(--line);border-radius:11px;background:#fbfdff}
+.step small{display:block;margin-bottom:4px;color:var(--muted);font-weight:800}
+.step strong{font-family:"Cambria Math",Georgia,serif;color:var(--blue2);font-size:15px;overflow-wrap:anywhere}
+.result{margin-top:9px;padding:11px;border-radius:12px;background:#dcfce7;color:#166534;text-align:center;font-size:18px;font-weight:900}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}
+  .controls h3,.controls .hint,.presets{grid-column:1/-1}
+  .group{margin-top:0}
+  .stage{padding:9px}
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:540px){
+  .wrap{padding:6px}
+  .intro{padding:10px 11px;margin-bottom:8px}
+  .intro h2{font-size:17px}
+  .intro p{font-size:12px}
+  .layout{gap:8px}
+  .controls{grid-template-columns:1fr 1fr;padding:8px;border-radius:14px}
+  .controls h3{font-size:15px}
+  .group{padding:8px}
+  .group-title{font-size:12px}
+  .control{margin:6px 0}
+  .presets{margin-top:0}
+  .stage,.calculation{border-radius:14px}
+  .stage-head{display:block}
+  .badge{display:inline-block;margin-top:5px}
+  .calculation{margin-top:8px;padding:10px}
+  .equation{font-size:15px;padding:8px}
+  .result{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="intro">
+    <h2>Explorador de distancia punto–recta</h2>
+    <p>Modificá el punto <b>P</b>, la pendiente <b>m</b> y un punto <b>R</b> de la recta. También podés arrastrar P y R sobre la gráfica.</p>
+  </section>
+
+  <div class="layout">
+    <aside class="controls">
+      <h3>Datos modificables</h3>
+
+      <div class="group">
+        <div class="group-title"><span>Punto exterior</span><span id="pTuple">P(3, 4)</span></div>
+        <div class="control"><label><span>xₚ</span><span id="pxVal">3</span></label><input id="px" type="range" min="-5" max="5" step=".25" value="3"></div>
+        <div class="control"><label><span>yₚ</span><span id="pyVal">4</span></label><input id="py" type="range" min="-5" max="5" step=".25" value="4"></div>
+      </div>
+
+      <div class="group">
+        <div class="group-title"><span>Recta por R</span><span id="rTuple">R(−2, −1)</span></div>
+        <div class="control"><label><span>pendiente m</span><span id="mVal">0.5</span></label><input id="m" type="range" min="-3" max="3" step=".1" value=".5"></div>
+        <div class="control"><label><span>xᵣ</span><span id="rxVal">−2</span></label><input id="rx" type="range" min="-5" max="5" step=".25" value="-2"></div>
+        <div class="control"><label><span>yᵣ</span><span id="ryVal">−1</span></label><input id="ry" type="range" min="-5" max="5" step=".25" value="-1"></div>
+      </div>
+
+      <div class="presets">
+        <button data-preset="ascending">Creciente</button>
+        <button data-preset="descending">Decreciente</button>
+        <button data-preset="horizontal">Horizontal</button>
+        <button data-preset="near">P cercano</button>
+      </div>
+      <p class="hint">El punto azul H se calcula como la proyección ortogonal de P sobre la recta.</p>
+    </aside>
+
+    <main class="stage">
+      <div class="stage-head">
+        <div><h3>Construcción geométrica</h3><p>PH es siempre perpendicular a r.</p></div>
+        <span class="badge">PH ⟂ r</span>
+      </div>
+      <svg id="graph" viewBox="0 0 720 600" aria-label="Gráfica interactiva de distancia de un punto a una recta"></svg>
+    </main>
+  </div>
+
+  <section class="calculation">
+    <h3>Cálculo actualizado</h3>
+    <div class="equation" id="equation"></div>
+    <div class="steps">
+      <div class="step"><small>Forma general</small><strong id="generalStep"></strong></div>
+      <div class="step"><small>Sustitución</small><strong id="substitutionStep"></strong></div>
+      <div class="step"><small>Pie perpendicular</small><strong id="footStep"></strong></div>
+    </div>
+    <div class="result" id="distanceResult"></div>
+  </section>
+</div>
+
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const controls={px:$("px"),py:$("py"),m:$("m"),rx:$("rx"),ry:$("ry")};
+const svg=$("graph"),W=720,H=600,view={xmin:-6,xmax:6,ymin:-5,ymax:5,pad:42};
+let drag=null;
+const fmt=n=>{const r=Math.round(n*100)/100;return Number.isInteger(r)?String(r):r.toFixed(2)};
+const signed=(n,term)=>n<0?` − ${fmt(-n)}${term}`:` + ${fmt(n)}${term}`;
+const shifted=(variable,value)=>value<0?`${variable} + ${fmt(-value)}`:`${variable} − ${fmt(value)}`;
+function state(){return Object.fromEntries(Object.entries(controls).map(([k,v])=>[k,Number(v.value)]))}
+function transform(){
+ const sx=(W-2*view.pad)/(view.xmax-view.xmin),sy=(H-2*view.pad)/(view.ymax-view.ymin),scale=Math.min(sx,sy);
+ return{scale,offsetX:(W-scale*(view.xmax-view.xmin))/2,offsetY:(H-scale*(view.ymax-view.ymin))/2}
+}
+function map(x,y){const t=transform();return{x:t.offsetX+(x-view.xmin)*t.scale,y:t.offsetY+(view.ymax-y)*t.scale}}
+function inv(x,y){const t=transform();return{x:(x-t.offsetX)/t.scale+view.xmin,y:view.ymax-(y-t.offsetY)/t.scale}}
+function el(name,attrs={}){const node=document.createElementNS("http://www.w3.org/2000/svg",name);Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,v));return node}
+function line(x1,y1,x2,y2,cls){return el("line",{x1,y1,x2,y2,class:cls})}
+function text(x,y,value,cls="label"){const node=el("text",{x,y,class:cls});node.textContent=value;return node}
+function foot(s){const dx=1,dy=s.m,t=((s.px-s.rx)*dx+(s.py-s.ry)*dy)/(dx*dx+dy*dy);return{x:s.rx+t*dx,y:s.ry+t*dy}}
+function lineEnds(s){const x1=view.xmin,x2=view.xmax;return[{x:x1,y:s.ry+s.m*(x1-s.rx)},{x:x2,y:s.ry+s.m*(x2-s.rx)}]}
+function draw(){
+ const s=state(),f=foot(s),ends=lineEnds(s);
+ const A=s.m,B=-1,C=s.ry-s.m*s.rx,numerator=A*s.px+B*s.py+C,distance=Math.abs(numerator)/Math.hypot(A,B);
+ svg.innerHTML="";
+ svg.appendChild(el("rect",{width:W,height:H,rx:16,fill:"#fff"}));
+ for(let x=-6;x<=6;x++){const a=map(x,view.ymin),b=map(x,view.ymax);svg.appendChild(line(a.x,a.y,b.x,b.y,"grid"))}
+ for(let y=-5;y<=5;y++){const a=map(view.xmin,y),b=map(view.xmax,y);svg.appendChild(line(a.x,a.y,b.x,b.y,"grid"))}
+ let a=map(view.xmin,0),b=map(view.xmax,0);svg.appendChild(line(a.x,a.y,b.x,b.y,"axis"));
+ a=map(0,view.ymin);b=map(0,view.ymax);svg.appendChild(line(a.x,a.y,b.x,b.y,"axis"));
+ const l1=map(ends[0].x,ends[0].y),l2=map(ends[1].x,ends[1].y);svg.appendChild(line(l1.x,l1.y,l2.x,l2.y,"line-r"));
+ const p=map(s.px,s.py),r=map(s.rx,s.ry),h=map(f.x,f.y);
+ svg.appendChild(line(p.x,p.y,h.x,h.y,"distance"));
+ svg.appendChild(el("circle",{cx:h.x,cy:h.y,r:6,class:"point-h"}));
+ svg.appendChild(el("circle",{cx:r.x,cy:r.y,r:9,class:"point-r","data-drag":"R"}));
+ svg.appendChild(el("circle",{cx:p.x,cy:p.y,r:10,class:"point-p","data-drag":"P"}));
+ svg.appendChild(text(p.x+13,p.y-10,"P","label"));svg.appendChild(text(r.x+12,r.y+20,"R","label"));svg.appendChild(text(h.x+10,h.y-10,"H","small"));
+ const mx=(p.x+h.x)/2,my=(p.y+h.y)/2;svg.appendChild(text(mx+10,my-8,`d = ${fmt(distance)}`,"label"));
+ const ux=(l2.x-l1.x),uy=(l2.y-l1.y),len=Math.hypot(ux,uy),vx=ux/len,vy=uy/len,wx=(p.x-h.x),wy=(p.y-h.y),wlen=Math.hypot(wx,wy)||1,nx=wx/wlen,ny=wy/wlen,size=14;
+ svg.appendChild(el("path",{d:`M ${h.x+vx*size} ${h.y+vy*size} L ${h.x+vx*size+nx*size} ${h.y+vy*size+ny*size} L ${h.x+nx*size} ${h.y+ny*size}`,class:"right-angle"}));
+ svg.appendChild(text(l2.x-22,l2.y-12,"r","label"));
+ $("pxVal").textContent=fmt(s.px);$("pyVal").textContent=fmt(s.py);$("mVal").textContent=fmt(s.m);$("rxVal").textContent=fmt(s.rx);$("ryVal").textContent=fmt(s.ry);
+ $("pTuple").textContent=`P(${fmt(s.px)}, ${fmt(s.py)})`;$("rTuple").textContent=`R(${fmt(s.rx)}, ${fmt(s.ry)})`;
+ $("equation").textContent=`r: ${shifted("y",s.ry)} = ${fmt(s.m)}(${shifted("x",s.rx)})`;
+ $("generalStep").textContent=`${fmt(A)}x − y ${signed(C,"")} = 0`;
+ $("substitutionStep").textContent=`|${fmt(A)}·${fmt(s.px)} − ${fmt(s.py)} ${signed(C,"")}| / √(${fmt(A)}² + 1)`;
+ $("footStep").textContent=`H = (${fmt(f.x)}, ${fmt(f.y)})`;
+ $("distanceResult").textContent=`d(P,r) = ${fmt(distance)}`;
+}
+Object.values(controls).forEach(control=>control.addEventListener("input",draw));
+document.querySelectorAll("[data-preset]").forEach(button=>button.addEventListener("click",()=>{
+ const p=button.dataset.preset;
+ if(p==="ascending")Object.assign(controls.m,{value:"0.8"});
+ if(p==="descending")Object.assign(controls.m,{value:"-0.8"});
+ if(p==="horizontal")Object.assign(controls.m,{value:"0"});
+ if(p==="near"){controls.px.value="2";controls.py.value="1";}
+ draw();
+}));
+svg.addEventListener("pointerdown",event=>{const target=event.target.closest("[data-drag]");if(!target)return;drag=target.dataset.drag;svg.setPointerCapture(event.pointerId)});
+svg.addEventListener("pointermove",event=>{if(!drag)return;const rect=svg.getBoundingClientRect(),q=inv((event.clientX-rect.left)*W/rect.width,(event.clientY-rect.top)*H/rect.height),snap=n=>Math.round(Math.max(-5,Math.min(5,n))*4)/4;if(drag==="P"){controls.px.value=snap(q.x);controls.py.value=snap(q.y)}else{controls.rx.value=snap(q.x);controls.ry.value=snap(q.y)}draw()});
+svg.addEventListener("pointerup",()=>drag=null);svg.addEventListener("pointercancel",()=>drag=null);
+draw();
+})();
+</script>
+</body>
+</html>
