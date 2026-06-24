@@ -6,7 +6,7 @@
   <title>VectorLab · Álgebra y Geometría Analítica</title>
   <meta name="description" content="Plataforma interactiva de Álgebra y Geometría Analítica con teoría, visualizaciones, actividades y seguimiento del progreso." />
   <meta name="author" content="Ing. Mg. Agustín Menuet · FICA · Universidad Nacional de San Luis" />
-  <link rel="stylesheet" href="styles.css?v=8.8" />
+  <link rel="stylesheet" href="styles.css?v=9.2" />
 </head>
 <body>
   <header class="hero">
@@ -1392,32 +1392,9 @@
         <section id="ga3-visual" class="panel">
           <div class="section-note">
             <h3>Visualización conceptual</h3>
-            <p>La distancia de un punto a una recta se representa mediante el segmento perpendicular mínimo.</p>
+            <p>Modificá el punto, la pendiente y un punto de la recta para observar cómo cambia la distancia perpendicular.</p>
           </div>
-          <div class="graph-card">
-            <div class="graph-header">
-              <div><h4>Distancia punto-recta y ángulo entre rectas</h4><p>Se muestran una recta, un punto exterior, la perpendicular mínima y dos rectas que forman un ángulo θ.</p></div>
-              <div class="live-values"><span>d(P,r)</span><span>m₁m₂=-1</span><span>θ entre rectas</span></div>
-            </div>
-            <svg class="ga-svg" viewBox="0 0 720 380" role="img" aria-label="Distancia punto recta y ángulo entre rectas">
-              <defs><marker id="gaArrowV65a" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#0b5cad"></path></marker></defs>
-              <rect width="720" height="380" fill="#fbfdff"/>
-              <g stroke="#e5eef9" stroke-width="1">
-                <path d="M60 320H660M60 280H660M60 240H660M60 200H660M60 160H660M60 120H660M60 80H660M60 40H660"/>
-                <path d="M100 40V340M140 40V340M180 40V340M220 40V340M260 40V340M300 40V340M340 40V340M380 40V340M420 40V340M460 40V340M500 40V340M540 40V340M580 40V340M620 40V340"/>
-              </g>
-              <line x1="60" y1="320" x2="670" y2="320" stroke="#111" stroke-width="2" marker-end="url(#gaArrowV65a)"/>
-              <line x1="100" y1="340" x2="100" y2="35" stroke="#111" stroke-width="2" marker-end="url(#gaArrowV65a)"/>
-              <line x1="120" y1="290" x2="620" y2="100" stroke="#0b5cad" stroke-width="5"/>
-              <circle cx="420" cy="70" r="7" fill="#dc2626"/>
-              <line x1="420" y1="70" x2="370" y2="195" stroke="#dc2626" stroke-width="4" stroke-dasharray="8 6"/>
-              <text x="430" y="65" class="svg-small">P</text><text x="380" y="125" class="svg-label" fill="#dc2626">d</text>
-              <line x1="160" y1="280" x2="520" y2="130" stroke="#0f766e" stroke-width="3"/>
-              <line x1="160" y1="280" x2="520" y2="330" stroke="#b45309" stroke-width="3"/>
-              <path d="M210 272 A55 55 0 0 1 214 288" fill="none" stroke="#111827" stroke-width="3"/>
-              <text x="220" y="272" class="svg-label">θ</text>
-            </svg>
-          </div>
+          <iframe class="conicas-visual-frame distance-line-frame" src="distancia_punto_recta_visual_embed.html?v=1.0.1" title="Explorador interactivo de distancia de un punto a una recta"></iframe>
         </section>
 
         <section id="ga3-activities" class="panel"><div class="section-note"><h3>Actividades guiadas</h3><p>Problemas de distancia punto-recta, paralelismo, perpendicularidad y ángulo entre rectas.</p></div><div class="activity-list">
