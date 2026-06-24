@@ -35,6 +35,7 @@ svg{display:block;width:100%;height:auto;border:1px solid #e5eef9;border-radius:
 .distance{stroke:var(--red);stroke-width:4;stroke-dasharray:8 6}
 .point-p{fill:var(--red);stroke:#fff;stroke-width:3;cursor:grab}
 .point-r{fill:var(--green);stroke:#fff;stroke-width:3;cursor:grab}
+.touch-target{fill:transparent;stroke:transparent;pointer-events:all;cursor:grab}
 .point-h{fill:var(--blue);stroke:#fff;stroke-width:2}
 .label{font-family:"Cambria Math",Georgia,serif;font-size:18px;font-weight:800;fill:#172033}
 .small{font-family:"Cambria Math",Georgia,serif;font-size:15px;font-weight:700;fill:#334155}
@@ -165,6 +166,8 @@ function draw(){
  svg.appendChild(el("circle",{cx:h.x,cy:h.y,r:6,class:"point-h"}));
  svg.appendChild(el("circle",{cx:r.x,cy:r.y,r:9,class:"point-r","data-drag":"R"}));
  svg.appendChild(el("circle",{cx:p.x,cy:p.y,r:10,class:"point-p","data-drag":"P"}));
+ svg.appendChild(el("circle",{cx:r.x,cy:r.y,r:24,class:"touch-target","data-drag":"R","aria-label":"Mover punto R"}));
+ svg.appendChild(el("circle",{cx:p.x,cy:p.y,r:26,class:"touch-target","data-drag":"P","aria-label":"Mover punto P"}));
  svg.appendChild(text(p.x+13,p.y-10,"P","label"));svg.appendChild(text(r.x+12,r.y+20,"R","label"));svg.appendChild(text(h.x+10,h.y-10,"H","small"));
  const mx=(p.x+h.x)/2,my=(p.y+h.y)/2;svg.appendChild(text(mx+10,my-8,`d = ${fmt(distance)}`,"label"));
  const ux=(l2.x-l1.x),uy=(l2.y-l1.y),len=Math.hypot(ux,uy),vx=ux/len,vy=uy/len,wx=(p.x-h.x),wy=(p.y-h.y),wlen=Math.hypot(wx,wy)||1,nx=wx/wlen,ny=wy/wlen,size=14;
@@ -187,9 +190,10 @@ document.querySelectorAll("[data-preset]").forEach(button=>button.addEventListen
  if(p==="near"){controls.px.value="2";controls.py.value="1";}
  draw();
 }));
-svg.addEventListener("pointerdown",event=>{const target=event.target.closest("[data-drag]");if(!target)return;drag=target.dataset.drag;svg.setPointerCapture(event.pointerId)});
-svg.addEventListener("pointermove",event=>{if(!drag)return;const rect=svg.getBoundingClientRect(),q=inv((event.clientX-rect.left)*W/rect.width,(event.clientY-rect.top)*H/rect.height),snap=n=>Math.round(Math.max(-5,Math.min(5,n))*4)/4;if(drag==="P"){controls.px.value=snap(q.x);controls.py.value=snap(q.y)}else{controls.rx.value=snap(q.x);controls.ry.value=snap(q.y)}draw()});
-svg.addEventListener("pointerup",()=>drag=null);svg.addEventListener("pointercancel",()=>drag=null);
+svg.addEventListener("pointerdown",event=>{const target=event.target.closest("[data-drag]");if(!target)return;event.preventDefault();drag=target.dataset.drag;svg.setPointerCapture?.(event.pointerId)});
+svg.addEventListener("pointermove",event=>{if(!drag)return;event.preventDefault();const rect=svg.getBoundingClientRect(),q=inv((event.clientX-rect.left)*W/rect.width,(event.clientY-rect.top)*H/rect.height),snap=n=>Math.round(Math.max(-5,Math.min(5,n))*4)/4;if(drag==="P"){controls.px.value=snap(q.x);controls.py.value=snap(q.y)}else{controls.rx.value=snap(q.x);controls.ry.value=snap(q.y)}draw()});
+function stopDrag(event){drag=null;if(event?.pointerId!==undefined&&svg.hasPointerCapture?.(event.pointerId))svg.releasePointerCapture(event.pointerId)}
+svg.addEventListener("pointerup",stopDrag);svg.addEventListener("pointercancel",stopDrag);svg.addEventListener("lostpointercapture",()=>drag=null);
 draw();
 })();
 </script>
