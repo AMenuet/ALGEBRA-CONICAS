@@ -2213,3 +2213,8 @@ footer {
 /* V7.6: Excentricidad mejorada */
 .excentricidad-frame { min-height: 1280px; }
 @media (max-width: 900px) { .excentricidad-frame { min-height: 1750px; } }
+
+/* V8.8: excentricidad móvil con gráfica junto a los controles */
+@media (max-width: 900px) {
+  .excentricidad-frame { min-height: 1480px; }
+}
