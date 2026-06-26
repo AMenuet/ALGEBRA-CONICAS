@@ -25,6 +25,7 @@
   const magicLinkForm = document.getElementById("magicLinkForm");
   const loginForm = document.getElementById("loginPanel");
   const registerForm = document.getElementById("registerPanel");
+  const googleAuthEnabled = false;
   let currentAuthSession = null;
   let currentProfile = null;
 
@@ -115,32 +116,16 @@
 
   if (!isConfigured) {
     configNotice.hidden = false;
-    googleButton.disabled = true;
+    if (googleButton) googleButton.disabled = true;
     magicLinkForm.querySelector("button").disabled = true;
     loginForm.querySelector("button").disabled = true;
     registerForm.querySelector("button").disabled = true;
   }
 
-  googleButton.addEventListener("click", async () => {
-    if (!client) return;
-    const destination = redirectUrl();
-    if (!destination) {
-      setFeedback("El acceso con Google requiere abrir VectorLab desde una dirección web.", "error");
-      return;
-    }
-    googleButton.disabled = true;
-    setFeedback("Abriendo Google...");
-    const { error } = await client.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: destination
-      }
-    });
-    if (error) {
-      googleButton.disabled = false;
-      setFeedback("No se pudo iniciar el acceso con Google.", "error");
-    }
-  });
+  if (googleButton) {
+    googleButton.hidden = !googleAuthEnabled;
+    googleButton.disabled = !googleAuthEnabled;
+  }
 
   magicLinkForm.addEventListener("submit", async (event) => {
     event.preventDefault();
